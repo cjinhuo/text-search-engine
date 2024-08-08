@@ -14,7 +14,7 @@ const config = {
 	output: {
 		file: `${packageDirDist}/index.esm.js`,
 		format: 'es',
-		sourcemap: true,
+		sourcemap: false,
 		exports: 'named',
 		...getBasicOutput({ name, version }),
 	},

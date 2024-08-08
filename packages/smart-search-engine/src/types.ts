@@ -12,3 +12,8 @@ export interface SearchOption {
 	// will support in next version
 	// strictCase?: boolean
 }
+
+export interface SearchOptionWithPinyin extends SearchOption {
+	// pass in pinyin map by user
+	pinyinMap: Record<string, string[]>
+}

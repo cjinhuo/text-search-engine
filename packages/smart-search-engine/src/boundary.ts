@@ -1,4 +1,4 @@
-import pinyinMap from './py.json'
+import pinyin from './py.json'
 import type { BoundaryArray, SourceMappingData } from './types'
 
 /**
@@ -6,7 +6,7 @@ import type { BoundaryArray, SourceMappingData } from './types'
  * @param source the string you want to search
  * @returns the processed data
  */
-export function extractBoundaryMapping(source: string): SourceMappingData {
+export function extractBoundaryMapping(source: string, pinyinMap: Record<string, string[]> = {}): SourceMappingData {
 	const lowerStr = source.toLocaleLowerCase()
 	const pinyinArray = Array(lowerStr.length)
 
@@ -45,3 +45,6 @@ export function extractBoundaryMapping(source: string): SourceMappingData {
 		originalLength: pinyinArray.length,
 	}
 }
+
+export const extractBoundaryMappingWithPresetPinyin = (source: string): SourceMappingData =>
+	extractBoundaryMapping(source, pinyin)

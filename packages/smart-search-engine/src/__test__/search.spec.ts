@@ -1,5 +1,5 @@
 import { extractBoundaryMapping } from '../boundary'
-import { search } from '../index'
+import { search } from '../exports'
 import { searchByBoundaryMapping } from '../search'
 
 describe('search', () => {

@@ -13,7 +13,7 @@ const config = {
 	output: {
 		file: `${packageDirDist}/index.js`,
 		format: 'cjs',
-		sourcemap: true,
+		sourcemap: false,
 		exports: 'named',
 		...getBasicOutput({ name, version }),
 	},
