@@ -2,8 +2,9 @@
 	"extends": "@mono/tsconfig",
 	"compilerOptions": {
 		"rootDir": "src",
-		"outDir": "esm"
+		"outDir": "esm",
+		"resolveJsonModule": true
 	},
-	"include": ["src/**/*.ts"],
+	"include": ["src/**/*.ts", "src/**/*.json"],
 	"references": []
 }

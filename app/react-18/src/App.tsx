@@ -1,5 +1,5 @@
-import { reactAdd } from '@mono/react'
 import { useState } from 'react'
+import { webAdd } from 'smart-search-engine'
 import './App.css'
 import reactLogo from './assets/react.svg'
 function App() {
@@ -21,7 +21,7 @@ function App() {
 				</button>
 			</div>
 			<div>reactAdd from @mono/react,以下展示 1 + 2 = reactAdd(1, 2)</div>
-			<div>1 + 2 = {reactAdd(1, 2)}</div>
+			<div>1 + 2 = {webAdd(1, 2)}</div>
 		</div>
 	)
 }

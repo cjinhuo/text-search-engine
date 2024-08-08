@@ -128,9 +128,6 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
     devDependencies:
-      '@mono/react':
-        specifier: workspace:*
-        version: link:../../packages/react
       '@types/react':
         specifier: ^18.0.27
         version: 18.0.27
@@ -140,6 +137,9 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^3.1.0
         version: 3.1.0(vite@4.1.1(@types/node@22.1.0)(terser@5.31.4))
+      smart-search-engine:
+        specifier: workspace:*
+        version: link:../../packages/smart-search-engine
       typescript:
         specifier: ^4.9.3
         version: 4.9.5
@@ -161,9 +161,6 @@ importers:
 
   e2e/demos/react-e2e-demo:
     dependencies:
-      '@mono/core':
-        specifier: workspace:*
-        version: link:../../../packages/core
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -193,46 +190,7 @@ importers:
         specifier: ^1.1.3
         version: 1.1.3(@babel/core@7.17.10)(vite@4.2.1(@types/node@22.1.0)(terser@5.31.4))
 
-  packages/core:
-    dependencies:
-      '@mono/rollup':
-        specifier: workspace:*
-        version: link:../../utils/rollup
-      '@mono/shared':
-        specifier: workspace:*
-        version: link:../shared
-    devDependencies:
-      '@mono/tsconfig':
-        specifier: workspace:*
-        version: link:../../utils/tsconfig
-
-  packages/react:
-    dependencies:
-      '@mono/web':
-        specifier: workspace:*
-        version: link:../web
-    devDependencies:
-      '@mono/rollup':
-        specifier: workspace:*
-        version: link:../../utils/rollup
-      '@mono/tsconfig':
-        specifier: workspace:*
-        version: link:../../utils/tsconfig
-
-  packages/shared:
-    devDependencies:
-      '@mono/tsconfig':
-        specifier: workspace:*
-        version: link:../../utils/tsconfig
-
-  packages/web:
-    dependencies:
-      '@mono/core':
-        specifier: workspace:*
-        version: link:../core
-      '@mono/shared':
-        specifier: workspace:*
-        version: link:../shared
+  packages/smart-search-engine:
     devDependencies:
       '@mono/rollup':
         specifier: workspace:*

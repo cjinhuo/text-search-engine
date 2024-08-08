@@ -20,10 +20,6 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true, // Ensure that casing is correct in imports.
 		"paths": {
-			// like alias. associated with baseUrl
-			// "@mono/*": [
-			//   "../../packages/*/src"
-			// ],
 			"@/test/*": ["test/*"]
 		},
 		"types": ["node", "jest"],
