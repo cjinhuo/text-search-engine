@@ -14,7 +14,7 @@ export function search(data: BoundaryData, target: string) {
 	const pinyinLength = pinyinString.length
 	if (!data || !target || pinyinLength < targetLength) return undefined
 
-	const matchPositions = Array(targetLength).fill(-1)
+	const matchPositions: number[] = Array(targetLength).fill(-1)
 
 	let matchIndex = 0
 	for (let i = 0; i < pinyinLength && matchIndex < targetLength; i++) {
@@ -31,8 +31,8 @@ export function search(data: BoundaryData, target: string) {
 	// n => [1, 1, xx, xx] i => [1, 2, xx, xx]
 	// [匹配字符个数：一个汉字算一个字符，统计当前已匹配的字符个数， 匹配字母个数：一个拼音中的一个字母算一个，统计当前已匹配的字母数， 原始字符串的开始位置, 原始字符串的结束位置]
 	const dpTable = Array.from({ length: pinyinLength + 1 }, () => defaultDpTableValue)
-	const dpScores = Array(pinyinLength + 1).fill(0)
-	const dpMatchPath = Array.from({ length: pinyinLength + 1 }, () => Array(targetLength))
+	const dpScores: number[] = Array(pinyinLength + 1).fill(0)
+	const dpMatchPath: [number, number, number][][] = Array.from({ length: pinyinLength + 1 }, () => Array(targetLength))
 
 	// matchIndex 和上面的 matchIndex 表示同一个意思，所以取同样的名字
 	for (let matchIndex = 0; matchIndex < matchPositions.length; matchIndex++) {

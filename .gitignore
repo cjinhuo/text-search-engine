@@ -19,9 +19,6 @@ _docpress
 
 tsconfig.tsbuildinfo
 
-# Visual Studio Code configs
-.vscode/
-
 # output dir
 temp
 dist
