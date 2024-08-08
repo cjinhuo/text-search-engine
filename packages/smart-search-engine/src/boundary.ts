@@ -1,7 +1,13 @@
 import pinyinMap from './py.json'
-import type { BoundaryArray, BoundaryData } from './types'
-export function getBoundary(str: string): BoundaryData {
-	const lowerStr = str.toLocaleLowerCase()
+import type { BoundaryArray, SourceMappingData } from './types'
+
+/**
+ * extract the mapping relationship between letters, pinyin, and Chinese characters by the source string
+ * @param source the string you want to search
+ * @returns the processed data
+ */
+export function extractBoundaryMapping(source: string): SourceMappingData {
+	const lowerStr = source.toLocaleLowerCase()
 	const pinyinArray = Array(lowerStr.length)
 
 	for (let i = 0; i < lowerStr.length; i++) {
@@ -15,13 +21,12 @@ export function getBoundary(str: string): BoundaryData {
 	const originalIndices: number[] = []
 	const totalChars: string[] = []
 	pinyinArray.forEach((value, index) => {
-		// index 是原有字符的下标
 		totalChars.push(value[0])
 		boundary.push([index, accumulator])
 		originalIndices.push(accumulator)
 		accumulator++
 		if (value.length > 1) {
-			// 说明是一个汉字，剩下的是拼音
+			// means it's a Chinese character then push all pinyin into boundary array
 			for (let i = 1; i < value.length; i++) {
 				const pinyinItem = value[i]
 				totalChars.push(pinyinItem)
@@ -33,7 +38,6 @@ export function getBoundary(str: string): BoundaryData {
 	})
 	const pinyinString = totalChars.join('')
 
-	// originalIndices[pinyinArray.length] = pinyinString.length
 	return {
 		pinyinString,
 		boundary,

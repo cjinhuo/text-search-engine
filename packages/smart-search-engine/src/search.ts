@@ -1,18 +1,19 @@
-import { getBoundary } from './boundary'
-import type { BoundaryData } from './types'
+import { extractBoundaryMapping } from './boundary'
+import type { SearchOption, SourceMappingData } from './types'
 import { highlightTextWithRanges } from './utils'
 
 /**
  * return the hit indices with the boundary data
- * @param data the processed data of `getBoundary` which records the mapping relationship between letters, pinyin, and Chinese characters
+ * @param data the processed data of `extractBoundaryMapping` which records the mapping relationship between letters, pinyin, and Chinese characters
  * @param target the string by user input
  * @returns the hit indices
  */
-export function search(data: BoundaryData, target: string) {
-	const { pinyinString, boundary } = data
+export function searchByBoundaryMapping(data: SourceMappingData, _target: string, _option: SearchOption = {}) {
+	const { pinyinString, boundary, originalLength } = data
+	const target = _target.toLocaleLowerCase()
 	const targetLength = target.length
 	const pinyinLength = pinyinString.length
-	if (!data || !target || pinyinLength < targetLength) return undefined
+	if (!data || !target || pinyinLength < targetLength || !originalLength) return undefined
 
 	const matchPositions: number[] = Array(targetLength).fill(-1)
 
@@ -135,13 +136,13 @@ export function search(data: BoundaryData, target: string) {
 	return hitIndices
 }
 
-const originalString = '黑悟空神话 black'
-const input = 'heiwh'
-console.time('search')
-const hitIndices = search(getBoundary(originalString), input.toLocaleLowerCase())
-console.timeEnd('search')
-console.log('hitIndices', hitIndices)
-console.log('original string:', originalString, 'input:', input)
-if (hitIndices) {
-	console.log(highlightTextWithRanges(originalString, hitIndices))
-}
+// const originalString = '黑悟空神话 black'
+// const input = 'heiwh'
+// console.time('search')
+// const hitIndices = searchByBoundaryMapping(extractBoundaryMapping(originalString), input)
+// console.timeEnd('search')
+// console.log('hitIndices', hitIndices)
+// console.log('original string:', originalString, 'input:', input)
+// if (hitIndices) {
+// 	console.log(highlightTextWithRanges(originalString, hitIndices))
+// }
