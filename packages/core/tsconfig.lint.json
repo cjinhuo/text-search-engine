@@ -1,0 +1,4 @@
+{
+	"extends": "@mono/tsconfig",
+	"include": ["**/src/**/*.ts", ".eslintrc.cjs"]
+}

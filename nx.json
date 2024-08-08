@@ -1,0 +1,25 @@
+{
+	"workspaceLayout": {
+		"libsDir": "packages"
+	},
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "nx/tasks-runners/default",
+			"options": {
+				"parallel": 6
+			}
+		}
+	},
+	"targetDefaults": {
+		"rollup": {
+			"dependsOn": ["esm"]
+		},
+		"esm": {
+			"dependsOn": []
+		},
+		"test": {
+			"dependsOn": [],
+			"outputs": []
+		}
+	}
+}

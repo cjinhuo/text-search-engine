@@ -1,0 +1,17 @@
+{
+	"name": "@mono/tsconfig",
+	"description": "pnpm's TypeScript configuration",
+	"version": "0.0.1",
+	"author": {
+		"name": "Shanks",
+		"email": "cjinhuo@qq.com",
+		"url": "https://cjinhuo.netlify.com/"
+	},
+	"license": "MIT",
+	"main": "tsconfig.json",
+	"homepage": "https://pnpm.io",
+	"repository": "",
+	"bugs": {
+		"url": "https://github.com/pnpm/pnpm/issues"
+	}
+}

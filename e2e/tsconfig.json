@@ -1,0 +1,16 @@
+{
+	"extends": "@mono/tsconfig",
+	"compilerOptions": {
+		"composite": true,
+		"rootDir": ".",
+		"outDir": "./dist",
+		"target": "es5",
+		"module": "ESNext",
+		"jsx": "react-jsx",
+		"types": ["cypress", "node"],
+		"preserveConstEnums": true
+	},
+	"include": ["./cypress/**/**.ts", "cypress.config.ts", ".eslintrc.cjs"],
+	"exclude": ["node_modules", "dist"],
+	"references": []
+}

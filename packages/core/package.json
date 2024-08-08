@@ -1,0 +1,32 @@
+{
+	"name": "@mono/core",
+	"version": "0.0.1",
+	"description": "@mono/core",
+	"author": "cjinhuo",
+	"license": "MIT",
+	"main": "src/index.ts",
+	"module": "src/index.ts",
+	"types": "src/index.ts",
+	"publishConfig": {
+		"main": "dist/index.js",
+		"module": "dist/index.esm.js",
+		"types": "dist/index.d.ts"
+	},
+	"type": "module",
+	"files": ["dist"],
+	"scripts": {
+		"esm": "tsc -b ./tsconfig.json",
+		"rollup": "batch-rollup -d ./rollups",
+		"build": "run-s esm rollup",
+		"build:cjs": "batch-rollup -d ./rollups -f cjs",
+		"lint": "eslint ./src/**",
+		"test": "jest --config jest.config.cjs"
+	},
+	"dependencies": {
+		"@mono/rollup": "workspace:*",
+		"@mono/shared": "workspace:*"
+	},
+	"devDependencies": {
+		"@mono/tsconfig": "workspace:*"
+	}
+}

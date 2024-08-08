@@ -1,0 +1,29 @@
+.DS_Store
+node_modules
+
+# test
+coverage
+.idea
+# analyzer
+analyzer.html
+
+packages/*/dist
+packages/*/node_modules
+packages/*/esm
+
+# Coverage directory used by tools like istanbul
+coverage
+
+.tmp
+_docpress
+
+tsconfig.tsbuildinfo
+
+# Visual Studio Code configs
+.vscode/
+
+# output dir
+temp
+dist
+lib
+.nx

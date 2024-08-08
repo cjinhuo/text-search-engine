@@ -1,0 +1,26 @@
+{
+	"name": "@mono/rollup",
+	"description": "rollup scripts",
+	"version": "0.0.1",
+	"type": "module",
+	"author": {
+		"name": "Shanks",
+		"email": "cjinhuo@qq.com",
+		"url": "https://cjinhuo.netlify.com/"
+	},
+	"license": "MIT",
+	"main": "src/index.js",
+	"bin": {
+		"batch-rollup": "bin/index.js"
+	},
+	"repository": "",
+	"devDependencies": {
+		"@rollup/plugin-babel": "^6.0.3",
+		"babel-plugin-istanbul": "^6.1.1",
+		"cac": "^6.7.14",
+		"execa": "^6.1.0",
+		"fast-glob": "^3.2.12",
+		"minimist": "^1.2.7",
+		"rollup-plugin-dts": "^5.3.0"
+	}
+}
