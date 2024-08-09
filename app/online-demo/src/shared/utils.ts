@@ -12,5 +12,5 @@ export function getThemeMode() {
 	if (isSystemDarkMode() || isLocalStorageDarkMode()) {
 		return ThemeMode.dark
 	}
-	return ThemeMode.dark
+	return ThemeMode.light
 }
