@@ -10,7 +10,7 @@ type PropsType = {
 	onClick?: () => void
 	style?: React.CSSProperties
 }
-export default function LinkWithIcon({ name, value, type, onClick }: PropsType) {
+export default function LinkWithIcon({ name, value, type, onClick, ...rest }: PropsType) {
 	const navigate = useNavigate()
 	const handleOnClick = () => {
 		onClick?.()
@@ -23,7 +23,7 @@ export default function LinkWithIcon({ name, value, type, onClick }: PropsType) 
 	}
 	return (
 		<motion.div whileHover={{ scale: 1.2 }} className='flex items-center cursor-pointer' onClick={handleOnClick}>
-			<IconPark name={name} />
+			<IconPark {...rest} name={name} />
 		</motion.div>
 	)
 }

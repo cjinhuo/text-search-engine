@@ -7,3 +7,10 @@ export enum IconParkNames {
 	light = 'light',
 	'search-engine' = 'search-engine',
 }
+
+export const LOCAL_STORAGE_THEME_KEY = 'theme'
+
+export enum ThemeMode {
+	light = 'light',
+	dark = 'dark',
+}
