@@ -9,6 +9,20 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      ;(function () {
+        var html = document.documentElement
+        if (window.matchMedia?.('(prefers-color-scheme: dark)').matches || localStorage.getItem('theme') === 'dark') {
+          html.classList.add('dark')
+        }
+        function onWindowResize() {
+          const rem = html.getBoundingClientRect().width / 30
+          html.style.fontSize = rem > 18 ? 18 : rem + 'px'
+        }
+        window.addEventListener('resize', onWindowResize)
+        onWindowResize()
+      })()
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
