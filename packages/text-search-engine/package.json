@@ -1,7 +1,7 @@
 {
-	"name": "smart-search-engine",
+	"name": "text-search-engine",
 	"version": "0.0.1",
-	"description": "smart-search-engine",
+	"description": "text-search-engine",
 	"author": "cjinhuo",
 	"license": "MIT",
 	"main": "src/index.ts",

@@ -1,0 +1,36 @@
+{
+	"name": "online-demo",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@emotion/react": "^11.13.0",
+		"@emotion/styled": "^11.13.0",
+		"@fontsource/roboto": "^5.0.14",
+		"@mui/material": "6.0.0-beta.5",
+		"framer-motion": "^11.3.24",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"react-router-dom": "^6.26.0"
+	},
+	"devDependencies": {
+		"@types/react": "^18.3.3",
+		"@types/react-dom": "^18.3.0",
+		"@vitejs/plugin-react": "^4.3.1",
+		"autoprefixer": "^10.4.20",
+		"postcss": "^8.4.41",
+		"text-search-engine": "workspace:*",
+		"tailwindcss": "^3.4.9",
+		"typescript": "^5.5.4",
+		"vite": "^5.4.0"
+	},
+	"peerDependencies": {
+		"react": "^17.0.0 || ^18.0.0",
+		"react-dom": "^17.0.0 || ^18.0.0"
+	}
+}

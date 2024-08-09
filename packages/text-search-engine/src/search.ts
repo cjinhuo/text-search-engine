@@ -1,4 +1,4 @@
-import { extractBoundaryMapping } from './boundary'
+import { extractBoundaryMappingWithPresetPinyin } from './boundary'
 import type { SearchOption, SourceMappingData } from './types'
 import { highlightTextWithRanges } from './utils'
 
@@ -136,13 +136,13 @@ export function searchByBoundaryMapping(data: SourceMappingData, _target: string
 	return hitIndices
 }
 
-// const originalString = '黑悟空神话 black'
-// const input = 'heiwh'
-// console.time('search')
-// const hitIndices = searchByBoundaryMapping(extractBoundaryMapping(originalString), input)
-// console.timeEnd('search')
-// console.log('hitIndices', hitIndices)
-// console.log('original string:', originalString, 'input:', input)
-// if (hitIndices) {
-// 	console.log(highlightTextWithRanges(originalString, hitIndices))
-// }
+const originalString = '黑悟空神话 black'
+const input = 'heiwh'
+console.time('search')
+const hitIndices = searchByBoundaryMapping(extractBoundaryMappingWithPresetPinyin(originalString), input)
+console.timeEnd('search')
+console.log('hitIndices', hitIndices)
+console.log('original string:', originalString, 'input:', input)
+if (hitIndices) {
+	console.log(highlightTextWithRanges(originalString, hitIndices))
+}

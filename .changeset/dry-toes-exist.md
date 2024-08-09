@@ -1,5 +1,5 @@
 ---
-'smart-search-engine': patch
+'text-search-engine': patch
 ---
 
 First Version

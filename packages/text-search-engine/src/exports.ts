@@ -29,3 +29,6 @@ export function pureHighlightMatches(source: string, target: string, option: Sea
 	const range = pureSearch(source, target, option)
 	return range ? highlightTextWithRanges(source, range) : source
 }
+
+const range = search('nodejs', 'n')
+console.log(range)

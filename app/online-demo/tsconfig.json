@@ -16,7 +16,7 @@
 		"noEmit": true,
 		"jsx": "react-jsx"
 	},
-	"include": ["src", "../../e2e/demos/react-e2e-demo/src/components"],
+	"include": ["src"],
 	"references": [
 		{
 			"path": "./tsconfig.node.json"
