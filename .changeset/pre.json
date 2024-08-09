@@ -1,0 +1,11 @@
+{
+	"mode": "pre",
+	"tag": "beta",
+	"initialVersions": {
+		"online-demo": "0.0.1",
+		"text-search-engine": "0.0.0",
+		"@mono/rollup": "0.0.1",
+		"@mono/tsconfig": "0.0.1"
+	},
+	"changesets": ["dry-toes-exist"]
+}

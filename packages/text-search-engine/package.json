@@ -1,6 +1,6 @@
 {
 	"name": "text-search-engine",
-	"version": "0.0.1",
+	"version": "0.0.1-beta.0",
 	"description": "a lightweight search engine for text which supports fuzzy search with pinyin",
 	"author": "cjinhuo",
 	"license": "MIT",
