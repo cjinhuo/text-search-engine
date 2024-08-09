@@ -1,0 +1,27 @@
+name: Animal Farm NodeJS CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  check:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.0.0
+      - name: Run Pnpm
+        run: pnpm i
+      - name: Build
+        run: pnpm build
+      - name: Run tests
+        run: pnpm test
+      - name: Check Changeset
+        run: pnpm changeset status

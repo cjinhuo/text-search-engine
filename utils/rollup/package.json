@@ -2,6 +2,7 @@
 	"name": "@mono/rollup",
 	"description": "rollup scripts",
 	"version": "0.0.1",
+	"private": true,
 	"type": "module",
 	"author": {
 		"name": "Shanks",
