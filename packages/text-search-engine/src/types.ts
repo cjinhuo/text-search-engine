@@ -1,8 +1,8 @@
-export type BoundaryArray = [number, number][]
+export type Matrix = [number, number][]
 
 export interface SourceMappingData {
 	pinyinString: string
-	boundary: BoundaryArray
+	boundary: Matrix
 	originalIndices: number[]
 	originalLength: number
 }

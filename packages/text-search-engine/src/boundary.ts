@@ -1,5 +1,5 @@
 import pinyin from './py.json'
-import type { BoundaryArray, SourceMappingData } from './types'
+import type { Matrix, SourceMappingData } from './types'
 
 /**
  * extract the mapping relationship between letters, pinyin, and Chinese characters by the source string
@@ -17,7 +17,7 @@ export function extractBoundaryMapping(source: string, pinyinMap: Record<string,
 	}
 
 	let accumulator = 0
-	const boundary: BoundaryArray = [[-1, -1]]
+	const boundary: Matrix = [[-1, -1]]
 	const originalIndices: number[] = []
 	const totalChars: string[] = []
 	pinyinArray.forEach((value, index) => {
