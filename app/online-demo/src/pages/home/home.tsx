@@ -6,6 +6,7 @@ import * as TextSearchEngine from 'text-search-engine'
 ;(window as any)['_TEXT_SEARCH_ENGINE_'] = TextSearchEngine
 
 export default function Home() {
+	console.log(TextSearchEngine.highlightMatches('nod你的名e', 'nond'))
 	return (
 		<div>
 			{TextSearchEngine.search('nod你的名e', 'no')}
