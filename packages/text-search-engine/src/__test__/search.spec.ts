@@ -7,7 +7,7 @@ describe('search', () => {
 		const source = 'node'
 		const target = 'no'
 		const mappingData = extractBoundaryMapping(source)
-		const range = searchByBoundaryMapping(mappingData, target)
+		const range = searchByBoundaryMapping(mappingData, target, 0, source.length)
 		expect(range).toEqual([[0, 1]])
 	})
 

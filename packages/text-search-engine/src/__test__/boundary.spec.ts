@@ -1,5 +1,4 @@
 import { extractBoundaryMapping } from '../boundary'
-import { searchByBoundaryMapping } from '../search'
 
 describe('extractBoundaryMapping', () => {
 	test('extractBoundaryMapping should work with whole letters', () => {

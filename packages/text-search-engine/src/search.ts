@@ -141,7 +141,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	return hitIndices
 }
 
-export function searchWithWords(boundaryMapping: SourceMappingData, words: string[]) {
+export function searchWordsByBoundaryMapping(boundaryMapping: SourceMappingData, words: string[]) {
 	if (!words.length) return undefined
 	const hitRanges: Matrix = []
 	for (const word of words) {
