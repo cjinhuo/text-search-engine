@@ -1,6 +1,6 @@
 import { extractBoundaryMappingWithPresetPinyin } from './boundary'
-import type { SearchOption, SourceMappingData } from './types'
-import { highlightTextWithRanges } from './utils'
+import type { Matrix, SearchOption, SourceMappingData } from './types'
+import { getRestRanges, highlightTextWithRanges } from './utils'
 
 /**
  * return the hit indices with the boundary data
@@ -132,7 +132,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 
 	if (dpMatchPath[pinyinLength][targetLength - 1] === undefined) return undefined
 
-	const hitIndices: [number, number][] = []
+	const hitIndices: Matrix = []
 	for (let i = targetLength - 1; i >= 0; ) {
 		const [start, end, matchedLetters] = dpMatchPath[pinyinLength][i]
 		hitIndices.unshift([start + startIndex, end + startIndex])
@@ -141,15 +141,35 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	return hitIndices
 }
 
-const originalString = '黑悟空神话 black'
-const input = 'kshh'
-console.time('search')
-const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
-console.log('boundaryData', boundaryData)
-const hitIndices = searchByBoundaryMapping(boundaryData, input, 0, 2)
-console.timeEnd('search')
-console.log('hitIndices', hitIndices)
-console.log('original string:', originalString, 'input:', input)
-if (hitIndices) {
-	console.log(highlightTextWithRanges(originalString, hitIndices))
+export function searchWithWords(boundaryMapping: SourceMappingData, words: string[]) {
+	if (!words.length) return undefined
+	const hitRanges: Matrix = []
+	for (const word of words) {
+		const restRanges = getRestRanges(boundaryMapping.originalLength, hitRanges)
+		if (!restRanges.length) return undefined
+		let isHitByWord = false
+		for (const range of restRanges) {
+			const hitRangesByWord = searchByBoundaryMapping(boundaryMapping, word, range[0], range[1])
+			if (hitRangesByWord) {
+				isHitByWord = true
+				hitRanges.push(...hitRangesByWord)
+				break
+			}
+		}
+		if (!isHitByWord) return undefined
+	}
+	return hitRanges
 }
+
+// const originalString = '黑悟空神话 black'
+// const input = 'kshh'
+// console.time('search')
+// const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
+// console.log('boundaryData', boundaryData)
+// const hitIndices = searchByBoundaryMapping(boundaryData, input, 0, 2)
+// console.timeEnd('search')
+// console.log('hitIndices', hitIndices)
+// console.log('original string:', originalString, 'input:', input)
+// if (hitIndices) {
+// 	console.log(highlightTextWithRanges(originalString, hitIndices))
+// }
