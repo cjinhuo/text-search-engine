@@ -53,7 +53,6 @@ export function getRestRanges(totalLength: number, ranges: Matrix): Matrix {
 	if (currentStart < totalLength) {
 		restRanges.push([currentStart, totalLength])
 	}
-	console.log('first', restRanges)
 	return restRanges
 }
 
@@ -61,6 +60,9 @@ export function isString(o: unknown): o is string {
 	return typeof o === 'string'
 }
 
-export function isNotEmptyString(str: string) {
-	return isString(str) && !str.trim().length
+export function isEmptyString(str: unknown) {
+	if (!isString(str)) {
+		throw 'input need to be a string'
+	}
+	return !str.trim().length
 }
