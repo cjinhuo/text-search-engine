@@ -23,3 +23,12 @@ export function highlightTextWithRanges(str: string, ranges: [number, number][])
 
 	return result.join('')
 }
+
+// 10 => [[2, 3], [3, 4], [5, 6]] => [[0, 2] [3, 5], [6, 10]]
+// export function diffRanges(totalLength: number, ranges: [number, number][]): [number, number][] {
+// 	if (ranges.length === 0) return [[0, totalLength]]
+// 	const sortedRanges = ranges.sort((a, b) => a[0] - b[0])
+// 	let prevStart = sortedRanges[0][0]
+// 	let prevEnd = sortedRanges[0][1]
+// 	for (let i = 1; i < sortedRanges.length; i++) {}
+// }

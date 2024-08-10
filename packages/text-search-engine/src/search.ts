@@ -8,12 +8,17 @@ import { highlightTextWithRanges } from './utils'
  * @param target the string by user input
  * @returns the hit indices
  */
-export function searchByBoundaryMapping(data: SourceMappingData, _target: string, _option: SearchOption = {}) {
-	const { pinyinString, boundary, originalLength } = data
-	const target = _target.toLocaleLowerCase()
+export function searchByBoundaryMapping(data: SourceMappingData, target: string, startIndex: number, endIndex: number) {
+	const { originalLength } = data
+	const pinyinString = data.pinyinString.slice(data.originalIndices[startIndex], data.originalIndices[endIndex])
+	const boundary = data.boundary.slice(data.originalIndices[startIndex], data.originalIndices[endIndex] + 1)
 	const targetLength = target.length
 	const pinyinLength = pinyinString.length
 	if (!data || !target || pinyinLength < targetLength || !originalLength) return undefined
+
+	// use to restore the real index
+	const startBoundary = boundary[1][0]
+	const endBoundary = boundary[1][1]
 
 	const matchPositions: number[] = Array(targetLength).fill(-1)
 
@@ -65,15 +70,15 @@ export function searchByBoundaryMapping(data: SourceMappingData, _target: string
 
 			// 的dedi 的 =>[x, y] d => [x, y+1] e => [x, y+1] d => [x, y+2] di => [x, y+2]
 			const isNewWord =
-				matchedPinyinIndex - 1 === boundary[matchedPinyinIndex][1] &&
-				prevBoundaryStart !== boundary[matchedPinyinIndex][0]
+				matchedPinyinIndex - 1 === boundary[matchedPinyinIndex][1] - endBoundary &&
+				prevBoundaryStart !== boundary[matchedPinyinIndex][0] - startBoundary
 
 			// for pinyin：是否是连续匹配的首字母
 			// todo 暴露这个开关，是否只匹配l连续的字符或汉字
 			const isContinuation =
 				prevMatchedStrings > 0 &&
 				// 适配多音字，比如“的” dedi，匹配到 de 后不会再匹配 di
-				prevBoundaryEnd === boundary[matchedPinyinIndex][1] &&
+				prevBoundaryEnd === boundary[matchedPinyinIndex][1] - endBoundary &&
 				// 判断当前字母是否在拼音中时连续的，比如 hua，输入 ha，遍历 a 时需要判断 a 前面一个是不是 u，不是则 false
 				pinyinString[matchedPinyinIndex - 2] === target[matchIndex - 1]
 			const isEqual = pinyinString[matchedPinyinIndex - 1] === target[matchIndex]
@@ -89,15 +94,15 @@ export function searchByBoundaryMapping(data: SourceMappingData, _target: string
 					dpTable[matchedPinyinIndex] = [
 						prevMatchedStrings + ~~isNewWord,
 						matchedLettersCount,
-						boundary[matchedPinyinIndex][0],
-						boundary[matchedPinyinIndex][1],
+						boundary[matchedPinyinIndex][0] - startBoundary,
+						boundary[matchedPinyinIndex][1] - endBoundary,
 					]
 				}
 
 				// 只有 大于 才需要替换 dpMatchPath，不然就命中前面，比如 no_no 输入 no 命中第一次的 no
 				if (prevScore > dpScores[matchedPinyinIndex - 1]) {
 					// 原始字符串对应的下标
-					const originalStringIndex = boundary[matchedPinyinIndex][0]
+					const originalStringIndex = boundary[matchedPinyinIndex][0] - startBoundary
 					// 首字母时 prevMatchedStrings = 0，不是首字母时应该加 1，下标才能对的上
 					dpMatchPath[matchedPinyinIndex][matchIndex] = [
 						originalStringIndex - prevMatchedStrings + ~~!isNewWord,
@@ -114,7 +119,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, _target: string
 			dpMatchPath[matchedPinyinIndex][matchIndex] = dpMatchPath[matchedPinyinIndex - 1][matchIndex]
 			// 当前匹配与上一个匹配的 gap ，比如 abc, 第一次是 a 第二次是 b，gap = 1,第一次 a 第二次是 c ，gap = 2，
 			// 这里指的是原文，而不是 pinyin，比如 c测试，假如 c 已经命中了，那么“测“和 c 的 gap 为 1，复用 dpTable 中的值
-			const gap = boundary[matchedPinyinIndex][0] - dpTable[matchedPinyinIndex - 1][2]
+			const gap = boundary[matchedPinyinIndex][0] - startBoundary - dpTable[matchedPinyinIndex - 1][2]
 			// 表示下一个字符的拼音对应还是当前汉字, 比如 试shi, s 和 h 都对应 "试" 的下标
 			const isSameWord = () => boundary[matchedPinyinIndex][0] === boundary[matchedPinyinIndex + 1][0]
 			const isWithInRange = matchedPinyinIndex < pinyinLength - 1
@@ -130,19 +135,21 @@ export function searchByBoundaryMapping(data: SourceMappingData, _target: string
 	const hitIndices: [number, number][] = []
 	for (let i = targetLength - 1; i >= 0; ) {
 		const [start, end, matchedLetters] = dpMatchPath[pinyinLength][i]
-		hitIndices.unshift([start, end])
+		hitIndices.unshift([start + startIndex, end + startIndex])
 		i -= matchedLetters
 	}
 	return hitIndices
 }
 
-// const originalString = '黑悟空神话 black'
-// const input = 'heiwh'
-// console.time('search')
-// const hitIndices = searchByBoundaryMapping(extractBoundaryMappingWithPresetPinyin(originalString), input)
-// console.timeEnd('search')
-// console.log('hitIndices', hitIndices)
-// console.log('original string:', originalString, 'input:', input)
-// if (hitIndices) {
-// 	console.log(highlightTextWithRanges(originalString, hitIndices))
-// }
+const originalString = '黑悟空神话 black'
+const input = 'kshh'
+console.time('search')
+const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
+console.log('boundaryData', boundaryData)
+const hitIndices = searchByBoundaryMapping(boundaryData, input, 0, 2)
+console.timeEnd('search')
+console.log('hitIndices', hitIndices)
+console.log('original string:', originalString, 'input:', input)
+if (hitIndices) {
+	console.log(highlightTextWithRanges(originalString, hitIndices))
+}
