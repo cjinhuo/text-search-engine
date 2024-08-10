@@ -13,6 +13,13 @@ export { searchByBoundaryMapping } from './search'
  * @returns
  */
 export function search(source: string, target: string, _option: SearchOption = {}) {
+	// if target include space characters, we should split it first and then iterate it one by one.
+	if (!source.trim().length || !target.trim().length) return undefined
+	const boundaryMapping = extractBoundaryMappingWithPresetPinyin(source)
+	const restRange = [0, source.length]
+	for (const word of target.split(' ')) {
+		const range = searchByBoundaryMapping(boundaryMapping, word, restRange[0], restRange[1])
+	}
 	return searchByBoundaryMapping(extractBoundaryMappingWithPresetPinyin(source), target)
 }
 

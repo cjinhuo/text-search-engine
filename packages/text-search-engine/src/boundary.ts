@@ -37,7 +37,8 @@ export function extractBoundaryMapping(source: string, pinyinMap: Record<string,
 		}
 	})
 	const pinyinString = totalChars.join('')
-
+	// it's convenient to get the real index the search function
+	originalIndices.push(pinyinString.length)
 	return {
 		pinyinString,
 		boundary,
