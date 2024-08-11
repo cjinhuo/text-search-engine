@@ -4,3 +4,4 @@ export {
 	highlightMatches,
 } from './exports'
 export { searchWordsByBoundaryMapping } from './search'
+export { SourceMappingData } from './types'
