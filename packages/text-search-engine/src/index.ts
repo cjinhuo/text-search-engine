@@ -3,5 +3,5 @@ export {
 	search,
 	highlightMatches,
 } from './exports'
-export { searchWordsByBoundaryMapping } from './search'
-export { SourceMappingData } from './types'
+export { searchSentenceByBoundaryMapping } from './search'
+export type { SourceMappingData } from './types'

@@ -3,14 +3,13 @@ export type Matrix = [number, number][]
 export interface SourceMappingData {
 	pinyinString: string
 	boundary: Matrix
+	originalString: string
 	originalIndices: number[]
 	originalLength: number
 }
 
-// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 export interface SearchOption {
-	// will support in next version
-	// strictCase?: boolean
+	strictCase?: boolean
 }
 
 export interface SearchOptionWithPinyin extends SearchOption {
