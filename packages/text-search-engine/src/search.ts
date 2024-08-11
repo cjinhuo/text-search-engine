@@ -83,7 +83,8 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 				pinyinString[matchedPinyinIndex - 2] === target[matchIndex - 1]
 			const isEqual = pinyinString[matchedPinyinIndex - 1] === target[matchIndex]
 
-			if (isEqual && (isNewWord || isContinuation)) {
+			// 除了第一次进来，只有上一个得分大于 0 时才进入，比如 chen,输入 ce，遍历 e 时发现前面的 h 不是连续的，得分为 0 即跳过
+			if (isEqual && (isNewWord || isContinuation) && (matchIndex === 0 || prevScore > 0)) {
 				prevScore += prevMatchedLetters * 2 + 1
 
 				const matchedLettersCount = prevMatchedLetters + 1
@@ -161,15 +162,15 @@ export function searchWordsByBoundaryMapping(boundaryMapping: SourceMappingData,
 	return hitRanges
 }
 
-// const originalString = '黑悟空神话 black'
-// const input = 'kshh'
-// console.time('search')
-// const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
-// console.log('boundaryData', boundaryData)
-// const hitIndices = searchByBoundaryMapping(boundaryData, input, 0, 2)
-// console.timeEnd('search')
-// console.log('hitIndices', hitIndices)
-// console.log('original string:', originalString, 'input:', input)
-// if (hitIndices) {
-// 	console.log(highlightTextWithRanges(originalString, hitIndices))
-// }
+const originalString = 'ios开发-UIImageView视频教程-iOS开发玩转界面-UIKit-麦子学院'
+const input = 'cesh'
+console.time('search')
+const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
+console.log('boundaryData', boundaryData)
+const hitIndices = searchWordsByBoundaryMapping(boundaryData, input.trim().split(/\s+/))
+console.timeEnd('search')
+console.log('hitIndices', hitIndices)
+console.log('original string:', originalString, 'input:', input)
+if (hitIndices) {
+	console.log(highlightTextWithRanges(originalString, hitIndices))
+}
