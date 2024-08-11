@@ -47,7 +47,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 		let matchedPinyinIndex = matchPositions[matchIndex] + 1
 
 		// todo output only in debug mode
-		// console.log('outer for letter:', pinyinString[matchedPinyinIndex - 1])
+		console.log('outer for letter:', pinyinString[matchedPinyinIndex - 1])
 
 		let currentDpTableItem = dpTable[matchedPinyinIndex - 1]
 		let currentScore = dpScores[matchedPinyinIndex - 1]
@@ -98,22 +98,17 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 						boundary[matchedPinyinIndex][0] - startBoundary,
 						boundary[matchedPinyinIndex][1] - endBoundary,
 					]
-				}
 
-				// 只有 大于 才需要替换 dpMatchPath，不然就命中前面，比如 no_no 输入 no 命中第一次的 no
-				if (prevScore > dpScores[matchedPinyinIndex - 1]) {
 					// 原始字符串对应的下标
 					const originalStringIndex = boundary[matchedPinyinIndex][0] - startBoundary
-					// 首字母时 prevMatchedStrings = 0，不是首字母时应该加 1，下标才能对的上
-					dpMatchPath[matchedPinyinIndex][matchIndex] = [
-						originalStringIndex - prevMatchedStrings + ~~!isNewWord,
-						originalStringIndex,
-						matchedLettersCount,
-					]
-				} else {
-					dpMatchPath[matchedPinyinIndex][matchIndex] = dpMatchPath[matchedPinyinIndex - 1][matchIndex]
+					// 只有 大于 才需要替换 dpMatchPath，不然就命中前面，比如 no_no 输入 no 命中第一次的 no
+					const newMatched = prevScore > dpScores[matchedPinyinIndex - 1]
+					dpMatchPath[matchedPinyinIndex][matchIndex] = newMatched
+						? // 首字母时 prevMatchedStrings = 0，不是首字母时应该加 1，下标才能对的上
+							[originalStringIndex - prevMatchedStrings + ~~!isNewWord, originalStringIndex, matchedLettersCount]
+						: dpMatchPath[matchedPinyinIndex - 1][matchIndex]
+					continue
 				}
-				continue
 			}
 
 			dpScores[matchedPinyinIndex] = dpScores[matchedPinyinIndex - 1]
@@ -177,8 +172,8 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 	return searchWithIndexof(source, target) || searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
 }
 
-const originalString = 'ios开发-UIImageView视频教程-iOS开发玩转界面-UIKit-麦子学院'
-const input = '面-UI麦子学院'
+const originalString = 'tetmplpimpo'
+const input = 'emp'
 console.time('search')
 const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
 console.log('boundaryData', boundaryData)
