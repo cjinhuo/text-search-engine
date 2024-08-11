@@ -5,7 +5,7 @@ import { getRestRanges, highlightTextWithRanges } from './utils'
 /**
  * return the hit indices with the boundary data
  * @param data the processed data of `extractBoundaryMapping` which records the mapping relationship between letters, pinyin, and Chinese characters
- * @param target the string by user input
+ * @param target only could be a single word which can't include space or special characters
  * @returns the hit indices
  */
 export function searchByBoundaryMapping(data: SourceMappingData, target: string, startIndex: number, endIndex: number) {
@@ -142,8 +142,13 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	return hitIndices
 }
 
-export function searchWordsByBoundaryMapping(boundaryMapping: SourceMappingData, words: string[]) {
-	if (!words.length) return undefined
+export function searchSentenceByBoundaryMapping(boundaryMapping: SourceMappingData, sentence: string) {
+	if (!sentence) return undefined
+	const hitRangesByIndexOf = searchWithIndexof(boundaryMapping.originalString, sentence)
+	if (hitRangesByIndexOf) return hitRangesByIndexOf
+
+	// if target include space characters, we should split it first and then iterate it one by one.
+	const words = sentence.trim().split(/\s+/)
 	const hitRanges: Matrix = []
 	for (const word of words) {
 		const restRanges = getRestRanges(boundaryMapping.originalLength, hitRanges)
@@ -159,15 +164,25 @@ export function searchWordsByBoundaryMapping(boundaryMapping: SourceMappingData,
 		}
 		if (!isHitByWord) return undefined
 	}
+
 	return hitRanges
 }
 
+export function searchWithIndexof(source: string, target: string) {
+	const startIndex = source.indexOf(target.trim())
+	return ~startIndex && ([[startIndex, startIndex + target.length - 1]] as Matrix)
+}
+
+export function searchEntry(source: string, target: string, getBoundaryMapping: (source: string) => SourceMappingData) {
+	return searchWithIndexof(source, target) || searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
+}
+
 const originalString = 'ios开发-UIImageView视频教程-iOS开发玩转界面-UIKit-麦子学院'
-const input = 'cesh'
+const input = '面-UI麦子学院'
 console.time('search')
 const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
 console.log('boundaryData', boundaryData)
-const hitIndices = searchWordsByBoundaryMapping(boundaryData, input.trim().split(/\s+/))
+const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
 console.timeEnd('search')
 console.log('hitIndices', hitIndices)
 console.log('original string:', originalString, 'input:', input)

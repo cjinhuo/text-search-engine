@@ -7,11 +7,10 @@ import type { Matrix, SourceMappingData } from './types'
  * @returns the processed data
  */
 export function extractBoundaryMapping(source: string, pinyinMap: Record<string, string[]> = {}): SourceMappingData {
-	const lowerStr = source.toLocaleLowerCase()
-	const pinyinArray = Array(lowerStr.length)
+	const pinyinArray = Array(source.length)
 
-	for (let i = 0; i < lowerStr.length; i++) {
-		const currentChar = lowerStr[i]
+	for (let i = 0; i < source.length; i++) {
+		const currentChar = source[i]
 		const charInPinyin = pinyinMap[currentChar]
 		pinyinArray[i] = [currentChar, ...(charInPinyin ? charInPinyin.slice() : [])]
 	}
@@ -42,6 +41,7 @@ export function extractBoundaryMapping(source: string, pinyinMap: Record<string,
 	return {
 		pinyinString,
 		boundary,
+		originalString: source,
 		originalIndices,
 		originalLength: pinyinArray.length,
 	}

@@ -1,5 +1,5 @@
 import { extractBoundaryMapping, extractBoundaryMappingWithPresetPinyin } from './boundary'
-import { searchWordsByBoundaryMapping } from './search'
+import { searchEntry } from './search'
 import type { SearchOption, SearchOptionWithPinyin } from './types'
 import { highlightTextWithRanges, isEmptyString } from './utils'
 
@@ -9,16 +9,22 @@ import { highlightTextWithRanges, isEmptyString } from './utils'
  * @param target the string by user input. generally speaking, it's length should be less than `source`
  * @returns
  */
-export function search(source: string, target: string, _option: SearchOption = {}) {
+export function search(source: string, target: string, option: SearchOption = {}) {
 	if (isEmptyString(source) || isEmptyString(target)) return undefined
-	// if target include space characters, we should split it first and then iterate it one by one.
-	return searchWordsByBoundaryMapping(extractBoundaryMappingWithPresetPinyin(source), target.trim().split(/\s+/))
+	const [_source, _target] = option.strictCase
+		? [source, target]
+		: [source.toLocaleLowerCase(), target.toLocaleLowerCase()]
+
+	return searchEntry(_source, _target, extractBoundaryMappingWithPresetPinyin)
 }
 
 export function pureSearch(source: string, target: string, option: SearchOptionWithPinyin) {
 	if (isEmptyString(source) || isEmptyString(target)) return undefined
-	// if target include space characters, we should split it first and then iterate it one by one.
-	return searchWordsByBoundaryMapping(extractBoundaryMapping(source, option.pinyinMap), target.trim().split(/\s+/))
+	const [_source, _target] = option.strictCase
+		? [source, target]
+		: [source.toLocaleLowerCase(), target.toLocaleLowerCase()]
+
+	return searchEntry(_source, _target, extractBoundaryMapping.bind(null, _source, option.pinyinMap))
 }
 
 export function highlightMatches(source: string, target: string, _option: SearchOption = {}) {
