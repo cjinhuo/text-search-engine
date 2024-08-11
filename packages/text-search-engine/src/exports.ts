@@ -5,8 +5,9 @@ import { highlightTextWithRanges, isEmptyString } from './utils'
 
 /**
  * search string with
- * @param source the string you want to search
- * @param target the string by user input. generally speaking, it's length should be less than `source`
+ * @param source required, the source string you want to search
+ * @param target required, the string by user input. generally speaking, it's length should be less than `source`, otherwise the result will be undefined
+ * @param option optional, the default value is `{}`
  * @returns
  */
 export function search(source: string, target: string, option: SearchOption = {}) {
@@ -18,6 +19,13 @@ export function search(source: string, target: string, option: SearchOption = {}
 	return searchEntry(_source, _target, extractBoundaryMappingWithPresetPinyin)
 }
 
+/**
+ * search string without preset pinyin map, need to pass pinyin map in manually
+ * @param source required, the source string you want to search
+ * @param target required, the string by user input. generally speaking, it's length should be less than `source`, otherwise the result will be undefined
+ * @param option required, need to pass pinyin map in manually
+ * @returns
+ */
 export function pureSearch(source: string, target: string, option: SearchOptionWithPinyin) {
 	if (isEmptyString(source) || isEmptyString(target)) return undefined
 	const [_source, _target] = option.strictCase
