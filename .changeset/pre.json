@@ -7,5 +7,5 @@
 		"@mono/rollup": "0.0.1",
 		"@mono/tsconfig": "0.0.1"
 	},
-	"changesets": ["dry-toes-exist"]
+	"changesets": ["dry-toes-exist", "plenty-horses-rest"]
 }
