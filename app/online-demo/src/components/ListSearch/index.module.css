@@ -1,0 +1,6 @@
+.deleteBtn {
+    display: none;
+}
+.listItem:hover .deleteBtn{
+    display: inline-block;
+}

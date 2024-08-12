@@ -16,6 +16,10 @@ html {
   --color-linear-bg-start: rgb(255, 255, 255);
   --color-linear-bg-end: rgb(230, 236, 242, 0);
   --color-link-href: rgb(90, 160, 223);
+
+  --color-highlight-bg:yellow;
+  --color-highlight-bg-hover:orange;
+
 }
 
 

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/icon.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smart Search Engine</title>
     <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_33805_13.e439ceffbc4510cf154f8e7f02ce3226.js"></script>
@@ -19,8 +19,8 @@
           const rem = html.getBoundingClientRect().width / 30
           html.style.fontSize = rem > 18 ? 18 : rem + 'px'
         }
-        window.addEventListener('resize', onWindowResize)
-        onWindowResize()
+        window.addEventListener('resize', onWindowResize) 
+        window.addEventListener('DOMContentLoaded',onWindowResize)
       })()
     </script>
     <script type="module" src="/src/main.tsx"></script>
