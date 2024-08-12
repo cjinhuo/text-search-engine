@@ -9,7 +9,6 @@ window._TEXT_SEARCH_ENGINE_ = TextSearchEngine
 
 export default function Home() {
 	const [listItems, setListItems] = useState<string[]>([])
-	const longText = LONG_TEXT
 	useEffect(() => {
 		const items: string[] = []
 		for (let i = 1; i < 101; i++) {
@@ -36,7 +35,7 @@ export default function Home() {
 							<ListSearch list={listItems} setList={setListItems} />
 						</Grid>
 						<Grid size={{ xs: 12, md: 6 }}>
-							<TextHighlight highlightedText={longText} />
+							<TextHighlight originalText={LONG_TEXT} />
 						</Grid>
 					</Grid>
 				</Container>

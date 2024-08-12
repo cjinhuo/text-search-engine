@@ -1,43 +1,25 @@
 import { Card, CardContent, TextField, Typography } from '@mui/material'
-import React, { memo, useEffect, useState } from 'react'
-import type { FC, ReactNode } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
+import type { FC } from 'react'
+import { extractBoundaryMapping, searchSentenceByBoundaryMapping } from 'text-search-engine'
 import { INPUT_ANIMATION_CONFIG, TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useDebounce } from '../../hooks/useDebounce'
 import LightedText from '../LightedText'
 interface HighlightTextProps {
-	children?: ReactNode
-	highlightedText: string
+	originalText: string
 }
 
-const TextHighlight: FC<HighlightTextProps> = (props: HighlightTextProps) => {
-	const { highlightedText } = props
+const TextHighlight: FC<HighlightTextProps> = ({ originalText }: HighlightTextProps) => {
 	const [textSearchTerm, setTextSearchTerm] = useState('')
-	const [textSearchTime, setTextSearchTime] = useState(0)
-	const [resLength, setResLength] = useState<number>(0)
 	const debounceValue = useDebounce(textSearchTerm, 300)
-	const startTime = performance.now()
-	const ranges = window._TEXT_SEARCH_ENGINE_.search(highlightedText, textSearchTerm) || []
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	useEffect(() => {
-		let resl = 0
-		let count = 0
-		const endTime = performance.now()
-		if (textSearchTerm) {
-			count = endTime - startTime
-			// biome-ignore lint/complexity/noForEach: <explanation>
-			ranges.forEach(([start, end]) => {
-				resl += end + 1 - start
-			})
-		}
-
-		if (!textSearchTerm) {
-			resl = 0
-			count = 0
-		}
-		setResLength(resl)
-		setTextSearchTime(count)
-	}, [debounceValue, highlightedText])
+	const sourceMappingData = useMemo(() => extractBoundaryMapping(originalText), [originalText])
+	const [ranges, matchCharacters, searchTime] = useMemo(() => {
+		const start = performance.now()
+		const ranges = searchSentenceByBoundaryMapping(sourceMappingData, debounceValue) || []
+		const matchCharacters = ranges.reduce((acc, [start, end]) => acc + end + 1 - start, 0)
+		return [ranges, matchCharacters, performance.now() - start] as const
+	}, [sourceMappingData, debounceValue])
 
 	return (
 		<Card sx={{ transition: 'all 0.3s ease-in-out', '&:hover': { transform: 'scale(1.02)' } }}>
@@ -54,10 +36,10 @@ const TextHighlight: FC<HighlightTextProps> = (props: HighlightTextProps) => {
 					sx={{ mb: 2, ...INPUT_ANIMATION_CONFIG }}
 				/>
 				<Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
-					Matches up to {resLength} characters in {textSearchTime.toFixed(2)} milliseconds
+					Matches up to {matchCharacters} characters in {searchTime.toFixed(2)} milliseconds
 				</Typography>
 				<Typography variant='body1' component='div' sx={{ ...TEXT_ACTIVE_CONFIG }}>
-					{<LightedText text={highlightedText} ranges={ranges} className='bg-yellow font-bold' />}
+					{<LightedText text={originalText} ranges={ranges} className='bg-yellow font-bold' />}
 				</Typography>
 			</CardContent>
 		</Card>
