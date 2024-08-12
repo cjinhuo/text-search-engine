@@ -4,4 +4,4 @@ export {
 	pureHighlightMatches,
 } from './exports'
 export { searchSentenceByBoundaryMapping } from './search'
-export { SourceMappingData } from './types'
+export * from './types'

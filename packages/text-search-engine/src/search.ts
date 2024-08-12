@@ -1,5 +1,5 @@
 import { extractBoundaryMappingWithPresetPinyin } from './boundary'
-import type { Matrix, SearchOption, SourceMappingData } from './types'
+import type { Matrix, SourceMappingData } from './types'
 import { getRestRanges, highlightTextWithRanges } from './utils'
 
 /**
@@ -29,21 +29,18 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 		}
 	}
 
-	// 如果输入字符小于匹配到的字符，判定无效
+	// it would be invalid if the input character is smaller than the matched character
 	if (matchIndex < targetLength) return undefined
 
 	const defaultDpTableValue = [0, 0, -1, -1]
 	// x你 => x你ni target = ni
 	// n => [1, 1, xx, xx] i => [1, 2, xx, xx]
-	// [匹配字符个数：一个汉字算一个字符，统计当前已匹配的字符个数， 匹配字母个数：一个拼音中的一个字母算一个，统计当前已匹配的字母数， 原始字符串的开始位置, 原始字符串的结束位置]
 	const dpTable = Array.from({ length: pinyinLength + 1 }, () => defaultDpTableValue)
 	const dpScores: number[] = Array(pinyinLength + 1).fill(0)
 	const dpMatchPath: [number, number, number][][] = Array.from({ length: pinyinLength + 1 }, () => Array(targetLength))
 
-	// matchIndex 和上面的 matchIndex 表示同一个意思，所以取同样的名字
 	for (let matchIndex = 0; matchIndex < matchPositions.length; matchIndex++) {
-		// 表示匹配字符在 pinyinString 中的开始位置，可能后面也有相同字符，需要遍历至结尾，来计算连续匹配的个数
-		// 如果统一默认都从 0 开始，会有个不优雅的地方：在第 0 个获取 0 - 1 时需要判空，所以这里统一从 1 开始
+		// If the array index start from 0, then when accessing the 0th element to get 0 - 1, we need to check for null. Therefore, uniformly start from 1.
 		let matchedPinyinIndex = matchPositions[matchIndex] + 1
 
 		// todo output only in debug mode
@@ -51,8 +48,8 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 
 		let currentDpTableItem = dpTable[matchedPinyinIndex - 1]
 		let currentScore = dpScores[matchedPinyinIndex - 1]
-		// 上面缓存完，立即重置上一次的 dptable 和 score，避免影响下一次循环的计算，可以理解成消耗掉上一次的 dptable 和 score
-		// 如 nonod, 输入 nod，首次遍历 n 时，score 为 [1, 0, 1, 0, d], 遍历 o 时，score 为 [0, 1*2+1, 0, 1*2+1, 0], 遍历 d 时，score 为 [0, 1*2+1, 0, 0, 2*2+1]
+		// cache the last time of dpTable and score and reset it immediately, avoid affecting the next calculation. It can be understood as consuming the last time's dpTable and score
+		// source: nonod, input: nod, first iterate n, score is [1, 0, 1, 0, d], then iterate o, score is [0, 1*2+1, 1*2+1, 1*2+1, 1*2+1], then iterate d, score is [0, 1*2+1, 1*2+1, 1*2+1, 2*2+1]
 		dpScores[matchedPinyinIndex - 1] = 0
 		dpTable[matchedPinyinIndex - 1] = defaultDpTableValue
 
@@ -60,11 +57,11 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 			// todo output only in debug mode
 			// console.log('inner for letter:', pinyinString[matchedPinyinIndex - 1])
 			let prevScore = currentScore
-			// string => 一个字符，如一个汉字或一个英文
-			// letter => 一个拼音中的一个字母
-			const [prevMatchedStrings, prevMatchedLetters, prevBoundaryStart, prevBoundaryEnd] = currentDpTableItem
+			// character => a chinese character or a latin
+			// letter => a letter of pinyin
+			const [prevMatchedCharacters, prevMatchedLetters, prevBoundaryStart, prevBoundaryEnd] = currentDpTableItem
 			// 提前缓存未计算的 score 和 dptable 作为下一次的判断，因为当前 for 循环会从命中的下标遍历至结尾，例如 noo，输入 no，首次遍历 o 时拿到 n 的 dpTable [1, 1, 0, 0]，遍历第二个 o 时应拿到 [0, 0, -1, -1]，而不是 [2, 2, 1, 1]，只有在上面首次遍历才缓存了上一次的 dpTable 和 score
-			// score 也是如此，例如 noo，输入 no，首次遍历 o 时拿到 n 的 score 1，遍历第二个 o 时应拿到 0，而不是 3
+			// eg: source: 'noo', input: 'no', the first time iterate the first 'o', score is 1, then iterate the second 'o', score should be 0 instead of 3
 			currentDpTableItem = dpTable[matchedPinyinIndex]
 			currentScore = dpScores[matchedPinyinIndex]
 
@@ -76,36 +73,35 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 			// for pinyin：是否是连续匹配的首字母
 			// todo 暴露这个开关，是否只匹配l连续的字符或汉字
 			const isContinuation =
-				prevMatchedStrings > 0 &&
+				prevMatchedCharacters > 0 &&
 				// 适配多音字，比如“的” dedi，匹配到 de 后不会再匹配 di
 				prevBoundaryEnd === boundary[matchedPinyinIndex][1] - endBoundary &&
-				// 判断当前字母是否在拼音中时连续的，比如 hua，输入 ha，遍历 a 时需要判断 a 前面一个是不是 u，不是则 false
+				// 判断当前字母是否在拼音中是连续，如 hua，输入 ha，遍历 a 时需判断 a 前面一个是不是 u，不是则 false
 				pinyinString[matchedPinyinIndex - 2] === target[matchIndex - 1]
 			const isEqual = pinyinString[matchedPinyinIndex - 1] === target[matchIndex]
 
-			// 除了第一次进来，只有上一个得分大于 0 时才进入，比如 chen,输入 ce，遍历 e 时发现前面的 h 不是连续的，得分为 0 即跳过
+			// 除了第一次进来，只有上一个得分大于 0 时才进入，比如 chen,输入 ce，遍历 e 时如前面的 h 不是连续的，得分为 0 即 skip
 			if (isEqual && (isNewWord || isContinuation) && (matchIndex === 0 || prevScore > 0)) {
 				prevScore += prevMatchedLetters * 2 + 1
 
 				const matchedLettersCount = prevMatchedLetters + 1
-				// 只有 大于等于 前一次分数才更新元素状态，比如： no_node, 输入 nod 匹配到后面的 nod
+				// only update the state when the score is greater than or equal to the previous score, for example, source: 'no_node', input: 'nod', it will match the second 'n'.(no_'nod'e)
 				if (prevScore >= dpScores[matchedPinyinIndex - 1]) {
 					dpScores[matchedPinyinIndex] = prevScore
-					// prevMatchedStrings + ~~isNewWord:连续匹配的字符个数
+					// prevMatchedCharacters + ~~isNewWord:means the count of continuous matched characters
 					dpTable[matchedPinyinIndex] = [
-						prevMatchedStrings + ~~isNewWord,
+						prevMatchedCharacters + ~~isNewWord,
 						matchedLettersCount,
 						boundary[matchedPinyinIndex][0] - startBoundary,
 						boundary[matchedPinyinIndex][1] - endBoundary,
 					]
 
-					// 原始字符串对应的下标
 					const originalStringIndex = boundary[matchedPinyinIndex][0] - startBoundary
 					// 只有 大于 才需要替换 dpMatchPath，不然就命中前面，比如 no_no 输入 no 命中第一次的 no
 					const newMatched = prevScore > dpScores[matchedPinyinIndex - 1]
 					dpMatchPath[matchedPinyinIndex][matchIndex] = newMatched
-						? // 首字母时 prevMatchedStrings = 0，不是首字母时应该加 1，下标才能对的上
-							[originalStringIndex - prevMatchedStrings + ~~!isNewWord, originalStringIndex, matchedLettersCount]
+						? // 首字母时 prevMatchedCharacters = 0，不是首字母时应该加 1
+							[originalStringIndex - prevMatchedCharacters + ~~!isNewWord, originalStringIndex, matchedLettersCount]
 						: dpMatchPath[matchedPinyinIndex - 1][matchIndex]
 					continue
 				}
@@ -137,6 +133,11 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	return hitIndices
 }
 
+/**
+ * A function for search sentence by boundary mapping which's often is used to optimize the speed of searching. It can reuse 'boundaryMapping' every time.
+ * @param boundaryMapping the source boundary mapping data
+ * @param sentence the target sentence
+ */
 export function searchSentenceByBoundaryMapping(boundaryMapping: SourceMappingData, sentence: string) {
 	if (!sentence) return undefined
 	const hitRangesByIndexOf = searchWithIndexof(boundaryMapping.originalString, sentence)
@@ -172,15 +173,13 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 	return searchWithIndexof(source, target) || searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
 }
 
-const originalString = 'tetmplpimpo'
-const input = 'emp'
-console.time('search')
-const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
-console.log('boundaryData', boundaryData)
-const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
-console.timeEnd('search')
-console.log('hitIndices', hitIndices)
-console.log('original string:', originalString, 'input:', input)
-if (hitIndices) {
-	console.log(highlightTextWithRanges(originalString, hitIndices))
-}
+// const originalString = 'mito 监控'
+// const input = 'mi jk'
+// const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
+// console.log('boundaryData', boundaryData)
+// const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
+// console.log('hitIndices', hitIndices)
+// console.log('original string:', originalString, 'input:', input)
+// if (hitIndices) {
+// 	console.log(highlightTextWithRanges(originalString, hitIndices))
+// }
