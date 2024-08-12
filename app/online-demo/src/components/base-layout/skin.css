@@ -41,6 +41,8 @@ html {
   --color-linear-bg-start: rgb(6, 12, 18);
   --color-linear-bg-end: rgba(69, 69, 69, 0.6);
   --color-link-href: rgb(90, 160, 223);
+
+  --color-highlight-bg:#A68800;
 }
 
 /* ::selection {
