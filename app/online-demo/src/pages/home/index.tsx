@@ -21,17 +21,9 @@ export default function Home() {
 		<div>
 			<CssBaseline />
 			<div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-				<Container maxWidth='lg' sx={{ mt: 4, mb: 4, flex: 1 }}>
+				<Container sx={{ mt: 4, mb: 4, flex: 1, maxWidth: '80vw!important', width: '100%' }}>
 					<Grid container spacing={3}>
-						<Grid
-							size={{ xs: 12, md: 6 }}
-							sx={(theme) => ({
-								[theme.breakpoints.down('sm')]: {
-									maxHeight: '60vh',
-									overflow: 'auto',
-								},
-							})}
-						>
+						<Grid size={{ xs: 12, md: 6 }}>
 							<ListSearch list={listItems} setList={setListItems} />
 						</Grid>
 						<Grid size={{ xs: 12, md: 6 }}>
