@@ -1,0 +1,20 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - master # default branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm install pnpm -g
+      - run: pnpm i
+      - run: pnpm --filter online-demo run build
+      - name: Deploy dist
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.CI_TOKEN }}
+          publish_dir: ./app/online-demo/dist

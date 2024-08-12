@@ -39,7 +39,7 @@ html {
   --color-normal-bg-reverse: rgb(230, 236, 242);
 
   --color-linear-bg-start: rgb(6, 12, 18);
-  --color-linear-bg-end: rgb(230, 236, 242, 0.06);
+  --color-linear-bg-end: rgba(69, 69, 69, 0.6);
   --color-link-href: rgb(90, 160, 223);
 }
 

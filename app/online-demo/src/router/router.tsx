@@ -3,7 +3,7 @@ import BaseLayout from '../components/base-layout/base-layout'
 import Home from '../pages/home'
 const router = createBrowserRouter([
 	{
-		path: '/text-search-engine',
+		path: '/',
 		element: <BaseLayout />,
 		children: [
 			{

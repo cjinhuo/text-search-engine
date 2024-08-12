@@ -44,7 +44,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 		let matchedPinyinIndex = matchPositions[matchIndex] + 1
 
 		// todo output only in debug mode
-		console.log('outer for letter:', pinyinString[matchedPinyinIndex - 1])
+		// console.log('outer for letter:', pinyinString[matchedPinyinIndex - 1])
 
 		let currentDpTableItem = dpTable[matchedPinyinIndex - 1]
 		let currentScore = dpScores[matchedPinyinIndex - 1]
