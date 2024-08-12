@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import * as TextSearchEngine from 'text-search-engine'
 import ListSearch from '../../components/ListSearch'
 import TextHighlight from '../../components/TextHighlight'
-import { LIST_ITEMS, LONG_TEXT } from '../../config/data'
+import { LONG_TEXT } from '../../config/data'
 
 window._TEXT_SEARCH_ENGINE_ = TextSearchEngine
 

@@ -1,5 +1,5 @@
 import { Card, CardContent, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 import { INPUT_ANIMATION_CONFIG, TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useDebounce } from '../../hooks/useDebounce'
@@ -18,12 +18,9 @@ const ListSearch: FC<Iprops> = ({ list, setList }) => {
 	const [newItem, setNewItem] = useState('')
 	const [filteredItems, setFilteredItems] = useState(list.filter((item) => !!item))
 	const [listSearchTime, setListSearchTime] = useState(0)
-	const [listHeight, setListHeight] = useState<number>(0)
 	const debounceValue = useDebounce(listSearchTerm, 500)
 	const [count, setCount] = useState(0)
 	const [flag, setFlag] = useState(false)
-	const containerRef = useRef<HTMLDivElement>(null)
-	const regex = new RegExp(`(${listSearchTerm})`)
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const [rangeItems, setRangeItems] = useState<any>([])
 
@@ -48,7 +45,6 @@ const ListSearch: FC<Iprops> = ({ list, setList }) => {
 			setListSearchTime(0)
 			setRangeItems([])
 		}
-		containerRef.current && setListHeight(window.innerHeight - containerRef.current?.offsetTop)
 		setFlag(!flag)
 	}, [list, debounceValue])
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>

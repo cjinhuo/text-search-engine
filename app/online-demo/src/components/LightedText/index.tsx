@@ -11,7 +11,6 @@ const LightedText: FC<ILightedFuncProps> = memo(({ text, ranges, className }) =>
 	if (!ranges || ranges.length === 0) {
 		return <span>{text}</span>
 	}
-	console.log('ranges..', ranges)
 
 	// Sort the ranges to ensure they are processed in order
 	const sortedRanges = [...ranges].sort((a, b) => a[0] - b[0])
