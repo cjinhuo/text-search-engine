@@ -19,8 +19,8 @@
           const rem = html.getBoundingClientRect().width / 30
           html.style.fontSize = rem > 18 ? 18 : rem + 'px'
         }
-        window.addEventListener('resize', onWindowResize)
-        onWindowResize()
+        window.addEventListener('resize', onWindowResize) 
+        window.addEventListener('DOMContentLoaded',onWindowResize)
       })()
     </script>
     <script type="module" src="/src/main.tsx"></script>
