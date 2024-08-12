@@ -19,6 +19,7 @@ const TextHighlight: FC<HighlightTextProps> = (props: HighlightTextProps) => {
 	const [renderStr, setRenderStr] = useState<any>()
 	const [resLength, setResLength] = useState<number>(0)
 	const debounceValue = useDebounce(textSearchTerm, 300)
+	const startTime = performance.now()
 	const ranges = window._TEXT_SEARCH_ENGINE_.search(highlightedText, textSearchTerm)
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -29,7 +30,6 @@ const TextHighlight: FC<HighlightTextProps> = (props: HighlightTextProps) => {
 		// console.log('highlightedText   index.....',(regex as any).index)
 		// const endIdx = textSearchTerm.length+(regex as any).index
 		// console.log('highlightedText   search.....',highlightedText.slice((regex as any).index,endIdx))
-		const startTime = performance.now()
 		const regex = new RegExp(`(${textSearchTerm})`)
 		setParts(() => {
 			return highlightedText.split(regex)

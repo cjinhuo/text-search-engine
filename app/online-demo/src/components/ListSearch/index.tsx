@@ -29,17 +29,18 @@ const ListSearch: FC<Iprops> = ({ list, setList }) => {
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		const startTime = performance.now()
 		const filtered = list.filter((item) => item.toLowerCase().includes(debounceValue.toLowerCase()))
 		setFilteredItems(filtered)
-		const endTime = performance.now()
+
 		const tempArr = []
 
 		if (debounceValue) {
 			setCount(filtered.length)
+			const startTime = performance.now()
 			for (const item of filtered) {
 				tempArr.push(getRanges(item, debounceValue))
 			}
+			const endTime = performance.now()
 			setRangeItems([...tempArr])
 			setListSearchTime(endTime - startTime)
 		} else {
@@ -55,7 +56,6 @@ const ListSearch: FC<Iprops> = ({ list, setList }) => {
 		const ranges = window._TEXT_SEARCH_ENGINE_.search(text, kw)
 		return ranges
 	}
-	console.log(rangeItems)
 	return (
 		<Card sx={{ transition: 'all 0.3s ease-in-out', '&:hover': { transform: 'scale(1.02)' } }}>
 			<CardContent>
