@@ -1,19 +1,23 @@
 import { Card, CardContent, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
-import React, { memo, useEffect, useRef, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 import { INPUT_ANIMATION_CONFIG, TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useDebounce } from '../../hooks/useDebounce'
+import { useStyles } from '../../hooks/useStyles'
 import { IconParkNames } from '../../shared/constants'
 import LightedText from '../LightedText'
 import LinkWithIcon from '../link-with-icon'
 import styles from './index.module.css'
+
 interface Iprops {
 	children?: ReactNode
 	list: Array<string>
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	setList: any
 }
+
 const ListSearch: FC<Iprops> = ({ list, setList }) => {
+	const classes = useStyles()
 	const [listSearchTerm, setListSearchTerm] = useState('')
 	const [newItem, setNewItem] = useState('')
 	const [filteredItems, setFilteredItems] = useState(list.filter((item) => !!item))
@@ -53,7 +57,13 @@ const ListSearch: FC<Iprops> = ({ list, setList }) => {
 		return ranges
 	}
 	return (
-		<Card sx={{ transition: 'all 0.3s ease-in-out', '&:hover': { transform: 'scale(1.02)' } }}>
+		<Card
+			sx={{
+				transition: 'all 0.3s ease-in-out',
+				backgroundColor: 'var(--color-linear-bg-start)',
+				color: 'var(--color-neutral-1)',
+			}}
+		>
 			<CardContent>
 				<Typography variant='h5' component='div' gutterBottom>
 					List Filtering
@@ -67,7 +77,7 @@ const ListSearch: FC<Iprops> = ({ list, setList }) => {
 					value={newItem}
 					onChange={(e) => setNewItem(e.target.value)}
 					variant='standard'
-					className='input-field'
+					className={`input-field ${classes.customTextField}`}
 					InputProps={{
 						endAdornment: (
 							<LinkWithIcon
@@ -93,24 +103,39 @@ const ListSearch: FC<Iprops> = ({ list, setList }) => {
 					value={listSearchTerm}
 					onChange={(e) => setListSearchTerm(e.target.value)}
 					variant='standard'
-					className='input-field'
+					className={`input-field ${classes.customTextField}`}
 					sx={{
 						mb: 2,
 						...INPUT_ANIMATION_CONFIG,
 					}}
 				/>
 				<Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
-					found {count} matches in {listSearchTime.toFixed(2)} milliseconds
+					<span className='text-skin-neutral-5'>
+						found {count} matches in {listSearchTime.toFixed(2)} milliseconds
+					</span>
 				</Typography>
-				<List sx={{ maxHeight: '600px', overflow: 'auto' }}>
+				<List
+					sx={(theme) => ({
+						[theme.breakpoints.down('sm')]: {
+							maxHeight: '40vh',
+							overflow: 'auto',
+						},
+						[theme.breakpoints.up('sm')]: {
+							maxHeight: '50vh',
+							overflow: 'auto',
+						},
+					})}
+				>
 					{filteredItems.map((item, index) => (
 						<ListItem
-							className={styles.listItem}
+							className={`${styles.listItem} ${classes.customListItem}`}
 							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							key={item + index}
 							sx={{
 								transition: 'all 0.3s ease-in-out',
 								'&:hover': { backgroundColor: 'action.hover' },
+								height: '40px',
+								minHeight: 'unset',
 							}}
 						>
 							<ListItemText
