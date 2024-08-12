@@ -13,6 +13,9 @@ export const useStyles = makeStyles({
 		'& .MuiInputLabel-root': {
 			color: 'var(--color-neutral-5)',
 		},
+		'& .MuiInput-input': {
+			color: 'var( --color-neutral-1)',
+		},
 	},
 	customListItem: {
 		'&.MuiListItem-root:hover': {
