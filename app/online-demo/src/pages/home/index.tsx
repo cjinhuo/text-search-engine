@@ -1,8 +1,6 @@
 import { Container, CssBaseline, Grid2 as Grid } from '@mui/material'
 import * as TextSearchEngine from 'text-search-engine'
 import ListSearch from '../../components/ListSearch'
-import TextHighlight from '../../components/TextHighlight'
-import { LONG_TEXT } from '../../shared/constants'
 
 window._TEXT_SEARCH_ENGINE_ = TextSearchEngine
 

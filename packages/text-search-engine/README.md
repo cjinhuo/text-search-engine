@@ -1,4 +1,8 @@
 # Overview
+A text search engine that relies on a dynamic programming algorithm and supports fuzzy search with pinyin.
+## support 
+* Web
+* Node
 
 ## API
 ```js

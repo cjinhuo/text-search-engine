@@ -2,8 +2,8 @@
 	"name": "text-search-engine",
 	"version": "0.0.1-beta.2",
 	"description": "A text search engine that relies on a dynamic programming algorithm and supports fuzzy search with pinyin",
-	"author": "cjinhuo",
 	"license": "MIT",
+	"author": "cjinhuo",
 	"main": "src/index.ts",
 	"module": "src/index.ts",
 	"types": "src/index.ts",
@@ -12,7 +12,16 @@
 		"module": "dist/index.esm.js",
 		"types": "dist/index.d.ts"
 	},
-	"files": ["dist"],
+	"homepage": "https://cjinhuo.github.io/text-search-engine/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/cjinhuo/text-search-engine.git"
+	},
+	"bugs": {
+		"url": "https://github.com/cjinhuo/text-search-engine/issues"
+	},
+	"keywords": ["search", "text search", "search engine", "SDK"],
+	"files": ["dist", "README.md"],
 	"scripts": {
 		"esm": "tsc -b ./tsconfig.json",
 		"rollup": "batch-rollup -d ./rollups",
