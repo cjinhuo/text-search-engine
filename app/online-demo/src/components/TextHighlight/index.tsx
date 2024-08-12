@@ -20,7 +20,7 @@ const TextHighlight: FC<HighlightTextProps> = (props: HighlightTextProps) => {
 	const [resLength, setResLength] = useState<number>(0)
 	const debounceValue = useDebounce(textSearchTerm, 300)
 	const startTime = performance.now()
-	const ranges = window._TEXT_SEARCH_ENGINE_.search(highlightedText, textSearchTerm)
+	const ranges = window._TEXT_SEARCH_ENGINE_.search(highlightedText, textSearchTerm) || []
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
@@ -58,9 +58,13 @@ const TextHighlight: FC<HighlightTextProps> = (props: HighlightTextProps) => {
 		let count = 0
 		const endTime = performance.now()
 		if (textSearchTerm) {
-			const regRes = new RegExp(textSearchTerm, 'g')
-			resl = highlightedText.match(regRes)?.length || 0
+			// const regRes = new RegExp(textSearchTerm, 'g')
+			// resl = highlightedText.match(regRes)?.length || 0
 			count = endTime - startTime
+			// biome-ignore lint/complexity/noForEach: <explanation>
+			ranges.forEach(([start, end]) => {
+				resl += end + 1 - start
+			})
 		}
 
 		if (!textSearchTerm) {
@@ -89,7 +93,7 @@ const TextHighlight: FC<HighlightTextProps> = (props: HighlightTextProps) => {
 					sx={{ mb: 2, ...INPUT_ANIMATION_CONFIG }}
 				/>
 				<Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
-					found {resLength} matches in {textSearchTime.toFixed(2)} milliseconds
+					Matches up to {resLength} characters in {textSearchTime.toFixed(2)} milliseconds
 				</Typography>
 				<Typography variant='body1' component='div' sx={{ ...TEXT_ACTIVE_CONFIG }}>
 					{/* {renderStr} */}
