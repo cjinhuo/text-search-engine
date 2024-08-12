@@ -3,7 +3,7 @@
 	"tag": "beta",
 	"initialVersions": {
 		"online-demo": "0.0.1",
-		"text-search-engine": "0.0.0",
+		"text-search-engine": "0.0.1-beta.1",
 		"@mono/rollup": "0.0.1",
 		"@mono/tsconfig": "0.0.1"
 	},
