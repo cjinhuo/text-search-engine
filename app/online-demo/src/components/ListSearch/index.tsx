@@ -10,7 +10,7 @@ import LinkWithIcon from '../link-with-icon'
 import styles from './index.module.css'
 
 interface ListItemType {
-	originalString: string
+	passValue: string
 	hitRanges?: Matrix
 }
 
@@ -21,23 +21,33 @@ const ListSearch = () => {
 	const [newItem, setNewItem] = useState('')
 
 	const sourceMappingArray = useMemo(() => {
-		return originalList.map((item) => extractBoundaryMapping(item))
+		return originalList.map((item) => ({
+			...extractBoundaryMapping(item.toLocaleLowerCase()),
+			passValue: item,
+		}))
 	}, [originalList])
 
 	const [filteredList, count, searchTime] = useMemo(() => {
 		if (!inputValue) {
-			return [sourceMappingArray.map((i) => ({ originalString: i.originalString })) as ListItemType[], 0, 0]
+			return [sourceMappingArray.map((i) => ({ passValue: i.passValue })) as ListItemType[], 0, 0]
 		}
 		const start = performance.now()
-		const filteredData = sourceMappingArray.reduce<ListItemType[]>((acc, item) => {
-			const hitRanges = searchSentenceByBoundaryMapping(item, inputValue)
-			hitRanges &&
-				acc.push({
-					originalString: item.originalString,
-					hitRanges,
-				})
-			return acc
-		}, [])
+		const filteredData = sourceMappingArray
+			.reduce<ListItemType[]>((acc, item) => {
+				const hitRanges = searchSentenceByBoundaryMapping(item, inputValue)
+				hitRanges &&
+					acc.push({
+						passValue: item.passValue,
+						hitRanges,
+					})
+				return acc
+			}, [])
+			.sort((a, b) => {
+				if (a.hitRanges && b.hitRanges) {
+					return a.hitRanges.length - b.hitRanges.length
+				}
+				return 0
+			})
 		return [filteredData, filteredData.length, performance.now() - start]
 	}, [inputValue, sourceMappingArray])
 
@@ -63,14 +73,13 @@ const ListSearch = () => {
 				</Typography>
 				<TextField
 					fullWidth
-					label='Enter keywords to filter the list...'
+					label="Enter keywords to filter(like 'zhog' or 'fujian' or 'beijing)"
 					value={inputValue}
-					onChange={(e) => setInputValue(e.target.value)}
+					onChange={(e) => setInputValue(e.target.value.toLocaleLowerCase())}
 					variant='standard'
 					className={`input-field ${classes.customTextField}`}
 					sx={{
 						mb: 2,
-						...INPUT_ANIMATION_CONFIG,
 					}}
 				/>
 				<Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
@@ -93,7 +102,7 @@ const ListSearch = () => {
 					{filteredList.map((item, index) => (
 						<ListItem
 							className={`${styles.listItem} ${classes.customListItem}`}
-							key={`${item.originalString}-${index}`}
+							key={`${item.passValue}-${index}`}
 							sx={{
 								transition: 'all 0.3s ease-in-out',
 								'&:hover': { backgroundColor: 'action.hover' },
@@ -104,7 +113,7 @@ const ListSearch = () => {
 							<ListItemText
 								primary={
 									<Typography sx={{ ...TEXT_ACTIVE_CONFIG }}>
-										<LightedText text={item.originalString} ranges={item.hitRanges} className='bg-yellow font-bold' />
+										<LightedText text={item.passValue} ranges={item.hitRanges} className='bg-yellow font-bold' />
 									</Typography>
 								}
 							/>
@@ -112,7 +121,7 @@ const ListSearch = () => {
 								<LinkWithIcon
 									name={IconParkNames.delete}
 									onClick={() => {
-										setOriginalList(originalList.filter((i) => i !== item.originalString))
+										setOriginalList(originalList.filter((i) => i !== item.passValue))
 									}}
 								/>
 							</span>
@@ -124,7 +133,7 @@ const ListSearch = () => {
 				</Typography>
 				<TextField
 					fullWidth
-					label='Typing new data item...'
+					label="Typing something then key down 'enter' to add"
 					value={newItem}
 					onChange={(e) => setNewItem(e.target.value)}
 					variant='standard'
@@ -137,7 +146,6 @@ const ListSearch = () => {
 					}}
 					sx={{
 						mb: 2,
-						...INPUT_ANIMATION_CONFIG,
 					}}
 				/>
 			</CardContent>
