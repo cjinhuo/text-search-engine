@@ -8,6 +8,9 @@
 
 基于动态规划的文本搜索引擎，支持中英文混合模糊搜索，并返回权重值最高的匹配结果。
 
+## 谁在使用？
+* [Blazwitcher: 一个光速搜索和切换标签，书签和历史的浏览器插件](https://chromewebstore.google.com/detail/blazwitcher-search-and-sw/fjgablnemienkegdnbihhemebmmonihg)
+
 # 在线示例
 可以进[线上示例](https://cjinhuo.github.io/text-search-engine/)试试搜索高亮的效果。
 

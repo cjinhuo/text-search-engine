@@ -21,7 +21,7 @@
 		"url": "https://github.com/cjinhuo/text-search-engine/issues"
 	},
 	"keywords": ["search", "text search", "search engine", "SDK"],
-	"files": ["dist", "README.md"],
+	"files": ["dist", "README.md", "CHANGELOG.md"],
 	"scripts": {
 		"esm": "tsc -b ./tsconfig.json",
 		"rollup": "batch-rollup -d ./rollups",

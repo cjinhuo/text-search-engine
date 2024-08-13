@@ -7,12 +7,13 @@
 [中文 README](./docs/README_zh.md)
 
 A dynamic programming-based text search engine that supports mixed Chinese and English fuzzy search, returning the highest-weight matching results.
+## Who use it?
+* [Blazwitcher: A Chrome Extension For Searching and Switcher in Blazing Speed](https://chromewebstore.google.com/detail/blazwitcher-search-and-sw/fjgablnemienkegdnbihhemebmmonihg)
 
 # Online Demo
 Check out this [online demo](https://cjinhuo.github.io/text-search-engine/) if you are interested.
 
 ![online-demo](./docs/online-demo.jpeg)
-
 
 # Installation
 ```bash
