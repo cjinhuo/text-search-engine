@@ -1,5 +1,5 @@
 <div align="center">
-    <h2>text-search-engine</h2>
+    <h2>Text Search Engine</h2>
     <p>支持中英文混合的模糊搜索引擎</p>
 </div>
 
