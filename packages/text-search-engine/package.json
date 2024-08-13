@@ -1,7 +1,7 @@
 {
 	"name": "text-search-engine",
 	"version": "0.0.1-beta.2",
-	"description": "A text search engine that relies on a dynamic programming algorithm and supports fuzzy search with pinyin",
+	"description": "A dynamic programming-based text search engine that supports mixed Chinese and English fuzzy search, returning the highest-weight matching results.",
 	"license": "MIT",
 	"author": "cjinhuo",
 	"main": "src/index.ts",
