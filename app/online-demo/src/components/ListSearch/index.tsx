@@ -7,6 +7,7 @@ import { TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useStyles } from '../../hooks/useStyles'
 import { IconParkNames } from '../../shared/constants'
 import { Schools } from '../../shared/schools'
+import LightTooltip from '../LighTooltip'
 import LightedText from '../LightedText'
 import LinkWithIcon from '../link-with-icon'
 import styles from './index.module.css'
@@ -83,6 +84,13 @@ const ListSearch = () => {
 			<CardContent>
 				<Typography variant='h5' component='div' gutterBottom>
 					List Filtering
+					<div style={{ display: 'inline-block', float: 'right' }}>
+						<LightTooltip title='You can also access our API through the console. The instance is encapsulated in window._TEXT_SEARCH_ENGINE_'>
+							<div className='flex items-center cursor-pointer'>
+								<LinkWithIcon name={IconParkNames.tips} />
+							</div>
+						</LightTooltip>
+					</div>
 				</Typography>
 				<TextField
 					fullWidth
