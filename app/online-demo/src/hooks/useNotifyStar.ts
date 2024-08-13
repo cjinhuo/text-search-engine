@@ -4,9 +4,10 @@ import store from 'store'
 interface Iprops {
 	callback?: (state: SnackbarOrigin) => void
 	open?: boolean
+	state?: SnackbarOrigin
 }
 
-export function useNotifyStar({ callback, open }: Iprops) {
+export function useNotifyStar({ callback, open, state = { vertical: 'top', horizontal: 'center' } }: Iprops) {
 	const store_expire = new Date().getTime() + 1000 * 60 * 24 * 30
 	const initConfig = () => {
 		store.set('inaugural', '1')
@@ -23,7 +24,8 @@ export function useNotifyStar({ callback, open }: Iprops) {
 		const ex_strore = store.get('store_expire')
 		if (inaugural === '1' && !open && callback) {
 			console.log(inaugural, open)
-			callback({ vertical: 'top', horizontal: 'center' })
+			const { vertical, horizontal } = state
+			callback({ vertical, horizontal })
 			store.set('inaugural', '0')
 			if (!ex_strore) {
 				store.set('store_expire', store_expire)

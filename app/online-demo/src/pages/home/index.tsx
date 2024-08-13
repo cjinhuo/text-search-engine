@@ -22,16 +22,13 @@ export default function Home() {
 	const openNotification = (newState: SnackbarOrigin) => {
 		setNotificState({ ...newState, open: true })
 	}
-	useNotifyStar({ callback: openNotification, open })
+	useNotifyStar({ callback: openNotification, open, state: { ...notificState } })
 	const tipsContent = useMemo(() => {
 		return (
 			<div>
 				<p>
-					Your support is our greatest power, if you think our program is not bad, help move your finger to point a
-					praise!
-				</p>
-				<p>
-					github url: <Link href={GITHUB_URL}>{GITHUB_URL}</Link>
+					Enjoying this project?{' '}
+					<Link href={`${GITHUB_URL}?tab=readme-ov-file#text-search-engine`}>Give us a star!</Link>
 				</p>
 			</div>
 		)
