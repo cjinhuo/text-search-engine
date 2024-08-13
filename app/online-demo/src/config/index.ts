@@ -22,6 +22,8 @@ export const TEXT_ACTIVE_CONFIG = {
 	mt: 2,
 	whiteSpace: 'pre-wrap',
 	'& .bg-yellow': {
+		borderRadius: '4px',
+		padding: '0 1px',
 		backgroundColor: 'var(--color-highlight-bg)',
 		transition: 'background-color 0.3s ease-in-out',
 	},

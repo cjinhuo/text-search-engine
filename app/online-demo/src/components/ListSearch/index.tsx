@@ -1,61 +1,64 @@
 import { Card, CardContent, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
-import React, { memo, useEffect, useState } from 'react'
-import type { FC, ReactNode } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
+import { type Matrix, extractBoundaryMapping, searchSentenceByBoundaryMapping } from 'text-search-engine'
 import { INPUT_ANIMATION_CONFIG, TEXT_ACTIVE_CONFIG } from '../../config/index'
-import { useDebounce } from '../../hooks/useDebounce'
 import { useStyles } from '../../hooks/useStyles'
 import { IconParkNames } from '../../shared/constants'
+import { Schools } from '../../shared/schools'
 import LightedText from '../LightedText'
 import LinkWithIcon from '../link-with-icon'
 import styles from './index.module.css'
 
-interface Iprops {
-	children?: ReactNode
-	list: Array<string>
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	setList: any
+interface ListItemType {
+	passValue: string
+	hitRanges?: Matrix
 }
 
-const ListSearch: FC<Iprops> = ({ list, setList }) => {
+const ListSearch = () => {
 	const classes = useStyles()
-	const [listSearchTerm, setListSearchTerm] = useState('')
+	const [originalList, setOriginalList] = useState<string[]>(Schools)
+	const [inputValue, setInputValue] = useState('')
 	const [newItem, setNewItem] = useState('')
-	const [filteredItems, setFilteredItems] = useState(list.filter((item) => !!item))
-	const [listSearchTime, setListSearchTime] = useState(0)
-	const debounceValue = useDebounce(listSearchTerm, 500)
-	const [count, setCount] = useState(0)
-	const [flag, setFlag] = useState(false)
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const [rangeItems, setRangeItems] = useState<any>([])
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	useEffect(() => {
-		const filtered = list.filter((item) => item.toLowerCase().includes(debounceValue.toLowerCase()))
-		setFilteredItems(filtered)
+	const sourceMappingArray = useMemo(() => {
+		return originalList.map((item) => ({
+			...extractBoundaryMapping(item.toLocaleLowerCase()),
+			passValue: item,
+		}))
+	}, [originalList])
 
-		const tempArr = []
-
-		if (debounceValue) {
-			setCount(filtered.length)
-			const startTime = performance.now()
-			for (const item of filtered) {
-				tempArr.push(getRanges(item, debounceValue))
-			}
-			const endTime = performance.now()
-			setRangeItems([...tempArr])
-			setListSearchTime(endTime - startTime)
-		} else {
-			setCount(0)
-			setListSearchTime(0)
-			setRangeItems([])
+	const [filteredList, count, searchTime] = useMemo(() => {
+		if (!inputValue) {
+			return [sourceMappingArray.map((i) => ({ passValue: i.passValue })) as ListItemType[], 0, 0]
 		}
-		setFlag(!flag)
-	}, [list, debounceValue])
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const getRanges: any = (text: string, kw: string) => {
-		const ranges = window._TEXT_SEARCH_ENGINE_.search(text, kw)
-		return ranges
-	}
+		const start = performance.now()
+		const filteredData = sourceMappingArray
+			.reduce<ListItemType[]>((acc, item) => {
+				const hitRanges = searchSentenceByBoundaryMapping(item, inputValue)
+				hitRanges &&
+					acc.push({
+						passValue: item.passValue,
+						hitRanges,
+					})
+				return acc
+			}, [])
+			.sort((a, b) => {
+				if (a.hitRanges && b.hitRanges) {
+					return a.hitRanges.length - b.hitRanges.length
+				}
+				return 0
+			})
+		return [filteredData, filteredData.length, performance.now() - start]
+	}, [inputValue, sourceMappingArray])
+
+	const handleAddItem = useCallback(() => {
+		if (originalList.includes(newItem)) {
+			throw new Error(`${newItem} already exists`)
+		}
+		setOriginalList([newItem, ...originalList])
+		setNewItem('')
+	}, [newItem, originalList])
+
 	return (
 		<Card
 			sx={{
@@ -68,50 +71,20 @@ const ListSearch: FC<Iprops> = ({ list, setList }) => {
 				<Typography variant='h5' component='div' gutterBottom>
 					List Filtering
 				</Typography>
-				<Typography variant='h6' component='div' gutterBottom>
-					Add Data
-				</Typography>
 				<TextField
 					fullWidth
-					label='Entering new data items...'
-					value={newItem}
-					onChange={(e) => setNewItem(e.target.value)}
-					variant='standard'
-					className={`input-field ${classes.customTextField}`}
-					InputProps={{
-						endAdornment: (
-							<LinkWithIcon
-								name={IconParkNames.add}
-								onClick={() => {
-									setList([...list, newItem])
-									setNewItem('')
-								}}
-							/>
-						),
-					}}
-					sx={{
-						mb: 2,
-						...INPUT_ANIMATION_CONFIG,
-					}}
-				/>
-				<Typography variant='h6' component='div' gutterBottom>
-					Function Demo
-				</Typography>
-				<TextField
-					fullWidth
-					label='Enter keywords to filter the list...'
-					value={listSearchTerm}
-					onChange={(e) => setListSearchTerm(e.target.value)}
+					label="Enter keywords to filter(like 'zhog' or 'fujian' or 'beijing)"
+					value={inputValue}
+					onChange={(e) => setInputValue(e.target.value.toLocaleLowerCase())}
 					variant='standard'
 					className={`input-field ${classes.customTextField}`}
 					sx={{
 						mb: 2,
-						...INPUT_ANIMATION_CONFIG,
 					}}
 				/>
 				<Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
 					<span className='text-skin-neutral-5'>
-						found {count} matches in {listSearchTime.toFixed(2)} milliseconds
+						found {count} matches in {searchTime.toFixed(2)} milliseconds
 					</span>
 				</Typography>
 				<List
@@ -126,11 +99,10 @@ const ListSearch: FC<Iprops> = ({ list, setList }) => {
 						},
 					})}
 				>
-					{filteredItems.map((item, index) => (
+					{filteredList.map((item, index) => (
 						<ListItem
 							className={`${styles.listItem} ${classes.customListItem}`}
-							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-							key={item + index}
+							key={`${item.passValue}-${index}`}
 							sx={{
 								transition: 'all 0.3s ease-in-out',
 								'&:hover': { backgroundColor: 'action.hover' },
@@ -141,7 +113,7 @@ const ListSearch: FC<Iprops> = ({ list, setList }) => {
 							<ListItemText
 								primary={
 									<Typography sx={{ ...TEXT_ACTIVE_CONFIG }}>
-										<LightedText text={item} ranges={rangeItems[index]} className='bg-yellow font-bold' />
+										<LightedText text={item.passValue} ranges={item.hitRanges} className='bg-yellow font-bold' />
 									</Typography>
 								}
 							/>
@@ -149,13 +121,33 @@ const ListSearch: FC<Iprops> = ({ list, setList }) => {
 								<LinkWithIcon
 									name={IconParkNames.delete}
 									onClick={() => {
-										setList(list.filter((i) => i !== item))
+										setOriginalList(originalList.filter((i) => i !== item.passValue))
 									}}
 								/>
 							</span>
 						</ListItem>
 					))}
 				</List>
+				<Typography variant='h6' component='div' gutterBottom>
+					Add Data
+				</Typography>
+				<TextField
+					fullWidth
+					label="Typing something then key down 'enter' to add"
+					value={newItem}
+					onChange={(e) => setNewItem(e.target.value)}
+					variant='standard'
+					className={`input-field ${classes.customTextField}`}
+					onKeyDown={(e) => {
+						if (e.key === 'Enter') handleAddItem()
+					}}
+					InputProps={{
+						endAdornment: <LinkWithIcon name={IconParkNames.add} onClick={handleAddItem} />,
+					}}
+					sx={{
+						mb: 2,
+					}}
+				/>
 			</CardContent>
 		</Card>
 	)

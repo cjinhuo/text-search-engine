@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm install pnpm -g
-      - run: pnpm i
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm --filter online-demo run build
       - name: Deploy dist
         uses: peaceiris/actions-gh-pages@v3

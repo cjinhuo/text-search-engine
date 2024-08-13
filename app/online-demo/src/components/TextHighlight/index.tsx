@@ -3,7 +3,6 @@ import { memo, useEffect, useMemo, useState } from 'react'
 import type { FC } from 'react'
 import { extractBoundaryMapping, searchSentenceByBoundaryMapping } from 'text-search-engine'
 import { INPUT_ANIMATION_CONFIG, TEXT_ACTIVE_CONFIG } from '../../config/index'
-import { useDebounce } from '../../hooks/useDebounce'
 import { useStyles } from '../../hooks/useStyles'
 import LightedText from '../LightedText'
 interface HighlightTextProps {
@@ -12,16 +11,15 @@ interface HighlightTextProps {
 
 const TextHighlight: FC<HighlightTextProps> = ({ originalText }: HighlightTextProps) => {
 	const [textSearchTerm, setTextSearchTerm] = useState('')
-	const debounceValue = useDebounce(textSearchTerm, 300)
 	const classes = useStyles()
 
 	const sourceMappingData = useMemo(() => extractBoundaryMapping(originalText), [originalText])
 	const [ranges, matchCharacters, searchTime] = useMemo(() => {
 		const start = performance.now()
-		const ranges = searchSentenceByBoundaryMapping(sourceMappingData, debounceValue) || []
+		const ranges = searchSentenceByBoundaryMapping(sourceMappingData, textSearchTerm) || []
 		const matchCharacters = ranges.reduce((acc, [start, end]) => acc + end + 1 - start, 0)
 		return [ranges, matchCharacters, performance.now() - start] as const
-	}, [sourceMappingData, debounceValue])
+	}, [sourceMappingData, textSearchTerm])
 
 	return (
 		<Card
