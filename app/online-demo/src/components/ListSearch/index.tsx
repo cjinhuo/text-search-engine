@@ -1,7 +1,9 @@
 import { Card, CardContent, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
-import { memo, useCallback, useMemo, useState } from 'react'
+import type { ListItemProps } from '@mui/material'
+import { forwardRef, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { type Matrix, extractBoundaryMapping, searchSentenceByBoundaryMapping } from 'text-search-engine'
-import { INPUT_ANIMATION_CONFIG, TEXT_ACTIVE_CONFIG } from '../../config/index'
+import { TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useStyles } from '../../hooks/useStyles'
 import { IconParkNames } from '../../shared/constants'
 import { Schools } from '../../shared/schools'
@@ -16,11 +18,17 @@ interface ListItemType {
 
 const ListSearch = () => {
 	const classes = useStyles()
+	const inputRef = useRef<HTMLInputElement>(null)
+	const firstItemRef = useRef<HTMLLIElement>(null)
 	const [originalList, setOriginalList] = useState<string[]>(Schools)
 	const [inputValue, setInputValue] = useState('')
 	const [newItem, setNewItem] = useState('')
+	const { searchKey } = useParams()
 
 	const sourceMappingArray = useMemo(() => {
+		if (firstItemRef.current) {
+			firstItemRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+		}
 		return originalList.map((item) => ({
 			...extractBoundaryMapping(item.toLocaleLowerCase()),
 			passValue: item,
@@ -59,6 +67,11 @@ const ListSearch = () => {
 		setNewItem('')
 	}, [newItem, originalList])
 
+	useEffect(() => {
+		inputRef.current?.focus()
+		searchKey && setInputValue(searchKey)
+	}, [searchKey])
+	const ForwardedListItem = forwardRef<HTMLLIElement, ListItemProps>((props, ref) => <ListItem {...props} ref={ref} />)
 	return (
 		<Card
 			sx={{
@@ -73,6 +86,7 @@ const ListSearch = () => {
 				</Typography>
 				<TextField
 					fullWidth
+					inputRef={inputRef}
 					label="Enter keywords to filter(like 'zhog' or 'fujian' or 'beijing)"
 					value={inputValue}
 					onChange={(e) => setInputValue(e.target.value.toLocaleLowerCase())}
@@ -100,7 +114,8 @@ const ListSearch = () => {
 					})}
 				>
 					{filteredList.map((item, index) => (
-						<ListItem
+						<ForwardedListItem
+							ref={index === 0 ? firstItemRef : null}
 							className={`${styles.listItem} ${classes.customListItem}`}
 							key={`${item.passValue}-${index}`}
 							sx={{
@@ -125,7 +140,7 @@ const ListSearch = () => {
 									}}
 								/>
 							</span>
-						</ListItem>
+						</ForwardedListItem>
 					))}
 				</List>
 				<Typography variant='h6' component='div' gutterBottom>

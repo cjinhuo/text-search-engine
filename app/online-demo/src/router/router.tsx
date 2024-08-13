@@ -11,6 +11,10 @@ const router = createBrowserRouter([
 				path: '/text-search-engine',
 				element: <Home />,
 			},
+			{
+				path: '/text-search-engine/:searchKey',
+				element: <Home />,
+			},
 		],
 	},
 ])
