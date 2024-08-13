@@ -2,12 +2,13 @@ export enum IconParkNames {
 	github = 'github',
 	info = 'info',
 	setting = 'setting',
-	'keyboard-2' = 'keyboard-2',
 	dark = 'dark',
 	light = 'light',
 	'text-search' = 'text-search',
 	add = 'add',
 	delete = 'delete',
+	tips = 'tips',
+	doc = 'doc',
 }
 
 export const LOCAL_STORAGE_THEME_KEY = 'theme'
