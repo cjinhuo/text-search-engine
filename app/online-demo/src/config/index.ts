@@ -31,3 +31,5 @@ export const TEXT_ACTIVE_CONFIG = {
 		backgroundColor: 'var(--color-highlight-bg-hover)',
 	},
 }
+
+export const GITHUB_URL = 'https://github.com/cjinhuo/text-search-engine'
