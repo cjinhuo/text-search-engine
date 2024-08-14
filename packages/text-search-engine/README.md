@@ -1,5 +1,5 @@
 <div align="center">
-    <h2>text-search-engine</h2>
+    <h2>Text Search Engine</h2>
     <p>A text search engine that supports mixed Chinese and English fuzzy search</p>
 </div>
 
