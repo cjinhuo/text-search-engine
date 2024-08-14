@@ -1,12 +1,12 @@
 import { Card, CardContent, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
-import type { ListItemProps } from '@mui/material'
-import { forwardRef, memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { type Matrix, extractBoundaryMapping, searchSentenceByBoundaryMapping } from 'text-search-engine'
 import { TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useStyles } from '../../hooks/useStyles'
 import { IconParkNames } from '../../shared/constants'
 import { Schools } from '../../shared/schools'
+import { decodeURIComponentPlus } from '../../shared/utils'
 import LightTooltip from '../LighTooltip'
 import LightedText from '../LightedText'
 import LinkWithIcon from '../link-with-icon'
@@ -20,16 +20,15 @@ interface ListItemType {
 const ListSearch = () => {
 	const classes = useStyles()
 	const inputRef = useRef<HTMLInputElement>(null)
-	const firstItemRef = useRef<HTMLLIElement>(null)
+	const listRef = useRef<HTMLUListElement>(null)
 	const [originalList, setOriginalList] = useState<string[]>(Schools)
 	const [inputValue, setInputValue] = useState('')
 	const [newItem, setNewItem] = useState('')
-	const { searchKey } = useParams()
+	const [searParams] = useSearchParams()
+	const kw = searParams.get('kw') || ''
 
 	const sourceMappingArray = useMemo(() => {
-		if (firstItemRef.current) {
-			firstItemRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
-		}
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 		return originalList.map((item) => ({
 			...extractBoundaryMapping(item.toLocaleLowerCase()),
 			passValue: item,
@@ -70,9 +69,9 @@ const ListSearch = () => {
 
 	useEffect(() => {
 		inputRef.current?.focus()
-		searchKey && setInputValue(searchKey)
-	}, [searchKey])
-	const ForwardedListItem = forwardRef<HTMLLIElement, ListItemProps>((props, ref) => <ListItem {...props} ref={ref} />)
+		kw && setInputValue(decodeURIComponentPlus(kw))
+	}, [kw])
+
 	return (
 		<Card
 			sx={{
@@ -120,10 +119,10 @@ const ListSearch = () => {
 							overflow: 'auto',
 						},
 					})}
+					ref={listRef}
 				>
 					{filteredList.map((item, index) => (
-						<ForwardedListItem
-							ref={index === 0 ? firstItemRef : null}
+						<ListItem
 							className={`${styles.listItem} ${classes.customListItem}`}
 							key={`${item.passValue}-${index}`}
 							sx={{
@@ -148,7 +147,7 @@ const ListSearch = () => {
 									}}
 								/>
 							</span>
-						</ForwardedListItem>
+						</ListItem>
 					))}
 				</List>
 				<Typography variant='h6' component='div' gutterBottom>
