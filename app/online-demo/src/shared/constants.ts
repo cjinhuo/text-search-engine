@@ -1,3 +1,5 @@
+import { highlightMatches } from 'text-search-engine'
+import { getHighlightText } from './utils'
 export enum IconParkNames {
 	github = 'github',
 	info = 'info',
@@ -35,3 +37,13 @@ export const LONG_TEXT = `
     However, localization is equally important, ensuring that content is adapted to the language and cultural norms of specific regions.
     しかし、ローカリゼーションも同様に重要であり、コンテンツが特定の地域の言語や文化規範に適応することを保証します。
   `
+
+const ConsolePrint_zh = `👀👀👀👀👀👀👀👀👀
+
+试试在控制台输出 ${getHighlightText(`console.log(_TEXT_SEARCH_ENGINE_.highlightMatches('mito 监控', 'mijk'))`)} 看看！它将会输出: ${highlightMatches('mito 监控', 'mijk')}`
+
+const ConsolePrint_en = `try to ${getHighlightText(`console.log(_TEXT_SEARCH_ENGINE_.highlightMatches('node.js monitoring', 'mon nodejs'))`)} to see it's outcome! It will output: ${highlightMatches('node.js monitoring', 'mon nodejs')}`
+
+export const ConsolePrint = `${ConsolePrint_zh}\n\n${ConsolePrint_en}`
+
+console.log(ConsolePrint)

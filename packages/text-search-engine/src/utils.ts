@@ -8,7 +8,7 @@ export function highlightTextWithRanges(str: string, ranges: Matrix) {
 	const result: string[] = []
 	let index = 0
 
-	for (const range of ranges) {
+	for (const range of ranges.sort((a, b) => a[0] - b[0])) {
 		const [start, end] = range
 
 		if (index < start) {

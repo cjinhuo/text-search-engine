@@ -6,7 +6,6 @@ export default function Theme() {
 
 	return (
 		<LinkWithIcon
-			// style={{ marginLeft: '2rem' }}
 			name={theme === ThemeMode.light ? IconParkNames.light : IconParkNames.dark}
 			onClick={() => {
 				setTheme(theme === ThemeMode.light ? ThemeMode.dark : ThemeMode.light)

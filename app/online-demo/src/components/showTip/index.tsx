@@ -1,6 +1,5 @@
 import { Link } from '@mui/material'
-import type { SnackbarOrigin } from '@mui/material/Snackbar'
-import React, { memo, useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 import SnackTip from '../../components/SnackTip'
 import { GITHUB_URL } from '../../config'
@@ -8,9 +7,7 @@ import { useStarNotification } from '../../hooks/useNotification'
 interface Iprops {
 	children?: ReactNode
 }
-interface State extends SnackbarOrigin {
-	open: boolean
-}
+
 const ShowTip: FC<Iprops> = () => {
 	const { notificationState, duration, closeNotification } = useStarNotification()
 

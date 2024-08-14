@@ -24,3 +24,7 @@ export function decodeURIComponentPlus(str: string) {
 		str.replace(/%(21|28|29|2A|27)/g, (match: any, hex: string) => String.fromCharCode(Number.parseInt(hex, 16)))
 	)
 }
+
+export function getHighlightText(str: string) {
+	return `\x1b[33m${str}\x1b[0m`
+}
