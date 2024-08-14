@@ -1,10 +1,13 @@
 import { Card, CardContent, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
-import { memo, useCallback, useMemo, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { type Matrix, extractBoundaryMapping, searchSentenceByBoundaryMapping } from 'text-search-engine'
-import { INPUT_ANIMATION_CONFIG, TEXT_ACTIVE_CONFIG } from '../../config/index'
+import { TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useStyles } from '../../hooks/useStyles'
 import { IconParkNames } from '../../shared/constants'
 import { Schools } from '../../shared/schools'
+import { decodeURIComponentPlus } from '../../shared/utils'
+import LightTooltip from '../LighTooltip'
 import LightedText from '../LightedText'
 import LinkWithIcon from '../link-with-icon'
 import styles from './index.module.css'
@@ -16,11 +19,16 @@ interface ListItemType {
 
 const ListSearch = () => {
 	const classes = useStyles()
+	const inputRef = useRef<HTMLInputElement>(null)
+	const listRef = useRef<HTMLUListElement>(null)
 	const [originalList, setOriginalList] = useState<string[]>(Schools)
 	const [inputValue, setInputValue] = useState('')
 	const [newItem, setNewItem] = useState('')
+	const [searParams] = useSearchParams()
+	const kw = searParams.get('kw') || ''
 
 	const sourceMappingArray = useMemo(() => {
+		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
 		return originalList.map((item) => ({
 			...extractBoundaryMapping(item.toLocaleLowerCase()),
 			passValue: item,
@@ -59,6 +67,11 @@ const ListSearch = () => {
 		setNewItem('')
 	}, [newItem, originalList])
 
+	useEffect(() => {
+		inputRef.current?.focus()
+		kw && setInputValue(decodeURIComponentPlus(kw))
+	}, [kw])
+
 	return (
 		<Card
 			sx={{
@@ -70,9 +83,17 @@ const ListSearch = () => {
 			<CardContent>
 				<Typography variant='h5' component='div' gutterBottom>
 					List Filtering
+					<div style={{ display: 'inline-block', float: 'right' }}>
+						<LightTooltip title='You can also access our API through the console. The instance is encapsulated in window._TEXT_SEARCH_ENGINE_'>
+							<div className='flex items-center cursor-pointer'>
+								<LinkWithIcon name={IconParkNames.tips} />
+							</div>
+						</LightTooltip>
+					</div>
 				</Typography>
 				<TextField
 					fullWidth
+					inputRef={inputRef}
 					label="Enter keywords to filter(like 'zhog' or 'fujian' or 'beijing)"
 					value={inputValue}
 					onChange={(e) => setInputValue(e.target.value.toLocaleLowerCase())}
@@ -98,6 +119,7 @@ const ListSearch = () => {
 							overflow: 'auto',
 						},
 					})}
+					ref={listRef}
 				>
 					{filteredList.map((item, index) => (
 						<ListItem

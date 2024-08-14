@@ -1,6 +1,8 @@
 import { Container, CssBaseline, Grid2 as Grid } from '@mui/material'
+
 import * as TextSearchEngine from 'text-search-engine'
 import ListSearch from '../../components/ListSearch'
+import ShowTip from '../../components/showTip'
 
 window._TEXT_SEARCH_ENGINE_ = TextSearchEngine
 
@@ -14,12 +16,10 @@ export default function Home() {
 						<Grid size={{ xs: 24, md: 12 }}>
 							<ListSearch />
 						</Grid>
-						{/* <Grid size={{ xs: 12, md: 6 }}>
-							<TextHighlight originalText={LONG_TEXT} />
-						</Grid> */}
 					</Grid>
 				</Container>
 			</div>
+			<ShowTip />
 		</div>
 	)
 }
