@@ -1,38 +1,12 @@
-import { Container, CssBaseline, Grid2 as Grid, Link } from '@mui/material'
-import type { SnackbarOrigin } from '@mui/material/Snackbar'
-import react, { useMemo, useState } from 'react'
+import { Container, CssBaseline, Grid2 as Grid } from '@mui/material'
+
 import * as TextSearchEngine from 'text-search-engine'
 import ListSearch from '../../components/ListSearch'
-import SnackTip from '../../components/SnackTip'
-import { GITHUB_URL } from '../../config'
-import { useNotifyStar } from '../../hooks/useNotifyStar'
+import ShowTip from '../../components/showTip'
 
 window._TEXT_SEARCH_ENGINE_ = TextSearchEngine
-interface State extends SnackbarOrigin {
-	open: boolean
-}
+
 export default function Home() {
-	const [notificState, setNotificState] = useState<State>({
-		open: false,
-		vertical: 'top',
-		horizontal: 'center',
-	})
-	const { open } = notificState
-	const duration = useMemo(() => 1000 * 6, [])
-	const openNotification = (newState: SnackbarOrigin) => {
-		setNotificState({ ...newState, open: true })
-	}
-	useNotifyStar({ callback: openNotification, open, state: { ...notificState } })
-	const tipsContent = useMemo(() => {
-		return (
-			<div>
-				<p>
-					Enjoying this project?{' '}
-					<Link href={`${GITHUB_URL}?tab=readme-ov-file#text-search-engine`}>Give us a star!</Link>
-				</p>
-			</div>
-		)
-	}, [])
 	return (
 		<div>
 			<CssBaseline />
@@ -45,14 +19,7 @@ export default function Home() {
 					</Grid>
 				</Container>
 			</div>
-			<SnackTip
-				content={tipsContent}
-				state={notificState}
-				handleClose={() => {
-					setNotificState({ ...notificState, open: false })
-				}}
-				duration={duration}
-			/>
+			<ShowTip />
 		</div>
 	)
 }

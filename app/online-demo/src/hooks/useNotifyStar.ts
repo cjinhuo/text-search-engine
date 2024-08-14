@@ -1,57 +1,19 @@
 import type { SnackbarOrigin } from '@mui/material'
-import store from 'store'
-
+import store from '../shared/storeUtil'
 interface Iprops {
 	callback?: (state: SnackbarOrigin) => void
 	open?: boolean
 	state?: SnackbarOrigin
 }
 
-export function useNotifyStar({ callback, open, state = { vertical: 'top', horizontal: 'center' } }: Iprops) {
-	const store_expire = new Date().getTime() + 1000 * 60 * 24 * 30
-	const initConfig = () => {
-		store.set('inaugural', '1')
-		store.set('expire_time', new Date().getTime() + 1000 * 60)
+export function useNotifyStar({ callback, state = { vertical: 'top', horizontal: 'center' } }: Iprops) {
+	const isStar = store.get('isStar')
+	if (isStar == null) {
+		// storage expired or first-time page visit
+		const timeout = 1000 * 60
+		setTimeout(() => {
+			callback?.({ ...state })
+			store.set('isStar', '1', 60 * 60 * 24 * 30)
+		}, timeout)
 	}
-	if (!store.get('inaugural')) {
-		initConfig()
-	}
-	let inaugural = store.get('inaugural')
-	let expire_time = store.get('expire_time')
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	let timer: any = null
-	function openNotify() {
-		const ex_strore = store.get('store_expire')
-		if (inaugural === '1' && !open && callback) {
-			console.log(inaugural, open)
-			const { vertical, horizontal } = state
-			callback({ vertical, horizontal })
-			store.set('inaugural', '0')
-			if (!ex_strore) {
-				store.set('store_expire', store_expire)
-			}
-		}
-		if (inaugural === '0') {
-			const nowTime = new Date().getTime()
-			if (nowTime > ex_strore) {
-				initConfig()
-				store.remove('store_expire')
-				inaugural = store.get('inaugural')
-				expire_time = store.get('expire_time')
-				handleTimer()
-			}
-		}
-	}
-	function handleTimer() {
-		const theTime = new Date().getTime() - expire_time
-		if (theTime < 0) {
-			if (timer) clearTimeout(timer)
-			timer = setTimeout(() => {
-				openNotify()
-			}, Math.abs(theTime))
-		} else {
-			openNotify()
-		}
-	}
-	handleTimer()
 }
