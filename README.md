@@ -73,6 +73,14 @@ search(source_1, 'jk node') // [[10, 11],[0, 3]]
 ```
 `search('Node.js 最强监控平台 V9', 'jk node')` Match result: <mark>Node</mark>.js 最强<mark>监控</mark>平台 V9
 
+### Sort of Backtracking
+```javascript
+const source_1 = 'zxhxo zhx'
+search(source_1, 'zh') //[[6, 7]])
+// Even though the weight of 'zh' is higher, but the next term 'o' is not matched, so hit the previous one
+search(source_1, 'zho') //[[0, 0],[2, 2],[4, 4]])
+```
+
 ## highlightMatches
 This API is used for quickly validating text match highlights. It returns ANSI escape codes that can be output using console.log in both Web and Node.js environments to see the highlighted text.
 ```javascript

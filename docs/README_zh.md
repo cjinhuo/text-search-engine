@@ -77,6 +77,14 @@ search(source_1, 'jk node') // [[10, 11],[0, 3]]
 ```
 `search('Node.js 最强监控平台 V9', 'jk node')` 匹配结果：<mark>Node</mark>.js 最强<mark>监控</mark>平台 V9
 
+### 类回溯
+```javascript
+const source_1 = 'zxhxo zhx'
+search(source_1, 'zh') //[[6, 7]])
+// 虽然连续的 'zh' 权重比较高，但后面的 'o' 没有匹配到字符，所以取前面
+search(source_1, 'zho') //[[0, 0],[2, 2],[4, 4]])
+```
+
 ## highlightMatches
 这个 API 用于快速验证文本匹配高亮结果，返回 ANSI 转义符，在 Web 和 Node.js 中用 console.log 输出即可看到高亮文字。
 ```javascript
