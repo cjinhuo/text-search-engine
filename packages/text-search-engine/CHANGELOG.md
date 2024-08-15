@@ -1,5 +1,17 @@
 # text-search-engine
 
+## 1.1.0
+
+### Minor Changes
+
+- f32e541: support backtracking that would priority matching whole string
+
+## 1.1.0-beta.0
+
+### Minor Changes
+
+- f32e541: support backtracking that would priority matching whole string
+
 ## 1.0.0
 
 ### Major Changes
