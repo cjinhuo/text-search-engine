@@ -6,7 +6,7 @@ import { TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useStyles } from '../../hooks/useStyles'
 import { IconParkNames } from '../../shared/constants'
 import { Schools } from '../../shared/schools'
-import { decodeURIComponentPlus } from '../../shared/utils'
+import { decodeURIComponentPlus, encodeURIComponentPlus } from '../../shared/utils'
 import LightTooltip from '../LighTooltip'
 import LightedText from '../LightedText'
 import LinkWithIcon from '../link-with-icon'
@@ -24,7 +24,7 @@ const ListSearch = () => {
 	const [originalList, setOriginalList] = useState<string[]>(Schools)
 	const [inputValue, setInputValue] = useState('')
 	const [newItem, setNewItem] = useState('')
-	const [searParams] = useSearchParams()
+	const [searParams, setSearchParams] = useSearchParams()
 	const kw = searParams.get('kw') || ''
 
 	const sourceMappingArray = useMemo(() => {
@@ -66,7 +66,6 @@ const ListSearch = () => {
 		setOriginalList([newItem, ...originalList])
 		setNewItem('')
 	}, [newItem, originalList])
-
 	useEffect(() => {
 		inputRef.current?.focus()
 		kw && setInputValue(decodeURIComponentPlus(kw))
@@ -96,7 +95,10 @@ const ListSearch = () => {
 					inputRef={inputRef}
 					label="Enter keywords to filter(like 'zhog' or 'fujian' or 'beijing)"
 					value={inputValue}
-					onChange={(e) => setInputValue(e.target.value.toLocaleLowerCase())}
+					onChange={(e) => {
+						setInputValue(e.target.value)
+						setSearchParams({ kw: encodeURIComponentPlus(e.target.value) })
+					}}
 					variant='standard'
 					className={`input-field ${classes.customTextField}`}
 					sx={{
