@@ -9,9 +9,9 @@ import { getRestRanges, highlightTextWithRanges } from './utils'
  * @returns the hit indices
  */
 export function searchByBoundaryMapping(data: SourceMappingData, target: string, startIndex: number, endIndex: number) {
-	const { originalLength } = data
-	const pinyinString = data.pinyinString.slice(data.originalIndices[startIndex], data.originalIndices[endIndex])
-	const boundary = data.boundary.slice(data.originalIndices[startIndex], data.originalIndices[endIndex] + 1)
+	const { originalLength, originalIndices } = data
+	const pinyinString = data.pinyinString.slice(originalIndices[startIndex], originalIndices[endIndex])
+	const boundary = data.boundary.slice(originalIndices[startIndex], originalIndices[endIndex] + 1)
 	const targetLength = target.length
 	const pinyinLength = pinyinString.length
 	if (!data || !target || pinyinLength < targetLength || !originalLength) return undefined
@@ -123,13 +123,18 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	}
 
 	if (dpMatchPath[pinyinLength][targetLength - 1] === undefined) return undefined
-
 	const hitIndices: Matrix = []
-	for (let i = targetLength - 1; i >= 0; ) {
-		const [start, end, matchedLetters] = dpMatchPath[pinyinLength][i]
+
+	let gIndex = pinyinLength
+	let restMatched = targetLength - 1
+	while (restMatched >= 0) {
+		const [start, end, matchedLetters] = dpMatchPath[gIndex][restMatched]
 		hitIndices.unshift([start + startIndex, end + startIndex])
-		i -= matchedLetters
+		// 优先全字母匹配，从后开始往前遍历，比如 zeheozh，输入 zho，虽然最后连续的 zh 权重比较大，但没有匹配到 o，从前面的 dpMatchPath 获取
+		gIndex = originalIndices[start + startIndex] - originalIndices[startIndex] - 1
+		restMatched -= matchedLetters
 	}
+
 	return hitIndices
 }
 
@@ -173,13 +178,13 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 	return searchWithIndexof(source, target) || searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
 }
 
-// const originalString = 'mito 监控'
-// const input = 'mi jk'
-// const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
-// console.log('boundaryData', boundaryData)
-// const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
-// console.log('hitIndices', hitIndices)
-// console.log('original string:', originalString, 'input:', input)
-// if (hitIndices) {
-// 	console.log(highlightTextWithRanges(originalString, hitIndices))
-// }
+const originalString = 'zeheozh'
+const input = 'zho'
+const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
+console.log('boundaryData', boundaryData)
+const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
+console.log('hitIndices', hitIndices)
+console.log('original string:', originalString, 'input:', input)
+if (hitIndices) {
+	console.log(highlightTextWithRanges(originalString, hitIndices))
+}

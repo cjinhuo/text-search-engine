@@ -62,4 +62,15 @@ describe('search', () => {
 			[0, 3],
 		])
 	})
+
+	test('search should work like Backtracking', () => {
+		const source_1 = 'zxhxo zhx'
+		expect(search(source_1, 'zh')).toEqual([[6, 7]])
+		// 虽然 zh 权重值比较高，但后面没有匹配到 o
+		expect(search(source_1, 'zho')).toEqual([
+			[0, 0],
+			[2, 2],
+			[4, 4],
+		])
+	})
 })
