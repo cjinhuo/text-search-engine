@@ -25,5 +25,3 @@ jobs:
         run: pnpm build
       - name: Run tests
         run: pnpm test
-      - name: Check Changeset
-        run: pnpm changeset status
