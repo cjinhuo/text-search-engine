@@ -178,13 +178,13 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 	return searchWithIndexof(source, target) || searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
 }
 
-const originalString = 'zeheozh'
-const input = 'zho'
-const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
-console.log('boundaryData', boundaryData)
-const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
-console.log('hitIndices', hitIndices)
-console.log('original string:', originalString, 'input:', input)
-if (hitIndices) {
-	console.log(highlightTextWithRanges(originalString, hitIndices))
-}
+// const originalString = 'zeheozh'
+// const input = 'zho'
+// const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
+// console.log('boundaryData', boundaryData)
+// const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
+// console.log('hitIndices', hitIndices)
+// console.log('original string:', originalString, 'input:', input)
+// if (hitIndices) {
+// 	console.log(highlightTextWithRanges(originalString, hitIndices))
+// }
