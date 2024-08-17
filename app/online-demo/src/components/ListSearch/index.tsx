@@ -42,7 +42,7 @@ const ListSearch = () => {
 		const start = performance.now()
 		const filteredData = sourceMappingArray
 			.reduce<ListItemType[]>((acc, item) => {
-				const hitRanges = searchSentenceByBoundaryMapping(item, inputValue)
+				const hitRanges = searchSentenceByBoundaryMapping(item, inputValue.trim().toLocaleLowerCase())
 				hitRanges &&
 					acc.push({
 						passValue: item.passValue,

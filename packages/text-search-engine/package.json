@@ -20,7 +20,15 @@
 	"bugs": {
 		"url": "https://github.com/cjinhuo/text-search-engine/issues"
 	},
-	"keywords": ["search", "text search", "search engine", "SDK"],
+	"keywords": [
+		"search",
+		"pinyin search",
+		"pinyin fuzzy",
+		"pinyin match",
+		"text search",
+		"fuzzy search",
+		"SDK"
+	],
 	"files": ["dist", "README.md", "CHANGELOG.md"],
 	"scripts": {
 		"esm": "tsc -b ./tsconfig.json",
