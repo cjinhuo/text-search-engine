@@ -187,8 +187,10 @@ const ListSearch = () => {
 					onKeyDown={(e) => {
 						if (e.key === 'Enter') handleAddItem()
 					}}
-					InputProps={{
-						endAdornment: <LinkWithIcon name={IconParkNames.add} onClick={handleAddItem} />,
+					slotProps={{
+						input: {
+							endAdornment: <LinkWithIcon name={IconParkNames.add} onClick={handleAddItem} />,
+						},
 					}}
 					sx={{
 						mb: 2,
