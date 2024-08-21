@@ -11,6 +11,7 @@ export enum IconParkNames {
 	delete = 'delete',
 	tips = 'tips',
 	doc = 'doc',
+	clear = 'clear',
 }
 
 export const LOCAL_STORAGE_THEME_KEY = 'theme'
