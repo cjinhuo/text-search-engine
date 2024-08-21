@@ -1,4 +1,5 @@
 import { Card, CardContent, List, ListItem, ListItemText, TextField, Typography } from '@mui/material'
+import InputAdornment from '@mui/material/InputAdornment'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { type Matrix, extractBoundaryMapping, searchSentenceByBoundaryMapping } from 'text-search-engine'
@@ -70,7 +71,11 @@ const ListSearch = () => {
 		inputRef.current?.focus()
 		kw && setInputValue(decodeURIComponentPlus(kw))
 	}, [kw])
-
+	function handleValueChange(value?: string) {
+		const val = value ?? ''
+		setInputValue(val)
+		setSearchParams({ kw: encodeURIComponentPlus(val) })
+	}
 	return (
 		<Card
 			sx={{
@@ -96,13 +101,27 @@ const ListSearch = () => {
 					label="Enter keywords to filter(like 'zhog' or 'fujian' or 'beijing)"
 					value={inputValue}
 					onChange={(e) => {
-						setInputValue(e.target.value)
-						setSearchParams({ kw: encodeURIComponentPlus(e.target.value) })
+						handleValueChange(e.target.value)
 					}}
 					variant='standard'
 					className={`input-field ${classes.customTextField}`}
 					sx={{
 						mb: 2,
+					}}
+					slotProps={{
+						input: {
+							endAdornment: (
+								<InputAdornment
+									className={styles.clearButton}
+									position='end'
+									onClick={() => {
+										handleValueChange()
+									}}
+								>
+									{inputValue && <LinkWithIcon name={IconParkNames.clear} />}
+								</InputAdornment>
+							),
+						},
 					}}
 				/>
 				<Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
@@ -110,48 +129,50 @@ const ListSearch = () => {
 						found {count} matches in {searchTime.toFixed(2)} milliseconds
 					</span>
 				</Typography>
-				<List
-					sx={(theme) => ({
-						[theme.breakpoints.down('sm')]: {
-							maxHeight: '40vh',
-							overflow: 'auto',
-						},
-						[theme.breakpoints.up('sm')]: {
-							maxHeight: '50vh',
-							overflow: 'auto',
-						},
-					})}
-					ref={listRef}
-				>
-					{filteredList.map((item, index) => (
-						<ListItem
-							className={`${styles.listItem} ${classes.customListItem}`}
-							key={`${item.passValue}-${index}`}
-							sx={{
-								transition: 'all 0.3s ease-in-out',
-								'&:hover': { backgroundColor: 'action.hover' },
-								height: '40px',
-								minHeight: 'unset',
-							}}
-						>
-							<ListItemText
-								primary={
-									<Typography sx={{ ...TEXT_ACTIVE_CONFIG }}>
-										<LightedText text={item.passValue} ranges={item.hitRanges} className='bg-yellow font-bold' />
-									</Typography>
-								}
-							/>
-							<span className={styles.deleteBtn}>
-								<LinkWithIcon
-									name={IconParkNames.delete}
-									onClick={() => {
-										setOriginalList(originalList.filter((i) => i !== item.passValue))
-									}}
+				{filteredList.length && (
+					<List
+						sx={(theme) => ({
+							[theme.breakpoints.down('sm')]: {
+								maxHeight: '40vh',
+								overflow: 'auto',
+							},
+							[theme.breakpoints.up('sm')]: {
+								maxHeight: '50vh',
+								overflow: 'auto',
+							},
+						})}
+						ref={listRef}
+					>
+						{filteredList.map((item, index) => (
+							<ListItem
+								className={`${styles.listItem} ${classes.customListItem}`}
+								key={`${item.passValue}-${index}`}
+								sx={{
+									transition: 'all 0.3s ease-in-out',
+									'&:hover': { backgroundColor: 'action.hover' },
+									height: '40px',
+									minHeight: 'unset',
+								}}
+							>
+								<ListItemText
+									primary={
+										<Typography sx={{ ...TEXT_ACTIVE_CONFIG }}>
+											<LightedText text={item.passValue} ranges={item.hitRanges} className='bg-yellow font-bold' />
+										</Typography>
+									}
 								/>
-							</span>
-						</ListItem>
-					))}
-				</List>
+								<span className={styles.deleteBtn}>
+									<LinkWithIcon
+										name={IconParkNames.delete}
+										onClick={() => {
+											setOriginalList(originalList.filter((i) => i !== item.passValue))
+										}}
+									/>
+								</span>
+							</ListItem>
+						))}
+					</List>
+				)}
 				<Typography variant='h6' component='div' gutterBottom>
 					Add Data
 				</Typography>
@@ -165,8 +186,10 @@ const ListSearch = () => {
 					onKeyDown={(e) => {
 						if (e.key === 'Enter') handleAddItem()
 					}}
-					InputProps={{
-						endAdornment: <LinkWithIcon name={IconParkNames.add} onClick={handleAddItem} />,
+					slotProps={{
+						input: {
+							endAdornment: <LinkWithIcon name={IconParkNames.add} onClick={handleAddItem} />,
+						},
 					}}
 					sx={{
 						mb: 2,

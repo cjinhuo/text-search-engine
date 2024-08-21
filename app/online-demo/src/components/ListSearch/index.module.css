@@ -4,3 +4,6 @@
 .listItem:hover .deleteBtn{
     display: inline-block;
 }
+.clearButton{
+    cursor: pointer;
+}
