@@ -119,7 +119,7 @@ const ListSearch = () => {
 										handleValueChange()
 									}}
 								>
-									{inputValue && <ErraseIcon />}
+									{inputValue && <LinkWithIcon name={IconParkNames.clear} />}
 								</InputAdornment>
 							),
 						},

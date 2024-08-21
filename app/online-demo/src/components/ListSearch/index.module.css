@@ -4,9 +4,6 @@
 .listItem:hover .deleteBtn{
     display: inline-block;
 }
-.clearButton svg{
+.clearButton{
     cursor: pointer;
-}
-.clearButton svg:hover{
-    opacity: 0.75;
 }
