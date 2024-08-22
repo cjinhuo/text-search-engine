@@ -15,7 +15,7 @@ export default function Logo() {
 				name={IconParkNames['text-search']}
 				size='2.5rem'
 			/>
-			<div className='text-skin-neutral-3 font-medium text-3xl'>TexSearch</div>
+			<div className='text-skin-neutral-3 font-medium text-3xl'>Text Search Engine</div>
 		</div>
 	)
 }

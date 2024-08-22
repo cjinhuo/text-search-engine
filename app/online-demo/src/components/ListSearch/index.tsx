@@ -129,7 +129,7 @@ const ListSearch = () => {
 						found {count} matches in {searchTime.toFixed(2)} milliseconds
 					</span>
 				</Typography>
-				{filteredList.length && (
+				{filteredList.length ? (
 					<List
 						sx={(theme) => ({
 							[theme.breakpoints.down('sm')]: {
@@ -172,6 +172,8 @@ const ListSearch = () => {
 							</ListItem>
 						))}
 					</List>
+				) : (
+					<div className='text-center text-skin-neutral-5'>No Matches Found</div>
 				)}
 				<Typography variant='h6' component='div' gutterBottom>
 					Add Data

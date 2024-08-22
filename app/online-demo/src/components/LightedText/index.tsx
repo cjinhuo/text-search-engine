@@ -9,7 +9,7 @@ interface ILightedFuncProps {
 const LightedText: FC<ILightedFuncProps> = memo(({ text, ranges, className }) => {
 	// If there is no scope, return directly to the original text
 	if (!ranges || ranges.length === 0) {
-		return <span>{text}</span>
+		return <span className='text-skin-neutral-3'>{text}</span>
 	}
 
 	// Sort the ranges to ensure they are processed in order
@@ -38,7 +38,7 @@ const LightedText: FC<ILightedFuncProps> = memo(({ text, ranges, className }) =>
 		result.push(<span key={`text-${lastIndex}`}>{text.slice(lastIndex)}</span>)
 	}
 
-	return <>{result}</>
+	return <div className='text-skin-neutral-3'>{result}</div>
 })
 
 export default memo(LightedText)
