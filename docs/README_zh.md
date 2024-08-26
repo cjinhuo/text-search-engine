@@ -37,6 +37,7 @@ search(source, 'no') //[[0, 1]]
 search(source, 'nod') // [[2, 4]]
 search(source, 'oo') // [[1, 1],[3, 3]]
 ```
+`search('nonode', 'noe')` 匹配结果: <mark>no</mark>nod<mark>e</mark>
 
 ### 纯中文搜索
 ```javascript

@@ -36,6 +36,7 @@ search(source, 'no') //[[0, 1]]
 search(source, 'nod') // [[2, 4]]
 search(source, 'oo') // [[1, 1],[3, 3]]
 ```
+`search('nonode', 'noe')` Match result: <mark>no</mark>nod<mark>e</mark>
 
 ### Pure Chinese Search
 ```javascript
