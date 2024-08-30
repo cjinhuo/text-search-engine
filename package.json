@@ -3,7 +3,6 @@
 	"version": "0.0.1",
 	"private": true,
 	"description": "the best monorepo",
-	"workspaces": ["packages/*", "utils/*", "app/*"],
 	"scripts": {
 		"commit": "git add . && git cz",
 		"esm": "pnpm --parallel esm",

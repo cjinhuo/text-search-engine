@@ -1,7 +1,8 @@
-import { extractBoundaryMapping, extractBoundaryMappingWithPresetPinyin } from './boundary'
+import { extractBoundaryMapping } from './boundary'
+import pinyin from './py.json'
 import { searchEntry } from './search'
 import type { SearchOption, SearchOptionWithPinyin } from './types'
-import { highlightTextWithRanges, isEmptyString } from './utils'
+import { highlightTextWithRanges, isEmptyString, mergeSpacesWithRanges } from './utils'
 
 /**
  * search string with
@@ -11,12 +12,7 @@ import { highlightTextWithRanges, isEmptyString } from './utils'
  * @example search('mito 监控', 'mijk') // [[0, 1], [5, 6]]
  */
 export function search(source: string, target: string, option: SearchOption = {}) {
-	if (isEmptyString(source) || isEmptyString(target)) return undefined
-	const [_source, _target] = option.strictCase
-		? [source, target]
-		: [source.toLocaleLowerCase(), target.toLocaleLowerCase()]
-
-	return searchEntry(_source, _target, extractBoundaryMappingWithPresetPinyin)
+	return pureSearch(source, target, { ...option, pinyinMap: pinyin })
 }
 
 /**
@@ -32,7 +28,8 @@ export function pureSearch(source: string, target: string, option: SearchOptionW
 		? [source, target]
 		: [source.toLocaleLowerCase(), target.toLocaleLowerCase()]
 
-	return searchEntry(_source, _target, extractBoundaryMapping.bind(null, _source, option.pinyinMap))
+	const rawHitRanges = searchEntry(_source, _target, extractBoundaryMapping.bind(null, _source, option.pinyinMap))
+	return rawHitRanges && option.mergeSpaces ? mergeSpacesWithRanges(_source, rawHitRanges) : rawHitRanges
 }
 
 /**
@@ -43,8 +40,7 @@ export function pureSearch(source: string, target: string, option: SearchOptionW
  * @example console.log(highlightMatches('mito 监控', 'mijk'))
  */
 export function highlightMatches(source: string, target: string, _option: SearchOption = {}) {
-	const range = search(source, target)
-	return range ? highlightTextWithRanges(source, range) : source
+	return pureHighlightMatches(source, target, { ..._option, pinyinMap: pinyin })
 }
 
 /**

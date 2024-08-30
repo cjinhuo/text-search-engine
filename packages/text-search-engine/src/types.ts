@@ -10,6 +10,7 @@ export interface SourceMappingData {
 
 export interface SearchOption {
 	strictCase?: boolean
+	mergeSpaces?: boolean
 }
 
 export interface SearchOptionWithPinyin extends SearchOption {
