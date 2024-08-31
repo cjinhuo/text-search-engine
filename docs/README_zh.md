@@ -94,6 +94,17 @@ console.log(highlightMatches('Node.js 最强监控平台 V9', 'nodev9'))
 ```
 控制台将输出：<mark>Node</mark>.js 最强监控平台 <mark>V9</mark>
 
+## options
+### mergeSpaces
+默认值: `false`
+```javascript
+const source = 'chrome 应用商店'
+search(source, 'meyinyon') //[[4, 5], [7, 8]])
+// 如果命中下标直接是空格字符，则合并两个命中下标
+search(source, 'meyinyon', { mergeSpaces: true }) //[[4, 8]])
+```
+
+
 
 # 性能
 |      | 时间复杂度               | 空间复杂度               |

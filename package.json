@@ -3,7 +3,6 @@
 	"version": "0.0.1",
 	"private": true,
 	"description": "the best monorepo",
-	"workspaces": ["packages/*", "utils/*", "app/*"],
 	"scripts": {
 		"commit": "git add . && git cz",
 		"esm": "pnpm --parallel esm",
@@ -19,6 +18,7 @@
 		"node": ">=18.18.0",
 		"pnpm": ">=8"
 	},
+	"workspaces": ["packages/*", "utils/*", "app/*"],
 	"author": "cjinhuo",
 	"devDependencies": {
 		"@biomejs/biome": "^1.8.3",

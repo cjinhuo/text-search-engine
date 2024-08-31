@@ -73,4 +73,13 @@ describe('search', () => {
 			[4, 4],
 		])
 	})
+
+	test('mergeSpaces should work within search', () => {
+		const source_1 = 'chrome 应用商店'
+		expect(search(source_1, 'meyinyon', { mergeSpaces: false })).toEqual([
+			[4, 5],
+			[7, 8],
+		])
+		expect(search(source_1, 'meyinyon', { mergeSpaces: true })).toEqual([[4, 8]])
+	})
 })

@@ -1,6 +1,6 @@
 import { extractBoundaryMappingWithPresetPinyin } from './boundary'
 import type { Matrix, SourceMappingData } from './types'
-import { getRestRanges, highlightTextWithRanges } from './utils'
+import { getRestRanges, highlightTextWithRanges, mergeSpacesWithRanges } from './utils'
 
 /**
  * return the hit indices with the boundary data
@@ -178,13 +178,15 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 	return searchWithIndexof(source, target) || searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
 }
 
-// const originalString = 'zeheozh'
-// const input = 'zho'
+// const originalString = 'nodejs  123ab ss'
+// const input = 'js12bss'
 // const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
 // console.log('boundaryData', boundaryData)
 // const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
 // console.log('hitIndices', hitIndices)
+
 // console.log('original string:', originalString, 'input:', input)
 // if (hitIndices) {
-// 	console.log(highlightTextWithRanges(originalString, hitIndices))
+// 	console.log('merged spaces', mergeSpacesWithRanges(originalString, hitIndices))
+// 	console.log(highlightTextWithRanges(originalString, mergeSpacesWithRanges(originalString, hitIndices)))
 // }
