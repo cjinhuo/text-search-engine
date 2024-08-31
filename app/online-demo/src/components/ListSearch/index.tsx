@@ -2,7 +2,12 @@ import { Card, CardContent, List, ListItem, ListItemText, TextField, Typography 
 import InputAdornment from '@mui/material/InputAdornment'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { type Matrix, extractBoundaryMapping, searchSentenceByBoundaryMapping } from 'text-search-engine'
+import {
+	type Matrix,
+	extractBoundaryMapping,
+	mergeSpacesWithRanges,
+	searchSentenceByBoundaryMapping,
+} from 'text-search-engine'
 import { TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useStyles } from '../../hooks/useStyles'
 import { IconParkNames } from '../../shared/constants'
@@ -47,7 +52,7 @@ const ListSearch = () => {
 				hitRanges &&
 					acc.push({
 						passValue: item.passValue,
-						hitRanges,
+						hitRanges: mergeSpacesWithRanges(item.passValue, hitRanges),
 					})
 				return acc
 			}, [])
