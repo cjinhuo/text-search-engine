@@ -1,5 +1,11 @@
 # text-search-engine
 
+## 1.2.0
+
+### Minor Changes
+
+- d765a03: new option 'mergeSpaces' for merging blank spaces between raw hit ranges
+
 ## 1.1.0
 
 ### Minor Changes
