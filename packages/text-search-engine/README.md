@@ -83,6 +83,17 @@ console.log(highlightMatches('Node.js 最强监控平台 V9', 'nodev9'))
 ```
 The console will output: <mark>Node</mark>.js 最强监控平台 <mark>V9</mark>
 
+## options
+### mergeSpaces
+Default: `false`
+```javascript
+const source = 'chrome 应用商店'
+search(source, 'meyinyon') //[[4, 5], [7, 8]])
+// would merge blank spaces between each index of the matched term
+search(source, 'meyinyon', { mergeSpaces: true }) //[[4, 8]])
+```
+
+
 # Performance
 |       | Time Complexity          | Space Complexity         |
 | ----- | ------------------------ | ------------------------ |
