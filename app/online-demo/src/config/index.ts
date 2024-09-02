@@ -33,3 +33,5 @@ export const TEXT_ACTIVE_CONFIG = {
 }
 
 export const GITHUB_URL = 'https://github.com/cjinhuo/text-search-engine'
+export const CHROME_EXTENSION_URL =
+	'https://chromewebstore.google.com/detail/blazwitcher-search-and-sw/fjgablnemienkegdnbihhemebmmonihg'
