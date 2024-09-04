@@ -52,9 +52,6 @@ importers:
       '@types/node':
         specifier: ^22.1.0
         version: 22.1.0
-      chalk:
-        specifier: ^5.3.0
-        version: 5.3.0
       clipanion:
         specifier: 4.0.0-rc.3
         version: 4.0.0-rc.3(typanion@3.14.0)
