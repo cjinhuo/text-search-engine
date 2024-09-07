@@ -1,0 +1,21 @@
+{
+	"name": "@text-search-engine/vue",
+	"version": "1.2.0",
+	"private": true,
+	"description": "",
+	"license": "MIT",
+	"author": "cjinhuo",
+	"main": "src/index.ts",
+	"publishConfig": {},
+	"homepage": "https://cjinhuo.github.io/text-search-engine/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/cjinhuo/text-search-engine.git"
+	},
+	"bugs": {
+		"url": "https://github.com/cjinhuo/text-search-engine/issues"
+	},
+	"files": [],
+	"scripts": {},
+	"dependencies": {}
+}

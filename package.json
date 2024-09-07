@@ -18,7 +18,7 @@
 		"node": ">=18.18.0",
 		"pnpm": ">=8"
 	},
-	"workspaces": ["packages/*", "utils/*", "app/*"],
+	"workspaces": ["packages/*", "utils/*", "app/*", "components/*"],
 	"author": "cjinhuo",
 	"devDependencies": {
 		"@biomejs/biome": "^1.8.3",
