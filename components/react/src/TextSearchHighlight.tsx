@@ -1,4 +1,4 @@
-import type React from 'react'
+import React from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { type Matrix, search } from 'text-search-engine'
