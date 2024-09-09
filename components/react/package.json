@@ -19,6 +19,7 @@
 	"scripts": {},
 	"dependencies": {
 		"react": "^18.3.1",
+		"styled-components": "^6.1.13",
 		"text-search-engine": "^1.2.0"
 	},
 	"peerDependencies": {

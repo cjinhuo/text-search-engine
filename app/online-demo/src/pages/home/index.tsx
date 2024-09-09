@@ -38,15 +38,6 @@ export default function Home() {
 							<TextSearch
 								source='这是使用新的 TextSearch 组件的示例文本。你可以在这里输入并搜索任何内容。这是使用新的 TextSearch 组件的示例文本。你可以在这里输入并搜索任何内容这是使用新的 TextSearch 组件的示例文本。你可以在这里输入并搜索任何内容'
 								onSearch={handleNewSearch}
-								highlightStyle={{ backgroundColor: 'lightblue' }}
-							/>
-						</Grid>
-						<Grid size={{ xs: 24, md: 12 }}>
-							<h3>新的 HighlightComponent 示例</h3>
-							<HighlightComponent
-								source='这是使用新的 HighlightComponent 的示例文本。可以高亮指定的部分。'
-								hitRanges={newHitRanges}
-								highlightStyle={{ backgroundColor: 'lightgreen' }}
 							/>
 						</Grid>
 					</Grid>
