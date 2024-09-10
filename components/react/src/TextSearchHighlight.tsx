@@ -14,6 +14,7 @@ const HighlightContainer = styled.div`
   font-weight: 500;
   overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
   background-color: white;
 
   .${NORMAL_TEXT_CLASS} {
@@ -35,28 +36,27 @@ const HighlightContainer = styled.div`
 interface HighlightComponentProps {
 	source: string
 	hitRanges: Matrix
-	width?: string | number
 	highlightStyle?: React.CSSProperties
+	normalStyle?: React.CSSProperties
+	containerStyle?: React.CSSProperties
 }
 
 export const HighlightComponent: React.FC<HighlightComponentProps> = ({
 	source,
 	hitRanges,
-	width = '100%',
 	highlightStyle,
+	normalStyle,
+	containerStyle,
 }) => {
-	const containerRef = useRef<HTMLDivElement>(null)
 	const [renderedContent, setRenderedContent] = useState<React.ReactNode[]>([])
 
-	const updateContent = useCallback(() => {
-		if (!containerRef.current) return
-
+	useEffect(() => {
 		const newContent: React.ReactNode[] = []
 		let lastIndex = 0
 
 		hitRanges.forEach(([start, end], index) => {
 			if (start > lastIndex) {
-				const normalText = source.slice(lastIndex, start).replace(/ /g, '\u00A0')
+				const normalText = source.slice(lastIndex, start)
 				newContent.push(
 					<span key={`normal-${lastIndex}`} className={NORMAL_TEXT_CLASS}>
 						{normalText}
@@ -64,7 +64,7 @@ export const HighlightComponent: React.FC<HighlightComponentProps> = ({
 				)
 			}
 
-			const highlightText = source.slice(start, end + 1).replace(/ /g, '\u00A0')
+			const highlightText = source.slice(start, end + 1)
 			newContent.push(
 				<span key={`highlight-${start}`} className={HIGHLIGHT_TEXT_CLASS} style={highlightStyle}>
 					{highlightText}
@@ -75,7 +75,7 @@ export const HighlightComponent: React.FC<HighlightComponentProps> = ({
 		})
 
 		if (lastIndex < source.length) {
-			const remainingText = source.slice(lastIndex).replace(/ /g, '\u00A0')
+			const remainingText = source.slice(lastIndex)
 			newContent.push(
 				<span key={`normal-${lastIndex}`} className={NORMAL_TEXT_CLASS}>
 					{remainingText}
@@ -86,18 +86,18 @@ export const HighlightComponent: React.FC<HighlightComponentProps> = ({
 		setRenderedContent(newContent)
 	}, [source, hitRanges, highlightStyle])
 
-	useEffect(() => {
-		const resizeObserver = new ResizeObserver(updateContent)
-		if (containerRef.current) {
-			resizeObserver.observe(containerRef.current)
-		}
-		updateContent() // Initial render
-		return () => resizeObserver.disconnect()
-	}, [updateContent])
-
 	return (
-		<HighlightContainer ref={containerRef} style={{ width }}>
-			{renderedContent}
+		<HighlightContainer style={containerStyle}>
+			{renderedContent.map((node) =>
+				React.isValidElement(node)
+					? React.cloneElement(node, {
+							style: {
+								...(node.props.style || {}),
+								...(node.props.className === HIGHLIGHT_TEXT_CLASS ? highlightStyle : normalStyle),
+							},
+						} as React.HTMLAttributes<HTMLSpanElement>)
+					: node
+			)}
 		</HighlightContainer>
 	)
 }
@@ -106,8 +106,9 @@ interface TextSearchProps {
 	source: string
 	target?: string
 	onSearch?: (hitRanges: Matrix) => void
-	width?: string | number
 	highlightStyle?: React.CSSProperties
+	normalStyle?: React.CSSProperties
+	containerStyle?: React.CSSProperties
 	children?: React.ReactNode
 }
 
@@ -115,8 +116,9 @@ export const TextSearch: React.FC<TextSearchProps> = ({
 	source,
 	target,
 	onSearch,
-	width = 'auto',
 	highlightStyle,
+	normalStyle,
+	containerStyle,
 	children,
 }) => {
 	const [internalTarget, setInternalTarget] = useState(target || '')
@@ -147,26 +149,37 @@ export const TextSearch: React.FC<TextSearchProps> = ({
 	}
 
 	return (
-		<div style={{ width }}>
-			{target === undefined && (
-				<input
-					type='text'
-					value={internalTarget}
-					onChange={handleInputChange}
-					placeholder='输入搜索文本'
-					style={{
-						width: '100%',
-						marginBottom: '10px',
-						padding: '8px 12px',
-						fontSize: '16px',
-						border: '2px solid #007bff',
-						borderRadius: '4px',
-						outline: 'none',
-					}}
-				/>
-			)}
+		<div>
+			{/* 
+			  // 搜索输入框组件
+			  // 注：此输入框暂时不需要，但在未来的 ListSearch 组件中可能会用到
+			  // 暂时注释掉，以便将来参考或使用
+			  {target === undefined && (
+			    <input
+			      type='text'
+			      value={internalTarget}
+			      onChange={handleInputChange}
+			      placeholder='输入搜索文本'
+			      style={{
+			        width: '100%',
+			        marginBottom: '10px',
+			        padding: '8px 12px',
+			        fontSize: '16px',
+			        border: '2px solid #007bff',
+			        borderRadius: '4px',
+			        outline: 'none',
+			      }}
+			    />
+			  )}
+			*/}
 			{children || (
-				<HighlightComponent source={source} hitRanges={hitRanges} width='100%' highlightStyle={highlightStyle} />
+				<HighlightComponent
+					source={source}
+					hitRanges={hitRanges}
+					highlightStyle={highlightStyle}
+					normalStyle={normalStyle}
+					containerStyle={containerStyle}
+				/>
 			)}
 		</div>
 	)
