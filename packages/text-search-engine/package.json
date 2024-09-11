@@ -41,6 +41,11 @@
 	"dependencies": {},
 	"devDependencies": {
 		"@mono/tsconfig": "workspace:*",
-		"@mono/rollup": "workspace:*"
+		"@mono/rollup": "workspace:*",
+		"@types/react": "^18.3.3",
+		"rollup-plugin-peer-deps-external": "^2.2.4"
+	},
+	"peerDependencies": {
+		"react": "^16.8.0 || ^17.0.0 || ^18.0.0"
 	}
 }
