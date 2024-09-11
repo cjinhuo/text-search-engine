@@ -1,5 +1,4 @@
 import { Container, CssBaseline, Grid2 as Grid } from '@mui/material'
-
 import * as TextSearchEngine from 'text-search-engine'
 import ListSearch from '../../components/ListSearch'
 import ShowTip from '../../components/showTip'
