@@ -4,10 +4,11 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
-		"build": "tsc && vite build",
+		"dev": "nx build text-search-engine && vite",
+		"build": "nx build text-search-engine && tsc && vite build",
 		"preview": "vite preview"
 	},
+
 	"dependencies": {
 		"@emotion/react": "^11.13.0",
 		"@emotion/styled": "^11.13.0",

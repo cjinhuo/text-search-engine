@@ -2,9 +2,9 @@ import { Card, CardContent, TextField, Typography } from '@mui/material'
 import { memo, useEffect, useMemo, useState } from 'react'
 import type { FC } from 'react'
 import { extractBoundaryMapping, searchSentenceByBoundaryMapping } from 'text-search-engine'
+import { HighlightWithRanges } from 'text-search-engine/src/react/index'
 import { INPUT_ANIMATION_CONFIG, TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useStyles } from '../../hooks/useStyles'
-import LightedText from '../LightedText'
 interface HighlightTextProps {
 	originalText: string
 }
@@ -49,7 +49,7 @@ const TextHighlight: FC<HighlightTextProps> = ({ originalText }: HighlightTextPr
 					</span>
 				</Typography>
 				<Typography variant='body1' component='div' sx={{ ...TEXT_ACTIVE_CONFIG }}>
-					{<LightedText text={originalText} ranges={ranges} className='bg-yellow font-bold' />}
+					<HighlightWithRanges source={originalText} hitRanges={ranges} />
 				</Typography>
 			</CardContent>
 		</Card>

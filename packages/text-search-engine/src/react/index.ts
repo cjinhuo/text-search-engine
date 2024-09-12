@@ -1,1 +1,1 @@
-export { HighlightComponent, TextSearch } from './TextSearchHighlight'
+export * from './highlight'

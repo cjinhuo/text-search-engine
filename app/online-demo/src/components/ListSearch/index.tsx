@@ -8,13 +8,13 @@ import {
 	mergeSpacesWithRanges,
 	searchSentenceByBoundaryMapping,
 } from 'text-search-engine'
+import { HighlightWithRanges } from '../../../../../packages/text-search-engine/src/react/index'
 import { TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useStyles } from '../../hooks/useStyles'
 import { IconParkNames } from '../../shared/constants'
 import { Schools } from '../../shared/schools'
 import { decodeURIComponentPlus, encodeURIComponentPlus } from '../../shared/utils'
 import LightTooltip from '../LighTooltip'
-import LightedText from '../LightedText'
 import LinkWithIcon from '../link-with-icon'
 import styles from './index.module.css'
 
@@ -162,7 +162,7 @@ const ListSearch = () => {
 								<ListItemText
 									primary={
 										<Typography sx={{ ...TEXT_ACTIVE_CONFIG }}>
-											<LightedText text={item.passValue} ranges={item.hitRanges} className='bg-yellow font-bold' />
+											<HighlightWithRanges source={item.passValue} hitRanges={item.hitRanges} />
 										</Typography>
 									}
 								/>
