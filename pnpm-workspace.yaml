@@ -4,5 +4,4 @@ packages:
   - 'utils/*'
   - 'app/*'
   - 'e2e'
-  - 'components/*'
   - 'e2e/demos/*'
