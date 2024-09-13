@@ -12,7 +12,7 @@ const config = {
 	input,
 	external: [],
 	output: {
-		file: `${packageDirDist}/index.esm.js`,
+		file: `${packageDirDist}/index.js`,
 		format: 'es',
 		sourcemap: false,
 		exports: 'named',

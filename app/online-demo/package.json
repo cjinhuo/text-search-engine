@@ -4,8 +4,8 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
-		"build": "tsc && vite build",
+		"dev": "nx build text-search-engine && vite",
+		"build": "nx build text-search-engine && tsc && vite build",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -27,7 +27,6 @@
 		"postcss": "^8.4.41",
 		"tailwindcss": "^3.4.9",
 		"text-search-engine": "workspace:*",
-		"@text-search-engine/react": "workspace:*",
 		"typescript": "^5.5.4",
 		"vite": "^5.4.0"
 	},

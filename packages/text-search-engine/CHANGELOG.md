@@ -1,5 +1,17 @@
 # text-search-engine
 
+## 1.3.0
+
+### Minor Changes
+
+- 1b99ee4: export new component 'HighlightWithTarget' and 'HighlightWithRanges' for react
+
+## 1.3.0-beta.0
+
+### Minor Changes
+
+- 1b99ee4: export new component 'HighlightWithTarget' and 'HighlightWithRanges' for react
+
 ## 1.2.0
 
 ### Minor Changes
