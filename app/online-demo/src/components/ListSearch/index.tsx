@@ -162,7 +162,11 @@ const ListSearch = () => {
 								<ListItemText
 									primary={
 										<Typography sx={{ ...TEXT_ACTIVE_CONFIG }}>
-											<HighlightWithRanges source={item.passValue} hitRanges={item.hitRanges} />
+											<HighlightWithRanges
+												normalStyle={{ color: 'var(--color-neutral-4)' }}
+												source={item.passValue}
+												hitRanges={item.hitRanges}
+											/>
 										</Typography>
 									}
 								/>
