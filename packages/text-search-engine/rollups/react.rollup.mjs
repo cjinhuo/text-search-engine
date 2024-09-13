@@ -23,7 +23,7 @@ const config = {
 	// reuse the same input as the main entry
 	external: ['../index'],
 	output: {
-		file: `${packageDirDist}/react/index.esm.js`,
+		file: `${packageDirDist}/react/index.js`,
 		format: 'es',
 		sourcemap: false,
 		exports: 'named',

@@ -7,6 +7,12 @@
 	"main": "src/index.ts",
 	"module": "src/index.ts",
 	"types": "src/index.ts",
+	"typesVersions": {
+		"*": {
+			".": ["dist/index.d.ts"],
+			"react": ["dist/react/index.d.ts"]
+		}
+	},
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -14,11 +20,7 @@
 			"require": "./dist/index.js",
 			"default": "./dist/index.js"
 		},
-		"./react": {
-			"types": "./dist/react/index.d.ts",
-			"import": "./dist/react/index.esm.js",
-			"default": "./dist/react/index.esm.js"
-		}
+		"./react": "./dist/react/index.js"
 	},
 	"publishConfig": {
 		"main": "dist/index.js",

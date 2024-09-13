@@ -3,38 +3,53 @@ import React, { useMemo } from 'react'
 import { useEffect, useState } from 'react'
 import { type Matrix, search } from '../index'
 
-export const HighlightClassMap = {
+export const HighlightClasses = {
 	container: 'hg-container',
 	normal: 'hg-normal',
 	highlight: 'hg-highlight',
 }
+const StyleId = 'text-search-style'
 
-const defaultContainerStyle: React.CSSProperties = {
-	display: 'flex',
-	width: '100%',
-	minHeight: '20px',
-	fontSize: '14px',
-	fontWeight: 500,
-	overflow: 'hidden',
-	whiteSpace: 'nowrap',
-	textOverflow: 'ellipsis',
-	backgroundColor: 'transparent',
+function injectDynamicStyles() {
+	if (!document.getElementById(StyleId)) {
+		const css = `
+      .${HighlightClasses.container} {
+        display: flex;
+        width: auto;
+        max-width: 100%;
+        min-height: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        background-color: transparent;
+      }
+
+      .${HighlightClasses.normal} {
+        color: #535353;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .${HighlightClasses.highlight} {
+        white-space: nowrap;
+        color: white;
+        background-color: rgb(35, 141, 255);
+        border-radius: 4px;
+        padding: 0 2px;
+      }
+    `
+		const style = document.createElement('style')
+		style.type = 'text/css'
+		style.id = StyleId
+		style.appendChild(document.createTextNode(css))
+		document.head.appendChild(style)
+	}
 }
 
-const defaultNormalStyle: React.CSSProperties = {
-	color: '#535353',
-	whiteSpace: 'nowrap',
-	textOverflow: 'ellipsis',
-	overflow: 'hidden',
-}
-
-const defaultHighlightStyle: React.CSSProperties = {
-	whiteSpace: 'nowrap',
-	color: 'white',
-	backgroundColor: 'rgb(35, 141, 255)',
-	borderRadius: '4px',
-	padding: '0 2px',
-}
+document.addEventListener('DOMContentLoaded', injectDynamicStyles)
 
 export interface HighlightWithRangesProps {
 	source: string
@@ -56,9 +71,9 @@ export const HighlightWithRanges: React.FC<HighlightWithRangesProps> = ({
 	normalStyle,
 	containerStyle,
 }) => {
-	const _containerStyle = composeStyle({ ...defaultContainerStyle, ...containerStyle }, HighlightClassMap.container)
-	const _normalStyle = composeStyle({ ...defaultNormalStyle, ...normalStyle }, HighlightClassMap.normal)
-	const _highlightStyle = composeStyle({ ...defaultHighlightStyle, ...highlightStyle }, HighlightClassMap.highlight)
+	const _containerStyle = composeStyle({ ...containerStyle }, HighlightClasses.container)
+	const _normalStyle = composeStyle({ ...normalStyle }, HighlightClasses.normal)
+	const _highlightStyle = composeStyle({ ...highlightStyle }, HighlightClasses.highlight)
 	if (!hitRanges || !hitRanges.length) {
 		return (
 			<div {..._containerStyle}>
@@ -74,7 +89,7 @@ export const HighlightWithRanges: React.FC<HighlightWithRangesProps> = ({
 		const newContent: React.ReactNode[] = []
 		let lastIndex = 0
 
-		hitRanges.forEach(([start, end], index) => {
+		for (const [start, end] of hitRanges.sort((a, b) => a[0] - b[0])) {
 			if (start > lastIndex) {
 				const normalText = source.slice(lastIndex, start)
 				newContent.push(
@@ -90,9 +105,8 @@ export const HighlightWithRanges: React.FC<HighlightWithRangesProps> = ({
 					{highlightText}
 				</div>
 			)
-
 			lastIndex = end + 1
-		})
+		}
 
 		if (lastIndex < source.length) {
 			const remainingText = source.slice(lastIndex)
