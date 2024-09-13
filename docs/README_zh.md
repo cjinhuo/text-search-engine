@@ -104,6 +104,28 @@ search(source, 'meyinyon') //[[4, 5], [7, 8]])
 search(source, 'meyinyon', { mergeSpaces: true }) //[[4, 8]])
 ```
 
+## React Component
+text-search-engine >= 1.3.0
+
+### HighlightWithTarget
+```javascript
+import { HighlightWithTarget } from 'text-search-engine/react'
+
+function Test() {
+    return <HighlightWithTarget source='Node.js 最强监控平台 V9' target='nodejk' />
+}
+```
+
+### HighlightWithRange
+```javascript
+import { HighlightWithRanges } from 'text-search-engine/react'
+import { search } from 'text-search-engine'
+
+export default function DemoForHighlightWithTarget() {
+	const ranges = search('Node.js 最强监控平台 V9', 'nodejk')
+	return <HighlightWithRanges source='Node.js 最强监控平台 V9' hitRanges={ranges}  />
+}
+```
 
 
 # 性能

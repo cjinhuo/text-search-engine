@@ -11,7 +11,7 @@ const config = {
 	input,
 	external: [],
 	output: {
-		file: `${packageDirDist}/index.js`,
+		file: `${packageDirDist}/index.cjs.js`,
 		format: 'cjs',
 		sourcemap: false,
 		exports: 'named',
