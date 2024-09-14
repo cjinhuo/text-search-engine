@@ -124,9 +124,6 @@ export default function DemoForHighlightWithTarget() {
 }
 ```
 
-
-
-
 # Performance
 |       | Time Complexity          | Space Complexity         |
 | ----- | ------------------------ | ------------------------ |
