@@ -58,8 +58,8 @@ describe('search', () => {
 		expect(search(source_1, 'jknode')).toEqual(undefined)
 		// 加空格后，每个词都是独立的，都会从头开始匹配，已匹配到的词会被移除，下次从头匹配时会忽略已匹配到的词
 		expect(search(source_1, 'jk node')).toEqual([
-			[10, 11],
 			[0, 3],
+			[10, 11],
 		])
 	})
 
