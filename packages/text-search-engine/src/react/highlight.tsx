@@ -71,21 +71,29 @@ export const HighlightWithRanges: React.FC<HighlightWithRangesProps> = ({
 	normalStyle,
 	containerStyle,
 }) => {
-	const _containerStyle = composeStyle({ ...containerStyle }, HighlightClasses.container)
-	const _normalStyle = composeStyle({ ...normalStyle }, HighlightClasses.normal)
-	const _highlightStyle = composeStyle({ ...highlightStyle }, HighlightClasses.highlight)
-	if (!hitRanges || !hitRanges.length) {
-		return (
-			<div {..._containerStyle}>
-				<div {..._normalStyle}>{source}</div>
-			</div>
-		)
-	}
-	const uuid = id || source.slice(0, 6)
 	const [renderedContent, setRenderedContent] = useState<React.ReactNode[]>([])
+	const _containerStyle = useMemo(
+		() => composeStyle({ ...containerStyle }, HighlightClasses.container),
+		[containerStyle]
+	)
+	const _normalStyle = useMemo(() => composeStyle({ ...normalStyle }, HighlightClasses.normal), [normalStyle])
+	const _highlightStyle = useMemo(
+		() => composeStyle({ ...highlightStyle }, HighlightClasses.highlight),
+		[highlightStyle]
+	)
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	const uuid = useMemo(() => id || source.slice(0, 6), [id, source])
+
 	useEffect(() => {
+		if (!hitRanges || !hitRanges.length) {
+			setRenderedContent([
+				<div key={`${uuid}-normal`} {..._normalStyle}>
+					{source}
+				</div>,
+			])
+			return
+		}
+
 		const newContent: React.ReactNode[] = []
 		let lastIndex = 0
 
@@ -118,9 +126,9 @@ export const HighlightWithRanges: React.FC<HighlightWithRangesProps> = ({
 		}
 
 		setRenderedContent(newContent)
-	}, [source, hitRanges, uuid])
+	}, [source, hitRanges, uuid, _normalStyle, _highlightStyle])
 
-	return <div {..._containerStyle}>{...renderedContent}</div>
+	return <div {..._containerStyle}>{renderedContent}</div>
 }
 
 export interface HighlightWithTargetProps extends HighlightWithRangesProps {
