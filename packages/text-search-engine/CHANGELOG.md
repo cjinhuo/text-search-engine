@@ -1,5 +1,11 @@
 # text-search-engine
 
+## 1.3.1
+
+### Patch Changes
+
+- sort the result of hitRanges and optimize HighlightWithRanges component to fix render error
+
 ## 1.3.0
 
 ### Minor Changes

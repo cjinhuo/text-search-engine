@@ -166,7 +166,7 @@ export function searchSentenceByBoundaryMapping(boundaryMapping: SourceMappingDa
 		if (!isHitByWord) return undefined
 	}
 
-	return hitRanges
+	return hitRanges.sort((a, b) => a[0] - b[0])
 }
 
 export function searchWithIndexof(source: string, target: string) {
