@@ -8,9 +8,17 @@ export interface SourceMappingData {
 	originalLength: number
 }
 
+export enum StrictnessLevel {
+	strict = 'strict',
+	lenient = 'lenient',
+}
+
+export type StrictnessLevelTypes = keyof typeof StrictnessLevel
+
 export interface SearchOption {
 	strictCase?: boolean
 	mergeSpaces?: boolean
+	strictness?: StrictnessLevelTypes
 }
 
 export interface SearchOptionWithPinyin extends SearchOption {

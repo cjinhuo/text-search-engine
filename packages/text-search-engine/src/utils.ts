@@ -1,4 +1,4 @@
-import type { Matrix } from './types'
+import { type Matrix, StrictnessLevel, type StrictnessLevelTypes, type StrictnessType } from './types'
 
 export function getHighlightText(str: string) {
 	return `\x1b[32m${str}\x1b[0m`
@@ -91,4 +91,18 @@ export function mergeSpacesWithRanges(source: string, rawHitRanges: Matrix) {
 		lastEnd = end
 	}
 	return hitRanges
+}
+
+const CoefficientMap = {
+	[StrictnessLevel.strict]: 0.8,
+	[StrictnessLevel.lenient]: 0.5,
+}
+
+export function isStrictnessSatisfied(strictness: StrictnessLevelTypes, target: string, rawHitRanges: Matrix) {
+	const coefficient = CoefficientMap[strictness]
+	// todo refine the hit length calculation
+	const hitLength = rawHitRanges.length
+	const targetLength = target.length
+
+	return hitLength / targetLength >= coefficient
 }

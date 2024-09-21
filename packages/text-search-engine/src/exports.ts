@@ -2,7 +2,7 @@ import { extractBoundaryMapping } from './boundary'
 import pinyin from './py.json'
 import { searchEntry } from './search'
 import type { SearchOption, SearchOptionWithPinyin } from './types'
-import { highlightTextWithRanges, isEmptyString, mergeSpacesWithRanges } from './utils'
+import { highlightTextWithRanges, isEmptyString, isStrictnessSatisfied, mergeSpacesWithRanges } from './utils'
 
 /**
  * Perform a fuzzy search under the preset Pinyin collection and return the indices of the matched original characters.
@@ -31,7 +31,15 @@ export function pureSearch(source: string, target: string, option: SearchOptionW
 		: [source.toLocaleLowerCase(), target.toLocaleLowerCase()]
 
 	const rawHitRanges = searchEntry(_source, _target, extractBoundaryMapping.bind(null, _source, option.pinyinMap))
-	return rawHitRanges && option.mergeSpaces ? mergeSpacesWithRanges(_source, rawHitRanges) : rawHitRanges
+
+	if (!rawHitRanges) return undefined
+	const hitRangesByMergedSpaces = option.mergeSpaces ? mergeSpacesWithRanges(_source, rawHitRanges) : rawHitRanges
+	// filter by strictness
+	return option.strictness
+		? isStrictnessSatisfied(option.strictness, hitRangesByMergedSpaces)
+			? hitRangesByMergedSpaces
+			: undefined
+		: hitRangesByMergedSpaces
 }
 
 /**
