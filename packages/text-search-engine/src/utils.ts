@@ -92,3 +92,8 @@ export function mergeSpacesWithRanges(source: string, rawHitRanges: Matrix) {
 	}
 	return hitRanges
 }
+
+export function isStrictnessSatisfied(strictnessCoefficient: number, target: string, rawHitRanges: Matrix) {
+	const maxHitLength = Math.ceil(Math.abs(strictnessCoefficient) * target.length)
+	return maxHitLength >= rawHitRanges.length
+}

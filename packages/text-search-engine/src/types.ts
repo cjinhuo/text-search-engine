@@ -11,6 +11,8 @@ export interface SourceMappingData {
 export interface SearchOption {
 	strictCase?: boolean
 	mergeSpaces?: boolean
+	// (0, 1]
+	strictnessCoefficient?: number
 }
 
 export interface SearchOptionWithPinyin extends SearchOption {

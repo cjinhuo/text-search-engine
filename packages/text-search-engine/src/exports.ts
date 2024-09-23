@@ -2,7 +2,7 @@ import { extractBoundaryMapping } from './boundary'
 import pinyin from './py.json'
 import { searchEntry } from './search'
 import type { SearchOption, SearchOptionWithPinyin } from './types'
-import { highlightTextWithRanges, isEmptyString, mergeSpacesWithRanges } from './utils'
+import { highlightTextWithRanges, isEmptyString, isStrictnessSatisfied, mergeSpacesWithRanges } from './utils'
 
 /**
  * Perform a fuzzy search under the preset Pinyin collection and return the indices of the matched original characters.
@@ -31,11 +31,20 @@ export function pureSearch(source: string, target: string, option: SearchOptionW
 		: [source.toLocaleLowerCase(), target.toLocaleLowerCase()]
 
 	const rawHitRanges = searchEntry(_source, _target, extractBoundaryMapping.bind(null, _source, option.pinyinMap))
-	return rawHitRanges && option.mergeSpaces ? mergeSpacesWithRanges(_source, rawHitRanges) : rawHitRanges
+
+	if (!rawHitRanges) return undefined
+	const hitRangesByMergedSpaces = option.mergeSpaces ? mergeSpacesWithRanges(_source, rawHitRanges) : rawHitRanges
+
+	return option.strictnessCoefficient
+		? isStrictnessSatisfied(option.strictnessCoefficient, _target, hitRangesByMergedSpaces)
+			? hitRangesByMergedSpaces
+			: undefined
+		: hitRangesByMergedSpaces
 }
 
 /**
- * return the highlighted string if there is a match
+ * returns the highlighted string, which needs to be printed using console.log
+ * 返回高亮后的字符串，需要用 console.log 打印
  * @param source required, the source string you want to search
  * @param target required, the string by user input. generally speaking, it's length should be less than `source`, otherwise the result will be undefined
  * @param option optional, the default value is `{}`
@@ -46,7 +55,8 @@ export function highlightMatches(source: string, target: string, _option: Search
 }
 
 /**
- * return the highlighted string if there is a match
+ * returns the highlighted string without the preset Pinyin collection, which needs to be printed using console.log
+ * 在没有预设拼音集合的情况下搜索并返回高亮后的字符串，需要用 console.log 打印
  * @param source required, the source string you want to search
  * @param target required, the string by user input. generally speaking, it's length should be less than `source`, otherwise the result will be undefined
  * @param option optional, the default value is `{}`
