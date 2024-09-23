@@ -104,6 +104,18 @@ search(source, 'meyinyon') //[[4, 5], [7, 8]])
 search(source, 'meyinyon', { mergeSpaces: true }) //[[4, 8]])
 ```
 
+
+### strictnessCoefficient
+Default: `undefined`
+```javascript
+const source = 'Node.js 最强监控平台 V8'
+search(source, 'nozjk') //[[0, 1], [8, 8], [10, 11]]
+// 当 strictnessCoefficient 为 0.5 时，nozjk 为 五个字符， Math.ceil(5 * 0.5) = 3， 命中小于等于 3 个字符时正常返回
+search(source, 'nozjk', { strictnessCoefficient: 0.5 }) //[[0, 1], [8, 8], [10, 11]]
+search(source, 'nozjk', { strictnessCoefficient: 0.4 }) //undefined
+```
+
+
 ## React Component
 text-search-engine >= 1.3.0
 
