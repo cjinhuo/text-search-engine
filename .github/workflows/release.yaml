@@ -1,4 +1,4 @@
-name: Release on Merge to Master
+name: Release NPM Package
 
 on:
   workflow_dispatch:
