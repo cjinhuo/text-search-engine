@@ -1,5 +1,11 @@
 # text-search-engine
 
+## 1.4.0
+
+### Minor Changes
+
+- 00a9303: new option strictnessCoefficient for controlling if hitRange is expected
+
 ## 1.3.1
 
 ### Patch Changes
