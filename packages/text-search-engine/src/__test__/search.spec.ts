@@ -82,4 +82,22 @@ describe('search', () => {
 		])
 		expect(search(source_1, 'meyinyon', { mergeSpaces: true })).toEqual([[4, 8]])
 	})
+
+	test('strictnessCoefficient should work within search', () => {
+		const source_1 = 'Node.js 最强监控平台 V8'
+		expect(search(source_1, 'nozjk')).toEqual([
+			[0, 1],
+			[8, 8],
+			[10, 11],
+		])
+
+		// 当 strictnessCoefficient 为 0.5 时，nozjk 为 五个字符， Math.ceil(5 * 0.5) = 3， 命中小于等于 3 个字符时正常返回
+		expect(search(source_1, 'nozjk', { strictnessCoefficient: 0.5 })).toEqual([
+			[0, 1],
+			[8, 8],
+			[10, 11],
+		])
+
+		expect(search(source_1, 'nozjk', { strictnessCoefficient: 0.4 })).toEqual(undefined)
+	})
 })

@@ -34,16 +34,17 @@ export function pureSearch(source: string, target: string, option: SearchOptionW
 
 	if (!rawHitRanges) return undefined
 	const hitRangesByMergedSpaces = option.mergeSpaces ? mergeSpacesWithRanges(_source, rawHitRanges) : rawHitRanges
-	// filter by strictness
-	return option.strictness
-		? isStrictnessSatisfied(option.strictness, hitRangesByMergedSpaces)
+
+	return option.strictnessCoefficient
+		? isStrictnessSatisfied(option.strictnessCoefficient, _target, hitRangesByMergedSpaces)
 			? hitRangesByMergedSpaces
 			: undefined
 		: hitRangesByMergedSpaces
 }
 
 /**
- * return the highlighted string if there is a match
+ * returns the highlighted string, which needs to be printed using console.log
+ * 返回高亮后的字符串，需要用 console.log 打印
  * @param source required, the source string you want to search
  * @param target required, the string by user input. generally speaking, it's length should be less than `source`, otherwise the result will be undefined
  * @param option optional, the default value is `{}`
@@ -54,7 +55,8 @@ export function highlightMatches(source: string, target: string, _option: Search
 }
 
 /**
- * return the highlighted string if there is a match
+ * returns the highlighted string without the preset Pinyin collection, which needs to be printed using console.log
+ * 在没有预设拼音集合的情况下搜索并返回高亮后的字符串，需要用 console.log 打印
  * @param source required, the source string you want to search
  * @param target required, the string by user input. generally speaking, it's length should be less than `source`, otherwise the result will be undefined
  * @param option optional, the default value is `{}`
