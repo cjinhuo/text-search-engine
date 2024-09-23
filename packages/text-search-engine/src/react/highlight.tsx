@@ -63,6 +63,8 @@ export interface HighlightWithRangesProps {
 
 const composeStyle = (style: React.CSSProperties, className: string) => ({ style, className })
 
+const replaceSpace = (text: string) => text.replace(/ /g, '\u00A0')
+
 export const HighlightWithRanges: React.FC<HighlightWithRangesProps> = ({
 	source,
 	id,
@@ -99,28 +101,25 @@ export const HighlightWithRanges: React.FC<HighlightWithRangesProps> = ({
 
 		for (const [start, end] of hitRanges.sort((a, b) => a[0] - b[0])) {
 			if (start > lastIndex) {
-				const normalText = source.slice(lastIndex, start)
 				newContent.push(
 					<div key={`${uuid}-normal-${lastIndex}`} {..._normalStyle}>
-						{normalText}
+						{replaceSpace(source.slice(lastIndex, start))}
 					</div>
 				)
 			}
 
-			const highlightText = source.slice(start, end + 1)
 			newContent.push(
 				<div key={`${uuid}-highlight-${start}`} {..._highlightStyle}>
-					{highlightText}
+					{replaceSpace(source.slice(start, end + 1))}
 				</div>
 			)
 			lastIndex = end + 1
 		}
 
 		if (lastIndex < source.length) {
-			const remainingText = source.slice(lastIndex)
 			newContent.push(
 				<div key={`${uuid}-normal-${lastIndex}`} {..._normalStyle}>
-					{remainingText}
+					{replaceSpace(source.slice(lastIndex))}
 				</div>
 			)
 		}
