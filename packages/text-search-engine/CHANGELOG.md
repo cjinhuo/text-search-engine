@@ -1,5 +1,11 @@
 # text-search-engine
 
+## 1.4.1
+
+### Patch Changes
+
+- 88b152d: fix the issue of injecting dynamic style
+
 ## 1.4.0
 
 ### Minor Changes
