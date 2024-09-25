@@ -10,9 +10,7 @@ export const HighlightClasses = {
 }
 const StyleId = 'text-search-style'
 
-function injectDynamicStyles() {
-	if (!document.getElementById(StyleId)) {
-		const css = `
+const css = `
       .${HighlightClasses.container} {
         display: flex;
         width: auto;
@@ -41,15 +39,18 @@ function injectDynamicStyles() {
         padding: 0 2px;
       }
     `
+let stylesInjected = false
+
+function injectDynamicStyles() {
+	if (typeof window !== 'undefined' && !stylesInjected && !document.getElementById(StyleId)) {
 		const style = document.createElement('style')
 		style.type = 'text/css'
 		style.id = StyleId
 		style.appendChild(document.createTextNode(css))
 		document.head.appendChild(style)
+		stylesInjected = true
 	}
 }
-
-document.addEventListener('DOMContentLoaded', injectDynamicStyles)
 
 export interface HighlightWithRangesProps {
 	source: string
@@ -85,6 +86,10 @@ export const HighlightWithRanges: React.FC<HighlightWithRangesProps> = ({
 	)
 
 	const uuid = useMemo(() => id || source.slice(0, 6), [id, source])
+
+	useEffect(() => {
+		injectDynamicStyles()
+	}, [])
 
 	useEffect(() => {
 		if (!hitRanges || !hitRanges.length) {
