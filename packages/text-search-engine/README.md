@@ -94,7 +94,7 @@ search(source, 'meyinyon', { mergeSpaces: true }) //[[4, 8]])
 ```
 
 ## React Component
-text-search-engine >= 1.3.0
+Take a look at [CodeSandbox Online Demo](https://codesandbox.io/p/sandbox/text-search-engine-component-22c5m5?file=%2Fsrc%2FApp.tsx%3A8%2C12)
 
 ### HighlightWithTarget
 ```javascript
