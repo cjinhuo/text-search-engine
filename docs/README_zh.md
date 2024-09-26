@@ -117,7 +117,7 @@ search(source, 'nozjk', { strictnessCoefficient: 0.4 }) //undefined
 
 
 ## React Component
-text-search-engine >= 1.3.0
+查看 [CodeSandbox 在线示例](https://codesandbox.io/p/sandbox/text-search-engine-component-22c5m5?file=%2Fsrc%2FApp.tsx%3A8%2C12)
 
 ### HighlightWithTarget
 ```javascript
