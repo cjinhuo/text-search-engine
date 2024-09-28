@@ -141,6 +141,21 @@ export default function DemoForHighlightWithTarget() {
 | Worst | O(M(source) * N(target)) | O(M(source) * N(target)) |
 
 
+# Contributing
+Please see the [contributing guidelines](./CONTRIBUTING.md) to learn more.
+
+A big thanks to all of our amazing [contributors](https://github.com/cjinhuo/text-search-engine/graphs/contributors) ❤️
+
+Feel free to join the fun and send a PR!
+
+Thank you guys for your contribution to text-search-engine!
+
+[![Contributors](https://contrib.rocks/image?repo=cjinhuo/text-search-engine)](https://github.com/cjinhuo/text-search-engine/graphs/contributors)
+
+[![Star History Chart](https://api.star-history.com/svg?repos=cjinhuo/text-search-engine&type=Date)](https://api.star-history.com/svg?repos=cjinhuo/text-search-engine&type=Date)
+
+
+
 # 📞 contact
 welcome to raise issue, you can contact me on wx or email if you have some good suggestion(notes: text-search-engine)
 * wx：cjinhuo

@@ -145,3 +145,17 @@ export default function DemoForHighlightWithTarget() {
 | ---- | ------------------------ | ------------------------ |
 | 最优 | O(M(source))             | O(M(source))             |
 | 最坏 | O(M(source) * N(target)) | O(M(source) * N(target)) |
+
+
+
+# Contributing
+请参考 [贡献指南](./CONTRIBUTING.md) 了解更多信息，感谢所有贡献者 [contributors](https://github.com/cjinhuo/text-search-engine/graphs/contributors) ❤️
+
+[![Contributors](https://contrib.rocks/image?repo=cjinhuo/text-search-engine)](https://github.com/cjinhuo/text-search-engine/graphs/contributors)
+
+[![Star History Chart](https://api.star-history.com/svg?repos=cjinhuo/text-search-engine&type=Date)](https://api.star-history.com/svg?repos=cjinhuo/text-search-engine&type=Date)
+
+# 📞 联系
+欢迎提 issue，你可以加我微信或者邮件联系我，如果你有好的建议(备注：text-search-engine)
+* wx：cjinhuo
+* email: cjinhuo@qq.com
