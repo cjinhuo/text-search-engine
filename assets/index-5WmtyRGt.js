@@ -110,7 +110,6 @@ To suppress this warning, you need to explicitly provide the \`palette.${n}Chann
         display: flex;
         width: auto;
         max-width: 100%;
-        min-height: 20px;
         font-size: 14px;
         font-weight: 500;
         overflow: hidden;
