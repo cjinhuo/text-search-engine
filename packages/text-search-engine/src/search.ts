@@ -170,7 +170,7 @@ export function searchSentenceByBoundaryMapping(boundaryMapping: SourceMappingDa
 }
 
 export function searchWithIndexof(source: string, target: string) {
-	const startIndex = source.indexOf(target.trim())
+	const startIndex = source.indexOf(target)
 	return ~startIndex && ([[startIndex, startIndex + target.length - 1]] as Matrix)
 }
 
