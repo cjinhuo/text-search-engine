@@ -1,5 +1,11 @@
 # text-search-engine
 
+## 1.4.2
+
+### Patch Changes
+
+- 0680777: fix searchWithIndexOf function to remove target.trim()
+
 ## 1.4.1
 
 ### Patch Changes
