@@ -145,7 +145,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
  */
 export function searchSentenceByBoundaryMapping(boundaryMapping: SourceMappingData, sentence: string) {
 	if (!sentence) return undefined
-	const hitRangesByIndexOf = searchWithIndexof(boundaryMapping.originalString, sentence)
+	const hitRangesByIndexOf = searchWithIndexOf(boundaryMapping.originalString, sentence)
 	if (hitRangesByIndexOf) return hitRangesByIndexOf
 
 	// if target include space characters, we should split it first and then iterate it one by one.
@@ -169,13 +169,13 @@ export function searchSentenceByBoundaryMapping(boundaryMapping: SourceMappingDa
 	return hitRanges.sort((a, b) => a[0] - b[0])
 }
 
-export function searchWithIndexof(source: string, target: string) {
+export function searchWithIndexOf(source: string, target: string) {
 	const startIndex = source.indexOf(target)
 	return ~startIndex && ([[startIndex, startIndex + target.length - 1]] as Matrix)
 }
 
 export function searchEntry(source: string, target: string, getBoundaryMapping: (source: string) => SourceMappingData) {
-	return searchWithIndexof(source, target) || searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
+	return searchWithIndexOf(source, target) || searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
 }
 
 // const originalString = 'nodejs  123ab ss'

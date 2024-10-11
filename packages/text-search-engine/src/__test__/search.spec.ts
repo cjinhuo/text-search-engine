@@ -1,6 +1,6 @@
 import { extractBoundaryMapping } from '../boundary'
 import { search } from '../exports'
-import { searchByBoundaryMapping, searchWithIndexof } from '../search'
+import { searchByBoundaryMapping, searchWithIndexOf } from '../search'
 
 describe('search', () => {
 	test('searchByBoundaryMapping should work', () => {
@@ -101,11 +101,11 @@ describe('search', () => {
 		expect(search(source_1, 'nozjk', { strictnessCoefficient: 0.4 })).toEqual(undefined)
 	})
 
-	test('searchWithIndexof should work', () => {
+	test('searchWithIndexOf should work', () => {
 		const source_1 = 'nodejs 123ab ss'
-		expect(searchWithIndexof(source_1, 'nodejs')).toEqual([[0, 5]])
-		expect(searchWithIndexof(source_1, 'nodejs ')).toEqual([[0, 6]])
-		expect(searchWithIndexof(source_1, 'nodejs  ')).toEqual(0)
-		expect(searchWithIndexof(source_1, 'js12bss')).toEqual(0)
+		expect(searchWithIndexOf(source_1, 'nodejs')).toEqual([[0, 5]])
+		expect(searchWithIndexOf(source_1, 'nodejs ')).toEqual([[0, 6]])
+		expect(searchWithIndexOf(source_1, 'nodejs  ')).toEqual(0)
+		expect(searchWithIndexOf(source_1, 'js12bss')).toEqual(0)
 	})
 })

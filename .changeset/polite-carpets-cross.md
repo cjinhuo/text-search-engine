@@ -2,4 +2,4 @@
 'text-search-engine': patch
 ---
 
-fix searchWithIndexof funtion to remove target.trim()
+fix searchWithIndexOf function to remove target.trim()
