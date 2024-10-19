@@ -9,29 +9,6 @@ export default defineConfig({
 		VitePWA({
 			registerType: 'autoUpdate',
 			strategies: 'generateSW',
-			workbox: {
-				// 其他 Workbox 配置选项
-			},
-			manifest: {
-				name: 'My App',
-				short_name: 'App',
-				start_url: '/',
-				display: 'standalone',
-				background_color: '#ffffff',
-				description: 'My awesome app',
-				icons: [
-					{
-						src: '/icon-192x192.png',
-						sizes: '192x192',
-						type: 'image/png',
-					},
-					{
-						src: '/icon-512x512.png',
-						sizes: '512x512',
-						type: 'image/png',
-					},
-				],
-			},
 		}),
 	],
 	base: '/text-search-engine',
