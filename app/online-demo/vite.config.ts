@@ -9,6 +9,33 @@ export default defineConfig({
 		VitePWA({
 			registerType: 'autoUpdate',
 			strategies: 'generateSW',
+			devOptions: {
+				enabled: true,
+			},
+			workbox: {
+				// 其他 Workbox 配置选项
+			},
+			manifest: {
+				name: 'Text Search Engine',
+				short_name: 'Text Search Engine',
+				start_url: '/',
+				display: 'standalone',
+				theme_color: 'white',
+				background_color: '#ffffff',
+				description: 'Text Search Engine',
+				icons: [
+					{
+						src: '/text-search-engine/192x192.png',
+						sizes: '192x192',
+						type: 'image/png',
+					},
+					{
+						src: '/text-search-engine/512x512.png',
+						sizes: '512x512',
+						type: 'image/png',
+					},
+				],
+			},
 		}),
 	],
 	base: '/text-search-engine',
