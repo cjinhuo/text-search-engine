@@ -18,7 +18,7 @@ export default defineConfig({
 			manifest: {
 				name: 'Text Search Engine',
 				short_name: 'Text Search Engine',
-				start_url: '/',
+				start_url: 'https://cjinhuo.github.io/text-search-engine/',
 				display: 'standalone',
 				theme_color: 'white',
 				background_color: '#ffffff',
