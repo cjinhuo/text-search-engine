@@ -1,6 +1,11 @@
 <div align="center">
-    <h2>Text Search Engine</h2>
-    <p>A text search engine that supports mixed Chinese and English fuzzy search</p>
+    <h2>Text Search Engine</h2>    
+    
+[![npm version](https://img.shields.io/npm/v/text-search-engine.svg?style=flat)](https://www.npmjs.com/package/text-search-engine)
+[![GitHub last commit](https://img.shields.io/github/last-commit/cjinhuo/text-search-engine.svg?style=flat)](https://github.com/cjinhuo/text-search-engine/commits/master)
+[![npm downloads](https://img.shields.io/npm/dm/text-search-engine.svg?style=flat)](http://npm-stat.com/charts.html?package=cjinhuo/text-search-engine)
+[![license](https://img.shields.io/github/license/cjinhuo/text-search-engine?style=flat)](https://github.com/cjinhuo/text-search-engine/blob/dev/LICENSE)
+<p>A text search engine that supports mixed Chinese and English fuzzy search</p>
 </div>
 
 # Overview
