@@ -50,7 +50,7 @@
 		"build": "run-s esm rollup",
 		"build:cjs": "batch-rollup -d ./rollups -f cjs",
 		"lint": "eslint ./src/**",
-		"test": "jest --config jest.config.cjs"
+		"test": "NODE_ENV=test jest --config jest.config.cjs"
 	},
 	"devDependencies": {
 		"@mono/rollup": "workspace:*",
