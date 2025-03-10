@@ -22,15 +22,15 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 
 	const matchPositions: number[] = Array(targetLength).fill(-1)
 
-	let matchIndex = 0
-	for (let i = 0; i < pinyinLength && matchIndex < targetLength; i++) {
-		if (pinyinString[i] === target[matchIndex]) {
-			matchPositions[matchIndex++] = i
+	let _matchIndex = 0
+	for (let i = 0; i < pinyinLength && _matchIndex < targetLength; i++) {
+		if (pinyinString[i] === target[_matchIndex]) {
+			matchPositions[_matchIndex++] = i
 		}
 	}
 
 	// it would be invalid if the input character is smaller than the matched character
-	if (matchIndex < targetLength) return undefined
+	if (_matchIndex < targetLength) return undefined
 
 	const defaultDpTableValue = [0, 0, -1, -1]
 	// x你 => x你ni target = ni
@@ -71,7 +71,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 				prevBoundaryStart !== boundary[matchedPinyinIndex][0] - startBoundary
 
 			// for pinyin：是否是连续匹配的首字母
-			// todo 暴露这个开关，是否只匹配l连续的字符或汉字
+			// todo 暴露这个开关，是否只匹配连续的字符或汉字
 			const isContinuation =
 				prevMatchedCharacters > 0 &&
 				// 适配多音字，比如“的” dedi，匹配到 de 后不会再匹配 di
@@ -178,15 +178,14 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 	return searchWithIndexOf(source, target) || searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
 }
 
-// const originalString = 'nodejs  123ab ss'
-// const input = 'js12bss'
-// const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
-// console.log('boundaryData', boundaryData)
-// const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
+const originalString = '陈金伙'
+const input = 'cej'
+const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
+const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
 // console.log('hitIndices', hitIndices)
 
-// console.log('original string:', originalString, 'input:', input)
-// if (hitIndices) {
-// 	console.log('merged spaces', mergeSpacesWithRanges(originalString, hitIndices))
-// 	console.log(highlightTextWithRanges(originalString, mergeSpacesWithRanges(originalString, hitIndices)))
-// }
+console.log('original string:', originalString, 'input:', input)
+if (hitIndices) {
+	console.log('merged spaces', mergeSpacesWithRanges(originalString, hitIndices))
+	console.log(highlightTextWithRanges(originalString, mergeSpacesWithRanges(originalString, hitIndices)))
+}

@@ -52,12 +52,12 @@
 		"lint": "eslint ./src/**",
 		"test": "jest --config jest.config.cjs"
 	},
-	"dependencies": {},
 	"devDependencies": {
-		"@mono/tsconfig": "workspace:*",
 		"@mono/rollup": "workspace:*",
+		"@mono/tsconfig": "workspace:*",
 		"@types/react": "^18.3.3",
-		"rollup-plugin-peer-deps-external": "^2.2.4"
+		"rollup-plugin-peer-deps-external": "^2.2.4",
+		"tsx": "^4.19.3"
 	},
 	"peerDependencies": {
 		"react": "^16.8.0 || ^17.0.0 || ^18.0.0"
