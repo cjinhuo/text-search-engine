@@ -53,6 +53,8 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 		dpScores[matchedPinyinIndex - 1] = 0
 		dpTable[matchedPinyinIndex - 1] = defaultDpTableValue
 
+		//
+		let foundValidMatchForCurrentChar = false
 		for (; matchedPinyinIndex <= pinyinLength; matchedPinyinIndex++) {
 			// todo output only in debug mode
 			// console.log('inner for letter:', pinyinString[matchedPinyinIndex - 1])
@@ -103,6 +105,8 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 						? // 首字母时 prevMatchedCharacters = 0，不是首字母时应该加 1
 							[originalStringIndex - prevMatchedCharacters + ~~!isNewWord, originalStringIndex, matchedLettersCount]
 						: dpMatchPath[matchedPinyinIndex - 1][matchIndex]
+					// 当前字符遍历一遍，如果都没有进入当前 if 分支说明没有匹配到，在外层即可 return，issue: https://github.com/cjinhuo/text-search-engine/issues/21
+					foundValidMatchForCurrentChar = true
 					continue
 				}
 			}
@@ -119,6 +123,9 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 				gap === 0 || (isWithInRange && gap === 1 && isSameWord())
 					? dpTable[matchedPinyinIndex - 1]
 					: defaultDpTableValue
+		}
+		if (!foundValidMatchForCurrentChar) {
+			return undefined
 		}
 	}
 
