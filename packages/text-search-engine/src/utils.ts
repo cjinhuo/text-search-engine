@@ -104,3 +104,13 @@ export function isStrictnessSatisfied(strictnessCoefficient: number, target: str
 	const maxHitLength = Math.ceil(Math.abs(strictnessCoefficient) * target.length)
 	return maxHitLength >= rawHitRanges.length
 }
+
+/**
+ * 只有本地调试时运行的代码，打包和跑单测时跳过的代码
+ * @param fn 测试运行的代码
+ * @returns
+ */
+export const debugFn = (fn: () => void) => {
+	if (process.env.NODE_ENV === 'test') return
+	fn()
+}
