@@ -133,7 +133,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 		}
 		if (!foundValidMatchForCurrentChar) {
 			debugFn(() => {
-				console.log('not found valid match for current char:', pinyinString[matchedPinyinIndex - 1])
+				console.log('not found valid match for current char, matchedPinyinIndex', matchedPinyinIndex)
 				console.log(`total loop count: ${totalLoopCount}`)
 			})
 			return undefined
@@ -201,13 +201,13 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 }
 
 debugFn(() => {
-	const originalString = '陈金伙'
-	const input = 'cj'
+	const originalString = '监控平台'
+	const input = 'jk'
+	console.log('original string:', originalString, 'input:', input)
 	const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
 	const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
-	console.log('hitIndices', hitIndices)
-	console.log('original string:', originalString, 'input:', input)
 	if (hitIndices) {
+		console.log('hitIndices', hitIndices)
 		console.log('merged spaces', mergeSpacesWithRanges(originalString, hitIndices))
 		console.log(highlightTextWithRanges(originalString, mergeSpacesWithRanges(originalString, hitIndices)))
 	}
