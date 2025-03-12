@@ -1,5 +1,11 @@
 # text-search-engine
 
+## 1.4.4
+
+### Patch Changes
+
+- 3ab57cb: return in advance to optimize the number of iterations when not match valid character
+
 ## 1.4.3
 
 ### Patch Changes
