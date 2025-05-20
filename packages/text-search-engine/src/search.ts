@@ -187,11 +187,14 @@ export function searchSentenceByBoundaryMapping(boundaryMapping: SourceMappingDa
 	// if target include space characters, we should split it first and then iterate it one by one.
 	const words = sentence.trim().split(/\s+/)
 	const hitRanges: Matrix = []
+	// iterate through each word
 	for (const word of words) {
+		// get the rest ranges of the source
 		const restRanges = getRestRanges(boundaryMapping.originalLength, hitRanges)
 		if (!restRanges.length) return undefined
 		let isHitByWord = false
 		for (const range of restRanges) {
+			// continue to iterate the rest ranges of the source, search for matches
 			const hitRangesByWord = searchByBoundaryMapping(boundaryMapping, word, range[0], range[1])
 			if (hitRangesByWord) {
 				isHitByWord = true
@@ -215,10 +218,11 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 }
 
 debugFn(() => {
-	const originalString = '监控平台'
+	const originalString = '监控 Chinese Peo'
 	const input = 'jk'
 	console.log('original string:', originalString, 'input:', input)
 	const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
+	console.log('boundaryData', boundaryData)
 	const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
 	if (hitIndices) {
 		console.log('hitIndices', hitIndices)

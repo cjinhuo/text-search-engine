@@ -40,6 +40,7 @@ export function pureSearch(source: string, target: string, option: SearchOptionW
 			? hitRangesByMergedSpaces
 			: undefined
 		: hitRangesByMergedSpaces
+	// todo 新增一个参数，用于判断命中的英文是否连续，并且暴露一个工具方法 isContinuousLatin
 }
 
 /**
