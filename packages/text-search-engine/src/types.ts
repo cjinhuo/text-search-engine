@@ -13,6 +13,7 @@ export interface SearchOption {
 	mergeSpaces?: boolean
 	// (0, 1]
 	strictnessCoefficient?: number
+	isCharConsecutive?: boolean // 判断命中的字符串是否为连续单词
 }
 
 export interface SearchOptionWithPinyin extends SearchOption {

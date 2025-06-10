@@ -2,7 +2,13 @@ import { extractBoundaryMapping } from './boundary'
 import pinyin from './py.json'
 import { searchEntry } from './search'
 import type { SearchOption, SearchOptionWithPinyin } from './types'
-import { highlightTextWithRanges, isEmptyString, isStrictnessSatisfied, mergeSpacesWithRanges } from './utils'
+import {
+	highlightTextWithRanges,
+	isContinuousLatin,
+	isEmptyString,
+	isStrictnessSatisfied,
+	mergeSpacesWithRanges,
+} from './utils'
 
 /**
  * Perform a fuzzy search under the preset Pinyin collection and return the indices of the matched original characters.
@@ -31,16 +37,17 @@ export function pureSearch(source: string, target: string, option: SearchOptionW
 		: [source.toLocaleLowerCase(), target.toLocaleLowerCase()]
 
 	const rawHitRanges = searchEntry(_source, _target, extractBoundaryMapping.bind(null, _source, option.pinyinMap))
-
 	if (!rawHitRanges) return undefined
-	const hitRangesByMergedSpaces = option.mergeSpaces ? mergeSpacesWithRanges(_source, rawHitRanges) : rawHitRanges
 
-	return option.strictnessCoefficient
+	const hitRangesByMergedSpaces = option.mergeSpaces ? mergeSpacesWithRanges(_source, rawHitRanges) : rawHitRanges
+	const ranges = option.strictnessCoefficient
 		? isStrictnessSatisfied(option.strictnessCoefficient, _target, hitRangesByMergedSpaces)
 			? hitRangesByMergedSpaces
 			: undefined
 		: hitRangesByMergedSpaces
-	// todo 新增一个参数，用于判断命中的英文是否连续，并且暴露一个工具方法 isContinuousLatin
+
+	if (!ranges) return undefined
+	return option?.isCharConsecutive ? isContinuousLatin(source, target, ranges) : ranges
 }
 
 /**

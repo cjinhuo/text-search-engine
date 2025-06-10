@@ -75,6 +75,22 @@ search(source_1, 'jk node') // [[10, 11],[0, 3]]
 ```
 `search('Node.js 最强监控平台 V9', 'jk node')` Match result: <mark>Node</mark>.js 最强<mark>监控</mark>平台 V9
 
+### Consecutive Word Matching
+Using `isCharConsecutive` option to control whether the matched characters should be consecutive in the source string. When enabled, it requires the matched characters to be consecutive in the source string.
+
+```javascript
+const source = 'Chinese@中国 People-人'
+
+// Case 1: Normal search - matches scattered characters
+search(source, 'chie') // [[0, 2], [4, 4]]
+
+// Case 2: Consecutive search - fail 
+search(source, 'chie', { isCharConsecutive: true }) // undefined - 'chi' and 'e' are not consecutive
+
+// Case 3: Consecutive search - success because Chinese and English do not need to be consecutive 
+search(source, '中ple', { isCharConsecutive: true }) // [[8, 8], [14, 16]]
+```
+
 ## highlightMatches
 This API is used for quickly validating text match highlights. It returns ANSI escape codes that can be output using console.log in both Web and Node.js environments to see the highlighted text.
 ```javascript
