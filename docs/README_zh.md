@@ -100,41 +100,14 @@ console.log(highlightMatches('Node.js 最强监控平台 V9', 'nodev9'))
 控制台将输出：<mark>Node</mark>.js 最强监控平台 <mark>V9</mark>
 
 ## options
-### mergeSpaces
-默认值: `false`
-```javascript
-const source = 'chrome 应用商店'
-search(source, 'meyinyon') //[[4, 5], [7, 8]])
-// 如果命中下标直接是空格字符，则合并两个命中下标
-search(source, 'meyinyon', { mergeSpaces: true }) //[[4, 8]])
-```
 
+| 选项名称                | 默认值      | 描述                                                                                                                                      | 示例                                                                                                                                                                                                                                                                                                |
+| ----------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `mergeSpaces`           | `true`      | 是否合并匹配项之间的空格。当设置为 true 时，会将匹配结果中间的空格合并为连续的索引范围。                                                  | `search('chrome 应用商店', 'meyinyon')` 返回 `[[4, 5], [7, 8]]`<br/><br/>`search('chrome 应用商店', 'meyinyon', { mergeSpaces: true })` 返回 `[[4, 8]]`                                                                                                                                             |
+| `strictnessCoefficient` | `undefined` | 严格系数，用于控制匹配的严格程度。当设置为数值时，如果匹配的字符数小于等于 `Math.ceil(查询长度 * 系数)`，则返回结果，否则返回 undefined。 | `search('Node.js 最强监控平台 V8', 'nozjk')` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` 返回 `undefined` |
+| `isCharConsecutive`     | `true`      | 控制匹配的字符是否需要在源字符串中连续。当设置为 true 时，要求匹配的字符在源字符串中连续（中文和英文不需要连续）。                        | `search('Chinese@中国 People-人', 'chie')` 返回 `[[0, 2], [4, 4]]`<br/>`search('Chinese@中国 People-人', 'chie', { isCharConsecutive: true })` 返回 `undefined`<br/>`search('Chinese@中国 People-人', '中ple', { isCharConsecutive: true })` 返回 `[[8, 8], [14, 16]]`                              |
+| `strictCase`            | `undefined` | 控制大小写敏感匹配。当设置为 true 时，搜索将匹配确切的大小写。当设置为 false 时，搜索将不区分大小写。当为 undefined 时，使用默认行为。    | `search('Hello World', 'hello')` 返回 `[[0, 4]]`<br/>`search('Hello World', 'hello', { strictCase: true })` 返回 `undefined`<br/>`search('Hello World', 'hello', { strictCase: false })` 返回 `[[0, 4]]`                                                                                            |
 
-### strictnessCoefficient
-Default: `undefined`
-```javascript
-const source = 'Node.js 最强监控平台 V8'
-search(source, 'nozjk') //[[0, 1], [8, 8], [10, 11]]
-// 当 strictnessCoefficient 为 0.5 时，nozjk 为 五个字符， Math.ceil(5 * 0.5) = 3， 命中小于等于 3 个字符时正常返回
-search(source, 'nozjk', { strictnessCoefficient: 0.5 }) //[[0, 1], [8, 8], [10, 11]]
-search(source, 'nozjk', { strictnessCoefficient: 0.4 }) //undefined
-```
-
-### 连续词匹配
-使用 `isCharConsecutive` 选项来控制匹配的字符在源字符串中是否应该连续。启用时，要求匹配的字符在源字符串中必须连续。
-
-```javascript
-const source = 'Chinese@中国 People-人'
-
-// 情况1：普通搜索 - 匹配分散的字符
-search(source, 'chie') // [[0, 2], [4, 4]]
-
-// 情况2：连续搜索 - 失败
-search(source, 'chie', { isCharConsecutive: true }) // undefined - 'chi' 和 'e' 不连续
-
-// 情况3：连续搜索 - 成功，因为中文和英文不需要连续
-search(source, '中ple', { isCharConsecutive: true }) // [[8, 8], [14, 16]]
-```
 
 
 ## React Component

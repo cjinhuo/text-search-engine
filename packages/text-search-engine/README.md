@@ -34,6 +34,7 @@ const source = 'nonode'
 search(source, 'no') //[[0, 1]]
 // Matches 'no', continuous characters have higher weight
 search(source, 'nod') // [[2, 4]]
+search(source, 'noe') // [[0, 1], [5, 5]]
 search(source, 'oo') // [[1, 1],[3, 3]]
 ```
 `search('nonode', 'noe')` Match result: <mark>no</mark>nod<mark>e</mark>
@@ -75,20 +76,12 @@ search(source_1, 'jk node') // [[10, 11],[0, 3]]
 ```
 `search('Node.js 最强监控平台 V9', 'jk node')` Match result: <mark>Node</mark>.js 最强<mark>监控</mark>平台 V9
 
-### Consecutive Word Matching
-Using `isCharConsecutive` option to control whether the matched characters should be consecutive in the source string. When enabled, it requires the matched characters to be consecutive in the source string.
-
+### Sort of Backtracking
 ```javascript
-const source = 'Chinese@中国 People-人'
-
-// Case 1: Normal search - matches scattered characters
-search(source, 'chie') // [[0, 2], [4, 4]]
-
-// Case 2: Consecutive search - fail 
-search(source, 'chie', { isCharConsecutive: true }) // undefined - 'chi' and 'e' are not consecutive
-
-// Case 3: Consecutive search - success because Chinese and English do not need to be consecutive 
-search(source, '中ple', { isCharConsecutive: true }) // [[8, 8], [14, 16]]
+const source_1 = 'zxhxo zhx'
+search(source_1, 'zh') //[[6, 7]])
+// Even though the weight of 'zh' is higher, but the next term 'o' is not matched, so hit the previous one
+search(source_1, 'zho') //[[0, 0],[2, 2],[4, 4]])
 ```
 
 ## highlightMatches
@@ -100,18 +93,16 @@ console.log(highlightMatches('Node.js 最强监控平台 V9', 'nodev9'))
 The console will output: <mark>Node</mark>.js 最强监控平台 <mark>V9</mark>
 
 ## options
-### mergeSpaces
-Default: `false`
-```javascript
-const source = 'chrome 应用商店'
-search(source, 'meyinyon') //[[4, 5], [7, 8]])
-// would merge blank spaces between each index of the matched term
-search(source, 'meyinyon', { mergeSpaces: true }) //[[4, 8]])
-```
+
+| Option Name             | Default Value | Description                                                                                                                                                                                                                                          | Example                                                                                                                                                                                                                                                                                                      |
+| ----------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `mergeSpaces`           | `true`        | Whether to merge spaces between matched items. When set to true, it will merge spaces in the middle of matched results into consecutive index ranges.                                                                                                | `search('chrome 应用商店', 'meyinyon')` returns `[[4, 5], [7, 8]]`<br/><br/>`search('chrome 应用商店', 'meyinyon', { mergeSpaces: true })` returns `[[4, 8]]`                                                                                                                                                |
+| `strictnessCoefficient` | `undefined`   | Strictness coefficient to control the strictness of matching. When a numeric value is set, if the number of matched characters is less than or equal to `Math.ceil(query length * coefficient)`, it returns the result, otherwise returns undefined. | `search('Node.js 最强监控平台 V8', 'nozjk')` returns `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` returns `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` returns `undefined` |
+| `isCharConsecutive`     | `true`        | Controls whether matched characters need to be consecutive in the source string. When set to true, it requires matched characters to be consecutive in the source string (Chinese and English do not need to be consecutive).                        | `search('Chinese@中国 People-人', 'chie')` returns `[[0, 2], [4, 4]]`<br/>`search('Chinese@中国 People-人', 'chie', { isCharConsecutive: true })` returns `undefined`<br/>`search('Chinese@中国 People-人', '中ple', { isCharConsecutive: true })` returns `[[8, 8], [14, 16]]`                              |
+| `strictCase`            | `undefined`   | Controls case-sensitive matching. When set to true, the search will match exact case. When set to false, the search will be case-insensitive. When undefined, uses default behavior.                                                                 | `search('Hello World', 'hello')` returns `[[0, 4]]`<br/>`search('Hello World', 'hello', { strictCase: true })` returns `undefined`<br/>`search('Hello World', 'hello', { strictCase: false })` returns `[[0, 4]]`                                                                                            |
 
 ## React Component
 Take a look at [CodeSandbox Online Demo](https://codesandbox.io/p/sandbox/text-search-engine-component-22c5m5?file=%2Fsrc%2FApp.tsx%3A8%2C12)
-
 ### HighlightWithTarget
 ```javascript
 import { HighlightWithTarget } from 'text-search-engine/react'
@@ -131,7 +122,6 @@ export default function DemoForHighlightWithTarget() {
 	return <HighlightWithRanges source='Node.js 最强监控平台 V9' hitRanges={ranges}  />
 }
 ```
-
 
 # Performance
 |       | Time Complexity          | Space Complexity         |

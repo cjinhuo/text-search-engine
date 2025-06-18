@@ -1,6 +1,6 @@
 <div align="center">
     <h2>Text Search Engine</h2>    
-    
+
 [![npm version](https://img.shields.io/npm/v/text-search-engine.svg?style=flat)](https://www.npmjs.com/package/text-search-engine)
 [![GitHub last commit](https://img.shields.io/github/last-commit/cjinhuo/text-search-engine.svg?style=flat)](https://github.com/cjinhuo/text-search-engine/commits/master)
 [![npm downloads](https://img.shields.io/npm/dm/text-search-engine.svg?style=flat)](http://npm-stat.com/charts.html?package=cjinhuo/text-search-engine)
@@ -97,39 +97,13 @@ console.log(highlightMatches('Node.js 最强监控平台 V9', 'nodev9'))
 The console will output: <mark>Node</mark>.js 最强监控平台 <mark>V9</mark>
 
 ## options
-### mergeSpaces
-Default: `false`
-```javascript
-const source = 'chrome 应用商店'
-search(source, 'meyinyon') //[[4, 5], [7, 8]])
-// would merge blank spaces between each index of the matched term
-search(source, 'meyinyon', { mergeSpaces: true }) //[[4, 8]])
-```
 
-### strictnessCoefficient
-Default: `undefined`
-```javascript
-const source = 'Node.js 最强监控平台 V8'
-search(source, 'nozjk') //[[0, 1], [8, 8], [10, 11]]
-// When the strictnessCoefficient is 0.5 and nozjk is five characters long, Math.ceil(5 * 0.5) equals 3. If the match is less than or equal to 3 characters, it will return normally.
-search(source, 'nozjk', { strictnessCoefficient: 0.5 }) //[[0, 1], [8, 8], [10, 11]]
-search(source, 'nozjk', { strictnessCoefficient: 0.4 }) //undefined
-```
-### Consecutive Word Matching
-Using `isCharConsecutive` option to control whether the matched characters should be consecutive in the source string. When enabled, it requires the matched characters to be consecutive in the source string.
-
-```javascript
-const source = 'Chinese@中国 People-人'
-
-// Case 1: Normal search - matches scattered characters
-search(source, 'chie') // [[0, 2], [4, 4]]
-
-// Case 2: Consecutive search - fail 
-search(source, 'chie', { isCharConsecutive: true }) // undefined - 'chi' and 'e' are not consecutive
-
-// Case 3: Consecutive search - success because Chinese and English do not need to be consecutive 
-search(source, '中ple', { isCharConsecutive: true }) // [[8, 8], [14, 16]]
-```
+| Option Name             | Default Value | Description                                                                                                                                                                                                                                          | Example                                                                                                                                                                                                                                                                                                      |
+| ----------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `mergeSpaces`           | `true`        | Whether to merge spaces between matched items. When set to true, it will merge spaces in the middle of matched results into consecutive index ranges.                                                                                                | `search('chrome 应用商店', 'meyinyon')` returns `[[4, 5], [7, 8]]`<br/><br/>`search('chrome 应用商店', 'meyinyon', { mergeSpaces: true })` returns `[[4, 8]]`                                                                                                                                                |
+| `strictnessCoefficient` | `undefined`   | Strictness coefficient to control the strictness of matching. When a numeric value is set, if the number of matched characters is less than or equal to `Math.ceil(query length * coefficient)`, it returns the result, otherwise returns undefined. | `search('Node.js 最强监控平台 V8', 'nozjk')` returns `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` returns `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` returns `undefined` |
+| `isCharConsecutive`     | `true`        | Controls whether matched characters need to be consecutive in the source string. When set to true, it requires matched characters to be consecutive in the source string (Chinese and English do not need to be consecutive).                        | `search('Chinese@中国 People-人', 'chie')` returns `[[0, 2], [4, 4]]`<br/>`search('Chinese@中国 People-人', 'chie', { isCharConsecutive: true })` returns `undefined`<br/>`search('Chinese@中国 People-人', '中ple', { isCharConsecutive: true })` returns `[[8, 8], [14, 16]]`                              |
+| `strictCase`            | `undefined`   | Controls case-sensitive matching. When set to true, the search will match exact case. When set to false, the search will be case-insensitive. When undefined, uses default behavior.                                                                 | `search('Hello World', 'hello')` returns `[[0, 4]]`<br/>`search('Hello World', 'hello', { strictCase: true })` returns `undefined`<br/>`search('Hello World', 'hello', { strictCase: false })` returns `[[0, 4]]`                                                                                            |
 
 ## React Component
 Take a look at [CodeSandbox Online Demo](https://codesandbox.io/p/sandbox/text-search-engine-component-22c5m5?file=%2Fsrc%2FApp.tsx%3A8%2C12)
