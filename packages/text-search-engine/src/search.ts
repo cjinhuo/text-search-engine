@@ -218,8 +218,8 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 }
 
 debugFn(() => {
-	const originalString = '监控 Chinese Peo'
-	const input = 'jk'
+	const originalString = '你 Chinese'
+	const input = 'Chis n'
 	console.log('original string:', originalString, 'input:', input)
 	const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
 	console.log('boundaryData', boundaryData)

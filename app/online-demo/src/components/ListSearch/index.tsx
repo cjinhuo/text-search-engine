@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom'
 import {
 	type Matrix,
 	extractBoundaryMapping,
+	isConsecutiveForChar,
 	mergeSpacesWithRanges,
 	searchSentenceByBoundaryMapping,
 } from 'text-search-engine'
@@ -50,6 +51,7 @@ const ListSearch = () => {
 			.reduce<ListItemType[]>((acc, item) => {
 				const hitRanges = searchSentenceByBoundaryMapping(item, inputValue.trim().toLocaleLowerCase())
 				hitRanges &&
+					isConsecutiveForChar(item.passValue, inputValue, hitRanges) &&
 					acc.push({
 						passValue: item.passValue,
 						hitRanges: mergeSpacesWithRanges(item.passValue, hitRanges),

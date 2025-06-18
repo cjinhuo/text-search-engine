@@ -1,4 +1,5 @@
 import { extractBoundaryMapping } from './boundary'
+import { DEFAULT_SEARCH_OPTION } from './constants'
 import pinyin from './py.json'
 import { searchEntry } from './search'
 import type { SearchOption, SearchOptionWithPinyin } from './types'
@@ -30,8 +31,9 @@ export function search(source: string, target: string, option: SearchOption = {}
  * @param option required, need to pass pinyin map in manually
  * @example pureSearch('mito 监控', 'mijk', { pinyinMap: { 监: ['jian'], 控: ['kong'] } }) // [[0, 1], [5, 6]]
  */
-export function pureSearch(source: string, target: string, option: SearchOptionWithPinyin) {
+export function pureSearch(source: string, target: string, _option: SearchOptionWithPinyin) {
 	if (isEmptyString(source) || isEmptyString(target)) return undefined
+	const option = { ...DEFAULT_SEARCH_OPTION, ..._option }
 	const [_source, _target] = option.strictCase
 		? [source, target]
 		: [source.toLocaleLowerCase(), target.toLocaleLowerCase()]
