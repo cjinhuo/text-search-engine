@@ -132,21 +132,21 @@ export const isAllChinese = (str: string): boolean => {
 }
 
 /**
- *
+ * 判断命中字符串是否为连续单词
  * @param target 匹配字符串
  * @param source 源字符串
- * @returns 如果英文连续则返回原始 ranges，否则返回 undefined
+ * @returns 如果英文连续则返回 true，否则返回 false
  *
  */
-export const isContinuousLatin = (source: string, target: string, rawHitRanges?: Matrix): Matrix | undefined => {
+export const isConsecutiveForChar = (source: string, target: string, rawHitRanges?: Matrix): boolean => {
 	let _hitRangesLength = rawHitRanges?.length || 0
 	// 未命中
 	if (!rawHitRanges || rawHitRanges?.length === 0) {
-		return undefined
+		return false
 	}
 	// 连续命中
 	if (rawHitRanges.length === 1) {
-		return rawHitRanges
+		return true
 	}
 	// 从rawHitRanges中删除 源字符串是非英文的
 	for (const [start, end] of rawHitRanges) {
@@ -159,5 +159,5 @@ export const isContinuousLatin = (source: string, target: string, rawHitRanges?:
 		.trim()
 		.split(/\s+/)
 		.filter((w) => !isAllChinese(w))
-	return queryWordLength.length >= _hitRangesLength ? rawHitRanges : undefined
+	return queryWordLength.length >= _hitRangesLength
 }

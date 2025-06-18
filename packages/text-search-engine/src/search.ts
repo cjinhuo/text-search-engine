@@ -1,6 +1,6 @@
 import { extractBoundaryMappingWithPresetPinyin } from './boundary'
 import type { Matrix, SourceMappingData } from './types'
-import { debugFn, getRestRanges, highlightTextWithRanges, mergeSpacesWithRanges } from './utils'
+import { debugFn, getRestRanges, highlightTextWithRanges, isConsecutiveForChar, mergeSpacesWithRanges } from './utils'
 
 /**
  * return the hit indices with the boundary data
@@ -226,6 +226,7 @@ debugFn(() => {
 	const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
 	if (hitIndices) {
 		console.log('hitIndices', hitIndices)
+		console.log('isConsecutiveForChar', isConsecutiveForChar(originalString, input, hitIndices))
 		console.log('merged spaces', mergeSpacesWithRanges(originalString, hitIndices))
 		console.log(highlightTextWithRanges(originalString, mergeSpacesWithRanges(originalString, hitIndices)))
 	}

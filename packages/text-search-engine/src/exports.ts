@@ -4,7 +4,7 @@ import { searchEntry } from './search'
 import type { SearchOption, SearchOptionWithPinyin } from './types'
 import {
 	highlightTextWithRanges,
-	isContinuousLatin,
+	isConsecutiveForChar,
 	isEmptyString,
 	isStrictnessSatisfied,
 	mergeSpacesWithRanges,
@@ -39,15 +39,15 @@ export function pureSearch(source: string, target: string, option: SearchOptionW
 	const rawHitRanges = searchEntry(_source, _target, extractBoundaryMapping.bind(null, _source, option.pinyinMap))
 	if (!rawHitRanges) return undefined
 
-	const hitRangesByMergedSpaces = option.mergeSpaces ? mergeSpacesWithRanges(_source, rawHitRanges) : rawHitRanges
-	const ranges = option.strictnessCoefficient
-		? isStrictnessSatisfied(option.strictnessCoefficient, _target, hitRangesByMergedSpaces)
-			? hitRangesByMergedSpaces
-			: undefined
-		: hitRangesByMergedSpaces
+	if (option.isCharConsecutive && !isConsecutiveForChar(source, target, rawHitRanges)) {
+		return undefined
+	}
 
-	if (!ranges) return undefined
-	return option?.isCharConsecutive ? isContinuousLatin(source, target, ranges) : ranges
+	if (option.strictnessCoefficient && !isStrictnessSatisfied(option.strictnessCoefficient, _target, rawHitRanges)) {
+		return undefined
+	}
+
+	return option.mergeSpaces ? mergeSpacesWithRanges(_source, rawHitRanges) : rawHitRanges
 }
 
 /**

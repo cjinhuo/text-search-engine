@@ -120,6 +120,22 @@ search(source, 'nozjk', { strictnessCoefficient: 0.5 }) //[[0, 1], [8, 8], [10, 
 search(source, 'nozjk', { strictnessCoefficient: 0.4 }) //undefined
 ```
 
+### 连续词匹配
+使用 `isCharConsecutive` 选项来控制匹配的字符在源字符串中是否应该连续。启用时，要求匹配的字符在源字符串中必须连续。
+
+```javascript
+const source = 'Chinese@中国 People-人'
+
+// 情况1：普通搜索 - 匹配分散的字符
+search(source, 'chie') // [[0, 2], [4, 4]]
+
+// 情况2：连续搜索 - 失败
+search(source, 'chie', { isCharConsecutive: true }) // undefined - 'chi' 和 'e' 不连续
+
+// 情况3：连续搜索 - 成功，因为中文和英文不需要连续
+search(source, '中ple', { isCharConsecutive: true }) // [[8, 8], [14, 16]]
+```
+
 
 ## React Component
 查看 [CodeSandbox 在线示例](https://codesandbox.io/p/sandbox/text-search-engine-component-22c5m5?file=%2Fsrc%2FApp.tsx%3A8%2C12)

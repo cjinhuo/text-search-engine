@@ -115,6 +115,21 @@ search(source, 'nozjk') //[[0, 1], [8, 8], [10, 11]]
 search(source, 'nozjk', { strictnessCoefficient: 0.5 }) //[[0, 1], [8, 8], [10, 11]]
 search(source, 'nozjk', { strictnessCoefficient: 0.4 }) //undefined
 ```
+### Consecutive Word Matching
+Using `isCharConsecutive` option to control whether the matched characters should be consecutive in the source string. When enabled, it requires the matched characters to be consecutive in the source string.
+
+```javascript
+const source = 'Chinese@中国 People-人'
+
+// Case 1: Normal search - matches scattered characters
+search(source, 'chie') // [[0, 2], [4, 4]]
+
+// Case 2: Consecutive search - fail 
+search(source, 'chie', { isCharConsecutive: true }) // undefined - 'chi' and 'e' are not consecutive
+
+// Case 3: Consecutive search - success because Chinese and English do not need to be consecutive 
+search(source, '中ple', { isCharConsecutive: true }) // [[8, 8], [14, 16]]
+```
 
 ## React Component
 Take a look at [CodeSandbox Online Demo](https://codesandbox.io/p/sandbox/text-search-engine-component-22c5m5?file=%2Fsrc%2FApp.tsx%3A8%2C12)

@@ -4,5 +4,5 @@ export {
 	highlightMatches,
 } from './exports'
 export { searchSentenceByBoundaryMapping } from './search'
-export { mergeSpacesWithRanges, isStrictnessSatisfied } from './utils'
+export { mergeSpacesWithRanges, isStrictnessSatisfied, isConsecutiveForChar } from './utils'
 export * from './types'
