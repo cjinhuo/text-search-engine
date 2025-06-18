@@ -46,7 +46,7 @@ export function getRestRanges(totalLength: number, ranges: Matrix): Matrix {
 		if (currentStart < start) {
 			restRanges.push([currentStart, start])
 		}
-		//set “end + 1" since there use the closed interval in search function
+		//set "end + 1" since there use the closed interval in search function
 		currentStart = Math.max(currentStart, end + 1)
 	}
 
@@ -113,4 +113,51 @@ export function isStrictnessSatisfied(strictnessCoefficient: number, target: str
 export const debugFn = (fn: () => void) => {
 	if (process.env.NODE_ENV === 'test') return
 	fn()
+}
+
+const ALL_CHINESE_REGEX = /^[\u4e00-\u9fff]+$/
+
+export const isAllChinese = (str: string): boolean => {
+	if (!str.length) return false
+	if (str.length <= 6) {
+		for (let i = 0; i < str.length; i++) {
+			const code = str.charCodeAt(i)
+			if (code < 0x4e00 || code > 0x9fff) {
+				return false
+			}
+		}
+		return true
+	}
+	return ALL_CHINESE_REGEX.test(str)
+}
+
+/**
+ *
+ * @param target 匹配字符串
+ * @param source 源字符串
+ * @returns 如果英文连续则返回原始 ranges，否则返回 undefined
+ *
+ */
+export const isContinuousLatin = (source: string, target: string, rawHitRanges?: Matrix): Matrix | undefined => {
+	let _hitRangesLength = rawHitRanges?.length || 0
+	// 未命中
+	if (!rawHitRanges || rawHitRanges?.length === 0) {
+		return undefined
+	}
+	// 连续命中
+	if (rawHitRanges.length === 1) {
+		return rawHitRanges
+	}
+	// 从rawHitRanges中删除 源字符串是非英文的
+	for (const [start, end] of rawHitRanges) {
+		const substring = source.slice(start, end + 1).toLowerCase()
+		if (isAllChinese(substring)) {
+			_hitRangesLength--
+		}
+	}
+	const queryWordLength = target
+		.trim()
+		.split(/\s+/)
+		.filter((w) => !isAllChinese(w))
+	return queryWordLength.length >= _hitRangesLength ? rawHitRanges : undefined
 }
