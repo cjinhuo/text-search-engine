@@ -202,4 +202,46 @@ describe('pureSearch', () => {
 		const result = pureSearch(source, target, { pinyinMap: {}, isCharConsecutive: true })
 		expect(result).not.toBeUndefined() // 连续模式下，中文和英文不要求连续，可以分别命中
 	})
+
+	test('test edge case', () => {
+		const source = '你 Chinese'
+		const target1 = 'n Chis'
+		const result = pureSearch(source, target1, { pinyinMap: { 你: ['ni'] }, isCharConsecutive: true })
+		expect(result).toBeUndefined()
+
+		const target2 = '你 Chis'
+		const result2 = pureSearch(source, target2, { pinyinMap: { 你: ['ni'] }, isCharConsecutive: true })
+		expect(result2).toBeUndefined()
+
+		const secondSource = 'Chinese 我 Chinese'
+		const secondTarget = 'cese w'
+		const secondResult = pureSearch(secondSource, secondTarget, { pinyinMap: { 我: ['wo'] }, isCharConsecutive: true })
+		expect(secondResult).toBeUndefined()
+	})
+
+	test('test continuous word', () => {
+		const source = 'Chinese中国 People人'
+		const pinyinMap = { 中: ['zhong'], 国: ['guo'], 人: ['ren'] }
+		const target = 'esezg 人'
+
+		// 传递 isCharConsecutive 的情况
+		const result = pureSearch(source, target, {
+			pinyinMap,
+			isCharConsecutive: true,
+		})
+		expect(result).not.toBeUndefined()
+	})
+
+	test('test continuous same word', () => {
+		const source = '那 nah'
+		const pinyinMap = { 那: ['na'] }
+		const target = 'n nh'
+
+		// 传递 isCharConsecutive 的情况
+		const result = pureSearch(source, target, {
+			pinyinMap,
+			isCharConsecutive: true,
+		})
+		expect(result).toBeUndefined()
+	})
 })

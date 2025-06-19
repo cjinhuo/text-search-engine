@@ -138,7 +138,12 @@ export const isAllChinese = (str: string): boolean => {
  * @returns 如果英文连续则返回 true，否则返回 false
  *
  */
-export const isConsecutiveForChar = (source: string, target: string, rawHitRanges?: Matrix): boolean => {
+export const isConsecutiveForChar = (
+	source: string,
+	target: string,
+	wordHitRangesMapping: Record<string, Matrix>,
+	rawHitRanges?: Matrix
+): boolean => {
 	let _hitRangesLength = rawHitRanges?.length || 0
 	// 未命中
 	if (!rawHitRanges || rawHitRanges?.length === 0) {
@@ -148,16 +153,30 @@ export const isConsecutiveForChar = (source: string, target: string, rawHitRange
 	if (rawHitRanges.length === 1) {
 		return true
 	}
-	// 从rawHitRanges中删除 源字符串是非英文的
-	for (const [start, end] of rawHitRanges) {
-		const substring = source.slice(start, end + 1).toLowerCase()
-		if (isAllChinese(substring)) {
-			_hitRangesLength--
+
+	const queryWord = target.trim().toLowerCase().split(/\s+/)
+	let _queryWordLength = queryWord.length
+
+	for (const [index, _] of queryWord.entries()) {
+		const hitIndices = wordHitRangesMapping[index]
+		// hitIndices：当前word，命中的索引
+		if (hitIndices) {
+			let isTargetAllChinese = true
+			for (const [start, end] of hitIndices) {
+				const substring = source.slice(start, end + 1).toLowerCase()
+				if (!isAllChinese(substring)) {
+					isTargetAllChinese = false
+				} else {
+					// hitRange中索引对应source是全中文，_hitRangesLength--
+					_hitRangesLength--
+				}
+			}
+			// 如果当前target word命中的source word都是中文，_queryWordLength--
+			if (isTargetAllChinese) {
+				_queryWordLength--
+			}
 		}
 	}
-	const queryWordLength = target
-		.trim()
-		.split(/\s+/)
-		.filter((w) => !isAllChinese(w))
-	return queryWordLength.length >= _hitRangesLength
+
+	return _queryWordLength >= _hitRangesLength
 }
