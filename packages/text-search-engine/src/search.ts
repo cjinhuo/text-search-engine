@@ -180,32 +180,56 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
  * @param sentence the target sentence
  */
 export function searchSentenceByBoundaryMapping(boundaryMapping: SourceMappingData, sentence: string) {
-	if (!sentence) return undefined
+	const wordHitRangesMapping: Record<string, Matrix> = {}
+	if (!sentence) {
+		return {
+			hitRanges: undefined,
+			wordHitRangesMapping,
+		}
+	}
 	const hitRangesByIndexOf = searchWithIndexOf(boundaryMapping.originalString, sentence)
-	if (hitRangesByIndexOf) return hitRangesByIndexOf
-
+	if (hitRangesByIndexOf)
+		return {
+			hitRanges: hitRangesByIndexOf,
+			wordHitRangesMapping,
+		}
 	// if target include space characters, we should split it first and then iterate it one by one.
 	const words = sentence.trim().split(/\s+/)
 	const hitRanges: Matrix = []
 	// iterate through each word
-	for (const word of words) {
+	for (const [index, word] of words.entries()) {
 		// get the rest ranges of the source
 		const restRanges = getRestRanges(boundaryMapping.originalLength, hitRanges)
-		if (!restRanges.length) return undefined
+		if (!restRanges.length) {
+			return {
+				hitRanges: undefined,
+				wordHitRangesMapping,
+			}
+		}
+
 		let isHitByWord = false
 		for (const range of restRanges) {
 			// continue to iterate the rest ranges of the source, search for matches
 			const hitRangesByWord = searchByBoundaryMapping(boundaryMapping, word, range[0], range[1])
 			if (hitRangesByWord) {
 				isHitByWord = true
+				wordHitRangesMapping[index] = hitRangesByWord
 				hitRanges.push(...hitRangesByWord)
 				break
 			}
 		}
-		if (!isHitByWord) return undefined
+		if (!isHitByWord) {
+			return {
+				hitRanges: undefined,
+				wordHitRangesMapping,
+			}
+		}
 	}
 
-	return hitRanges.sort((a, b) => a[0] - b[0])
+	return {
+		hitRanges: hitRanges.sort((a, b) => a[0] - b[0]),
+		wordHitRangesMapping,
+	}
 }
 
 export function searchWithIndexOf(source: string, target: string) {
@@ -214,20 +238,32 @@ export function searchWithIndexOf(source: string, target: string) {
 }
 
 export function searchEntry(source: string, target: string, getBoundaryMapping: (source: string) => SourceMappingData) {
-	return searchWithIndexOf(source, target) || searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
+	const hitRangesByIndexOf = searchWithIndexOf(source, target)
+	if (hitRangesByIndexOf) {
+		return {
+			rawHitRanges: hitRangesByIndexOf,
+			wordHitRangesMapping: {},
+		}
+	}
+	const { hitRanges, wordHitRangesMapping } = searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
+	return {
+		rawHitRanges: hitRanges,
+		wordHitRangesMapping,
+	}
 }
 
 debugFn(() => {
-	const originalString = '你 Chinese'
-	const input = 'Chis n'
+	const originalString = 'zz 中国Chinese People'
+	const input = 'z zgp'
 	console.log('original string:', originalString, 'input:', input)
 	const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
 	console.log('boundaryData', boundaryData)
-	const hitIndices = searchSentenceByBoundaryMapping(boundaryData, input)
-	if (hitIndices) {
-		console.log('hitIndices', hitIndices)
-		console.log('isConsecutiveForChar', isConsecutiveForChar(originalString, input, hitIndices))
-		console.log('merged spaces', mergeSpacesWithRanges(originalString, hitIndices))
-		console.log(highlightTextWithRanges(originalString, mergeSpacesWithRanges(originalString, hitIndices)))
+	const { hitRanges, wordHitRangesMapping } = searchSentenceByBoundaryMapping(boundaryData, input)
+	console.log('wordHitRangesMapping', wordHitRangesMapping)
+	if (hitRanges) {
+		console.log('hitRanges', hitRanges)
+		// console.log('isConsecutiveForChar', isConsecutiveForChar(originalString, input, hitIndices))
+		console.log('merged spaces', mergeSpacesWithRanges(originalString, hitRanges))
+		console.log(highlightTextWithRanges(originalString, mergeSpacesWithRanges(originalString, hitRanges)))
 	}
 })

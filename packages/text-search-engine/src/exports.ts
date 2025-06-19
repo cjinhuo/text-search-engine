@@ -38,10 +38,14 @@ export function pureSearch(source: string, target: string, _option: SearchOption
 		? [source, target]
 		: [source.toLocaleLowerCase(), target.toLocaleLowerCase()]
 
-	const rawHitRanges = searchEntry(_source, _target, extractBoundaryMapping.bind(null, _source, option.pinyinMap))
+	const { rawHitRanges, wordHitRangesMapping } = searchEntry(
+		_source,
+		_target,
+		extractBoundaryMapping.bind(null, _source, option.pinyinMap)
+	)
 	if (!rawHitRanges) return undefined
 
-	if (option.isCharConsecutive && !isConsecutiveForChar(source, target, rawHitRanges)) {
+	if (option.isCharConsecutive && !isConsecutiveForChar(_source, _target, wordHitRangesMapping, rawHitRanges)) {
 		return undefined
 	}
 
