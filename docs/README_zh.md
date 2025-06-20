@@ -1,6 +1,6 @@
 <div align="center">
     <h2>Text Search Engine</h2>    
-    
+
 [![npm version](https://img.shields.io/npm/v/text-search-engine.svg?style=flat)](https://www.npmjs.com/package/text-search-engine)
 [![GitHub last commit](https://img.shields.io/github/last-commit/cjinhuo/text-search-engine.svg?style=flat)](https://github.com/cjinhuo/text-search-engine/commits/master)
 [![npm downloads](https://img.shields.io/npm/dm/text-search-engine.svg?style=flat)](http://npm-stat.com/charts.html?package=cjinhuo/text-search-engine)
@@ -101,12 +101,12 @@ console.log(highlightMatches('Node.js 最强监控平台 V9', 'nodev9'))
 
 ## options
 
-| 选项名称                | 默认值      | 描述                                                                                                                                      | 示例                                                                                                                                                                                                                                                                                                |
-| ----------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `mergeSpaces`           | `true`      | 是否合并匹配项之间的空格。当设置为 true 时，会将匹配结果中间的空格合并为连续的索引范围。                                                  | `search('chrome 应用商店', 'meyinyon')` 返回 `[[4, 5], [7, 8]]`<br/><br/>`search('chrome 应用商店', 'meyinyon', { mergeSpaces: true })` 返回 `[[4, 8]]`                                                                                                                                             |
-| `strictnessCoefficient` | `undefined` | 严格系数，用于控制匹配的严格程度。当设置为数值时，如果匹配的字符数小于等于 `Math.ceil(查询长度 * 系数)`，则返回结果，否则返回 undefined。 | `search('Node.js 最强监控平台 V8', 'nozjk')` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` 返回 `undefined` |
-| `isCharConsecutive`     | `true`      | 控制匹配的字符是否需要在源字符串中连续。当设置为 true 时，要求匹配的字符在源字符串中连续（中文和英文不需要连续）。                        | `search('Chinese@中国 People-人', 'chie')` 返回 `[[0, 2], [4, 4]]`<br/>`search('Chinese@中国 People-人', 'chie', { isCharConsecutive: true })` 返回 `undefined`<br/>`search('Chinese@中国 People-人', '中ple', { isCharConsecutive: true })` 返回 `[[8, 8], [14, 16]]`                              |
-| `strictCase`            | `undefined` | 控制大小写敏感匹配。当设置为 true 时，搜索将匹配确切的大小写。当设置为 false 时，搜索将不区分大小写。当为 undefined 时，使用默认行为。    | `search('Hello World', 'hello')` 返回 `[[0, 4]]`<br/>`search('Hello World', 'hello', { strictCase: true })` 返回 `undefined`<br/>`search('Hello World', 'hello', { strictCase: false })` 返回 `[[0, 4]]`                                                                                            |
+| 选项名称                | 默认值      | 描述                                                         |
+| ----------------------- | ----------- | ------------------------------------------------------------ |
+| `mergeSpaces`           | `true`      | 是否合并匹配项之间的空格。当设置为 true 时，会将匹配结果中间的空格合并为连续的索引范围。<br /><br />`search('chrome 应用商店', 'meyinyon',{ mergeSpaces: false })` 返回 `[[4, 5], [7, 8]]`<br/><br/>`search('chrome 应用商店', 'meyinyon', { mergeSpaces: true })` 返回 `[[4, 8]]` |
+| `strictnessCoefficient` | `undefined` | 严格系数，用于控制匹配的严格程度。当设置为数值时，如果匹配的字符数小于等于 `Math.ceil(查询长度 * 系数)`，则返回结果，否则返回 undefined。<br /><br />`search('Node.js 最强监控平台 V8', 'nozjk')` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` 返回 `undefined` |
+| `isCharConsecutive`     | `false`     | 控制匹配的字符是否需要在源字符串中连续。当设置为 true 时，要求匹配的字符在源字符串中连续（中文和英文不需要连续）。<br /><br />`search('Chinese@中国 People-人', 'chie')` 返回 `[[0, 2], [4, 4]]`<br/>`search('Chinese@中国 People-人', 'chie', { isCharConsecutive: true })` 返回 `undefined`<br/>`search('Chinese@中国 People-人', '中ple', { isCharConsecutive: true })` 返回 `[[8, 8], [14, 16]]` |
+| `strictCase`            | `undefined` | 控制大小写敏感匹配。当设置为 true 时，搜索将匹配确切的大小写。当设置为 false 时，搜索将不区分大小写。<br /><br />`search('Hello World', 'hello')` 返回 `[[0, 4]]`<br/>`search('Hello World', 'hello', { strictCase: true })` 返回 `undefined`<br/>`search('Hello World', 'hello', { strictCase: false })` 返回 `[[0, 4]]` |
 
 
 
