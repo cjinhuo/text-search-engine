@@ -180,7 +180,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
  * @param sentence the target sentence
  */
 export function searchSentenceByBoundaryMapping(boundaryMapping: SourceMappingData, sentence: string) {
-	const wordHitRangesMapping: Record<string, Matrix> = {}
+	const wordHitRangesMapping: Record<number, Matrix> = {}
 	if (!sentence) {
 		return {
 			hitRanges: undefined,

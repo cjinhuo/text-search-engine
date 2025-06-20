@@ -49,9 +49,12 @@ const ListSearch = () => {
 		const start = performance.now()
 		const filteredData = sourceMappingArray
 			.reduce<ListItemType[]>((acc, item) => {
-				const { hitRanges } = searchSentenceByBoundaryMapping(item, inputValue.trim().toLocaleLowerCase())
+				const { hitRanges, wordHitRangesMapping } = searchSentenceByBoundaryMapping(
+					item,
+					inputValue.trim().toLocaleLowerCase()
+				)
 				hitRanges &&
-					isConsecutiveForChar(item.passValue, inputValue, hitRanges) &&
+					isConsecutiveForChar(item.passValue, inputValue, wordHitRangesMapping, hitRanges) &&
 					acc.push({
 						passValue: item.passValue,
 						hitRanges: mergeSpacesWithRanges(item.passValue, hitRanges),

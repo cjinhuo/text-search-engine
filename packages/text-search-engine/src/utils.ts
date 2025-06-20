@@ -141,7 +141,7 @@ export const isAllChinese = (str: string): boolean => {
 export const isConsecutiveForChar = (
 	source: string,
 	target: string,
-	wordHitRangesMapping: Record<string, Matrix>,
+	wordHitRangesMapping: Record<number, Matrix>,
 	rawHitRanges?: Matrix
 ): boolean => {
 	let _hitRangesLength = rawHitRanges?.length || 0
