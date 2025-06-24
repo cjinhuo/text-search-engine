@@ -94,7 +94,7 @@ The console will output: <mark>Node</mark>.js 最强监控平台 <mark>V9</mark>
 
 ## options
 
-| Option Name             | Default Value | Description                                                  |
+| Option Name             | Default Value | Description & Example                                                  |
 | ----------------------- | ------------- | ------------------------------------------------------------ |
 | `mergeSpaces`           | `true`        | Whether to merge spaces between matched items. When set to true, it will merge spaces in the middle of matched results into consecutive index ranges.<br /><br />`search('chrome 应用商店', 'meyinyon',{ mergeSpaces: false })` returns `[[4, 5], [7, 8]]`<br/><br/>`search('chrome 应用商店', 'meyinyon', { mergeSpaces: true })` returns `[[4, 8]]` |
 | `strictnessCoefficient` | `undefined`   | Strictness coefficient to control the strictness of matching. When a numeric value is set, if the number of matched characters is less than or equal to `Math.ceil(query length * coefficient)`, it returns the result, otherwise returns undefined.<br /><br />`search('Node.js 最强监控平台 V8', 'nozjk')` returns `[[0, 1], [8, 8], [10, 11]]`<br/><br />`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` returns `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` returns `undefined` |
