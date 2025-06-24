@@ -1,5 +1,15 @@
 # text-search-engine
 
+## 1.5.0
+
+### Minor Changes
+
+- 1ceaee6: Consecutive Word Matching: add isCharConsecutive search param
+
+### Patch Changes
+
+- 6acbe8e: fix search with isCharConsecutive
+
 ## 1.5.0-beta.0
 
 ### Minor Changes
