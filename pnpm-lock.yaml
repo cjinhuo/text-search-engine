@@ -53,8 +53,8 @@ importers:
         specifier: ^22.1.0
         version: 22.1.0
       changesets-toolkit:
-        specifier: ^0.0.1
-        version: 0.0.1(debug@4.3.6)
+        specifier: ^0.0.2
+        version: 0.0.2(debug@4.3.6)
       clipanion:
         specifier: 4.0.0-rc.3
         version: 4.0.0-rc.3(typanion@3.14.0)
@@ -3942,10 +3942,10 @@ packages:
       }
     engines: { node: ^12.17.0 || ^14.13 || >=16.0.0 }
 
-  changesets-toolkit@0.0.1:
+  changesets-toolkit@0.0.2:
     resolution:
       {
-        integrity: sha512-YODETKszbhT6MRUPAw9KMfojwuAVsLMYXg86DnW4W4jhIkCTqVP9iV1i8MVIMCAsupLvfGk3F6uj6Ka50qNFpw==,
+        integrity: sha512-+8fx/B5prn4PkmYfE+PzpAhHBSGRPsMBJdgwCJjSZX5qgs5+G1pdohM/Ti8pUZdBhNcwwjlDkLToe609yU1TEw==,
       }
     hasBin: true
 
@@ -11503,12 +11503,12 @@ snapshots:
 
   chalk@5.3.0: {}
 
-  changesets-toolkit@0.0.1(debug@4.3.6):
+  changesets-toolkit@0.0.2(debug@4.3.6):
     dependencies:
       axios: 1.10.0(debug@4.3.6)
       consola: 3.2.3
       dayjs: 1.11.13
-      execa: 6.1.0
+      execa: 5.1.1
       fast-glob: 3.3.3
       micromatch: 4.0.8
       minimist: 1.2.8
