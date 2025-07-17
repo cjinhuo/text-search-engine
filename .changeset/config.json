@@ -1,11 +1,11 @@
 {
-	"$schema": "https://unpkg.com/@changesets/config@2.2.0/schema.json",
-	"changelog": "@changesets/cli/changelog",
-	"commit": false,
+	"$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
+	"changelog": ["changesets-toolkit/dist/changelog.js", {}],
+	"commit": ["changesets-toolkit/dist/commit.js", {}],
+	"updateInternalDependencies": "patch",
 	"fixed": [],
 	"linked": [],
 	"access": "public",
 	"baseBranch": "master",
-	"updateInternalDependencies": "patch",
 	"ignore": []
 }

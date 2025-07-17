@@ -1,0 +1,42 @@
+name: Release NPM Package
+
+env:
+  CHANGESET_READ_REPO_TOKEN: ${{ secrets.CHANGESET_READ_REPO_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.0.0
+        with:
+          version: 10
+      - name: Run Pnpm
+        run: pnpm install --no-frozen-lockfile
+      - name: Build
+        run: pnpm build
+        # 先build 完再 install 是为了让 changeset_version 的 bin 能正常使用
+      - name: Build Changeset-toolkit bin
+        run: pnpm install --no-frozen-lockfile
+      - name: Configure Git
+        run: |
+          git config --global user.name "Shanks"
+          git config --global user.email "cjinhuo@qq.com"
+      - name: Bump version
+        run: pnpm changeset_version --git-push
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # This expects you to have a script called release which does a build for your packages and calls changeset publish
+          publish: pnpm changeset_publish
