@@ -33,7 +33,7 @@ jobs:
           git config --global user.name "Shanks"
           git config --global user.email "cjinhuo@qq.com"
       - name: Bump version
-        run: pnpm changeset_version
+        run: pnpm changeset_version --git-push
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1

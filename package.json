@@ -37,7 +37,7 @@
 		"@types/debug": "^4.1.12",
 		"@types/jest": "^29.5.12",
 		"@types/node": "^22.1.0",
-		"changesets-toolkit": "^0.0.2",
+		"changesets-toolkit": "^0.0.3",
 		"clipanion": "4.0.0-rc.3",
 		"consola": "^3.2.3",
 		"cz-git": "^1.9.4",
