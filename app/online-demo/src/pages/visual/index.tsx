@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
 import {
 	Alert,
 	Box,
@@ -134,6 +135,13 @@ function simulateDP(source: string, target: string): SimulationResult {
 			const currentTargetChar = target[matchIndex]
 			const checkPosition = matchedPinyinIndex
 
+			let matchResult: string
+			let newScoreValue: number | null = null
+			let updatedDpTable: number[] | null = null
+			let updatedDpMatchPath: number[] | null = null
+			let gapValue: number | undefined
+			let finalDpTable: number[] | undefined
+
 			if (isEqual && (isNewWord || isContinuation) && (matchIndex === 0 || prevScore > 0)) {
 				const newScore = prevScore + prevMatchedLetters * 2 + 1
 				const matchedLettersCount = prevMatchedLetters + 1
@@ -154,17 +162,17 @@ function simulateDP(source: string, target: string): SimulationResult {
 						: dpMatchPath[matchedPinyinIndex - 1][matchIndex]
 
 					foundValidMatchForCurrentChar = true
-					var matchResult = '✅ 匹配成功！更新状态'
-					var newScoreValue = newScore
-					var updatedDpTable = [...dpTable[matchedPinyinIndex]]
-					var updatedDpMatchPath = dpMatchPath[matchedPinyinIndex][matchIndex]
+					matchResult = '✅ 匹配成功！更新状态'
+					newScoreValue = newScore
+					updatedDpTable = [...dpTable[matchedPinyinIndex]]
+					updatedDpMatchPath = dpMatchPath[matchedPinyinIndex][matchIndex]
 						? [...dpMatchPath[matchedPinyinIndex][matchIndex]]
 						: null
 				} else {
-					var matchResult = '❌ 得分不够高，不更新状态'
-					var newScoreValue = null
-					var updatedDpTable = null
-					var updatedDpMatchPath = null
+					matchResult = '❌ 得分不够高，不更新状态'
+					newScoreValue = null
+					updatedDpTable = null
+					updatedDpMatchPath = null
 				}
 			} else {
 				dpScores[matchedPinyinIndex] = dpScores[matchedPinyinIndex - 1]
@@ -179,12 +187,12 @@ function simulateDP(source: string, target: string): SimulationResult {
 						? [...dpTable[matchedPinyinIndex - 1]]
 						: [...defaultDpTableValue]
 
-				var matchResult = '⏭️ 不匹配，继承前一个状态或重置为默认值'
-				var gapValue = gap
-				var finalDpTable = [...dpTable[matchedPinyinIndex]]
-				var newScoreValue = null
-				var updatedDpTable = null
-				var updatedDpMatchPath = null
+				matchResult = '⏭️ 不匹配，继承前一个状态或重置为默认值'
+				gapValue = gap
+				finalDpTable = [...dpTable[matchedPinyinIndex]]
+				newScoreValue = null
+				updatedDpTable = null
+				updatedDpMatchPath = null
 			}
 
 			steps.push({
@@ -345,7 +353,10 @@ export default function Visual() {
 					</TableHead>
 					<TableBody>
 						{dpTable.map((row, index) => (
-							<TableRow key={index} className={index === highlightIndex ? 'bg-yellow-300 font-bold' : ''}>
+							<TableRow
+								key={`dp-table-row-${index}`}
+								className={index === highlightIndex ? 'bg-yellow-300 font-bold' : ''}
+							>
 								<TableCell className='text-xs'>{index}</TableCell>
 								<TableCell className='text-xs'>{row[0]}</TableCell>
 								<TableCell className='text-xs'>{row[1]}</TableCell>
@@ -371,7 +382,10 @@ export default function Visual() {
 					</TableHead>
 					<TableBody>
 						{dpScores.map((score, index) => (
-							<TableRow key={index} className={index === highlightIndex ? 'bg-yellow-300 font-bold' : ''}>
+							<TableRow
+								key={`dp-scores-row-${index}`}
+								className={index === highlightIndex ? 'bg-yellow-300 font-bold' : ''}
+							>
 								<TableCell className='text-xs'>{index}</TableCell>
 								<TableCell className='text-xs'>{score}</TableCell>
 							</TableRow>
@@ -392,7 +406,7 @@ export default function Visual() {
 						<TableRow>
 							<TableCell className='font-bold text-xs'>索引</TableCell>
 							{Array.from({ length: maxMatchIndex }, (_, i) => (
-								<TableCell key={i} className='font-bold text-xs'>
+								<TableCell key={`match-header-${i}`} className='font-bold text-xs'>
 									Match {i}
 								</TableCell>
 							))}
@@ -400,13 +414,16 @@ export default function Visual() {
 					</TableHead>
 					<TableBody>
 						{dpMatchPath.map((row, index) => (
-							<TableRow key={index} className={index === highlightIndex ? 'bg-yellow-300 font-bold' : ''}>
+							<TableRow
+								key={`dp-match-path-row-${index}`}
+								className={index === highlightIndex ? 'bg-yellow-300 font-bold' : ''}
+							>
 								<TableCell className='text-xs'>{index}</TableCell>
 								{Array.from({ length: maxMatchIndex }, (_, i) => {
 									const cellClass = index === highlightIndex && i === matchIndex ? 'bg-green-200 font-bold' : ''
 									const value = row[i] ? `[${row[i].join(',')}]` : 'undefined'
 									return (
-										<TableCell key={i} className={`text-xs ${cellClass}`}>
+										<TableCell key={`match-cell-${index}-${i}`} className={`text-xs ${cellClass}`}>
 											{value}
 										</TableCell>
 									)
@@ -495,7 +512,7 @@ export default function Visual() {
 																const isHighlighted = hitRanges.some(([start, end]) => index >= start && index <= end)
 																return (
 																	<span
-																		key={index}
+																		key={`highlight-char-${index}-${char}`}
 																		className={
 																			isHighlighted
 																				? 'bg-blue-100 text-blue-800 font-bold px-1 py-0.4 rounded-md border border-blue-200'
@@ -653,7 +670,7 @@ export default function Visual() {
 											<Box className='flex flex-wrap gap-1 font-mono text-sm mb-3'>
 												{targetText.split('').map((char: string, index: number) => (
 													<Box
-														key={index}
+														key={`target-char-${index}-${char}`}
 														className={`px-2 py-1 rounded border ${
 															index === currentStep.matchIndex
 																? 'bg-blue-300 border-blue-500 font-bold'
@@ -675,7 +692,7 @@ export default function Visual() {
 											<Box className='flex flex-wrap gap-1 font-mono text-sm'>
 												{mappingData.pinyinString.split('').map((char: string, index: number) => (
 													<Box
-														key={index}
+														key={`pinyin-char-${index}-${char}`}
 														className={`px-2 py-1 rounded border ${
 															index === currentStep.matchedPinyinIndex - 1
 																? 'bg-yellow-300 border-yellow-500 font-bold'
