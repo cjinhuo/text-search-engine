@@ -9,9 +9,9 @@ export function isLocalStorageDarkMode() {
 }
 
 export function getThemeMode() {
-	if (isSystemDarkMode() || isLocalStorageDarkMode()) {
-		return ThemeMode.dark
-	}
+	// if (isSystemDarkMode() || isLocalStorageDarkMode()) {
+	// 	return ThemeMode.dark
+	// }
 	return ThemeMode.light
 }
 

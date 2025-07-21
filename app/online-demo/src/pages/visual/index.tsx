@@ -613,7 +613,7 @@ export default function Visual() {
 											disabled={currentStepIndex === 0}
 											className='bg-green-600 hover:bg-green-700 disabled:bg-gray-400'
 										>
-											⬅️ 上一步
+											{`上一步(键盘⬅️)`}
 										</Button>
 										<Button
 											variant='contained'
@@ -623,7 +623,7 @@ export default function Visual() {
 											disabled={currentStepIndex === allSteps.length - 1}
 											className='bg-green-600 hover:bg-green-700 disabled:bg-gray-400'
 										>
-											下一步 ➡️
+											{`下一步(键盘➡️)`}
 										</Button>
 										<Button
 											variant='contained'
