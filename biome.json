@@ -1,18 +1,14 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+	"$schema": "https://biomejs.dev/schemas/latest/schema.json",
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
 		"useIgnoreFile": true,
 		"defaultBranch": "master"
 	},
-	"organizeImports": {
-		"enabled": true
-	},
 	"formatter": {
 		"enabled": true,
 		"formatWithErrors": false,
-		"ignore": [],
 		"attributePosition": "auto",
 		"indentStyle": "tab",
 		"indentWidth": 2,
@@ -30,6 +26,11 @@
 			"bracketSameLine": false,
 			"quoteStyle": "single",
 			"attributePosition": "auto"
+		}
+	},
+	"css": {
+		"formatter": {
+			"enabled": true
 		}
 	},
 	"json": {
