@@ -56,6 +56,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	const dpMatchPath: [number, number, number][][] = Array.from({ length: pinyinLength + 1 }, () => Array(targetLength))
 
 	// 遍历次数统计
+
 	let totalLoopCount = 0
 	for (let matchIndex = 0; matchIndex < matchLetterPositions.length; matchIndex++) {
 		// If the array index start from 0, then when accessing the 0th element to get 0 - 1,
@@ -81,7 +82,9 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 		// 标记是否找到当前字符的有效匹配
 		let foundValidMatchForCurrentChar = false
 		for (; matchedPinyinIndex <= pinyinLength; matchedPinyinIndex++) {
-			totalLoopCount++
+			debugFn(() => {
+				totalLoopCount++
+			})
 			debugFn(() => {
 				console.log('inner for letter:', pinyinString[matchedPinyinIndex - 1])
 			})
@@ -171,7 +174,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 
 	if (dpMatchPath[pinyinLength][targetLength - 1] === undefined) return undefined
 	const hitIndices: Matrix = []
-	console.log('dpMatchPath', dpMatchPath)
+	// console.log('dpMatchPath', dpMatchPath)
 	let gIndex = pinyinLength
 	let restMatched = targetLength - 1
 	while (restMatched >= 0) {
