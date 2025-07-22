@@ -277,25 +277,93 @@ export default function Visual() {
 		}
 	}, [sourceText, targetText])
 
+	// 滚动到指定位置的函数
+	const scrollToPosition = useCallback(
+		(stepIndex: number) => {
+			// 延迟执行，确保DOM已更新
+			setTimeout(() => {
+				const step = allSteps[stepIndex]
+				if (!step || step.highlightIndex === undefined) return
+
+				const highlightIndex = step.highlightIndex
+				const currentStepCol = stepIndex
+
+				// 为每个表格分别进行滚动定位
+				const tableIds = ['dp-table', 'dp-scores', 'dp-match-path']
+
+				tableIds.forEach((tableId) => {
+					const tableContainer = document.getElementById(tableId)
+					if (!tableContainer) return
+
+					// 纵向滚动：找到高亮行并滚动到中心
+					const highlightedRows = tableContainer.querySelectorAll(`tr[data-row-index="${highlightIndex}"]`)
+					if (highlightedRows.length > 0) {
+						const targetRow = highlightedRows[0] as HTMLElement
+						const containerRect = tableContainer.getBoundingClientRect()
+						const rowRect = targetRow.getBoundingClientRect()
+
+						// 计算需要滚动的距离
+						const rowCenter = rowRect.top + rowRect.height / 2
+						const containerCenter = containerRect.top + containerRect.height / 2
+						const scrollOffset = rowCenter - containerCenter
+
+						tableContainer.scrollBy({
+							top: scrollOffset,
+							behavior: 'smooth',
+						})
+					}
+
+					// 横向滚动：找到当前步骤列并滚动到中心
+					setTimeout(() => {
+						const stepCells = tableContainer.querySelectorAll(`[data-step-col="${currentStepCol}"]`)
+						if (stepCells.length > 0) {
+							const targetCell = stepCells[0] as HTMLElement
+							const containerRect = tableContainer.getBoundingClientRect()
+							const cellRect = targetCell.getBoundingClientRect()
+
+							// 计算需要滚动的距离
+							const cellCenter = cellRect.left + cellRect.width / 2
+							const containerCenter = containerRect.left + containerRect.width / 2
+							const scrollOffset = cellCenter - containerCenter
+
+							tableContainer.scrollBy({
+								left: scrollOffset,
+								behavior: 'smooth',
+							})
+						}
+					}, 100)
+				})
+			}, 200)
+		},
+		[allSteps]
+	)
+
 	const nextStep = useCallback(() => {
 		if (currentStepIndex < allSteps.length - 1) {
-			setCurrentStepIndex(currentStepIndex + 1)
+			const newIndex = currentStepIndex + 1
+			setCurrentStepIndex(newIndex)
+			scrollToPosition(newIndex)
 		}
-	}, [currentStepIndex, allSteps.length])
+	}, [currentStepIndex, allSteps.length, scrollToPosition])
 
 	const previousStep = useCallback(() => {
 		if (currentStepIndex > 0) {
-			setCurrentStepIndex(currentStepIndex - 1)
+			const newIndex = currentStepIndex - 1
+			setCurrentStepIndex(newIndex)
+			scrollToPosition(newIndex)
 		}
-	}, [currentStepIndex])
+	}, [currentStepIndex, scrollToPosition])
 
 	const resetToStart = useCallback(() => {
 		setCurrentStepIndex(0)
-	}, [])
+		scrollToPosition(0)
+	}, [scrollToPosition])
 
 	const jumpToLastStep = useCallback(() => {
-		setCurrentStepIndex(allSteps.length - 1)
-	}, [allSteps.length])
+		const lastIndex = allSteps.length - 1
+		setCurrentStepIndex(lastIndex)
+		scrollToPosition(lastIndex)
+	}, [allSteps.length, scrollToPosition])
 
 	// 监听输入变化，自动触发分析
 	useEffect(() => {
@@ -320,6 +388,17 @@ export default function Visual() {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (!showTables || allSteps.length === 0) return
 
+			// 检查当前聚焦的元素是否为输入框
+			const activeElement = document.activeElement
+			const isInputFocused =
+				activeElement &&
+				(activeElement.tagName === 'INPUT' ||
+					activeElement.tagName === 'TEXTAREA' ||
+					activeElement.getAttribute('contenteditable') === 'true')
+
+			// 只有在输入框未聚焦时才响应键盘事件
+			if (isInputFocused) return
+
 			switch (event.key) {
 				case 'ArrowLeft':
 					event.preventDefault()
@@ -338,30 +417,55 @@ export default function Visual() {
 
 	const currentStep = allSteps[currentStepIndex]
 
-	const generateTableHTML = (dpTable: number[][], highlightIndex?: number) => {
+	const generateTableHTML = (allSteps: any[], currentStepIndex: number, highlightIndex?: number) => {
+		// 获取所有步骤的 dpTable 数据，但只显示到当前步骤
+		const relevantSteps = allSteps.slice(0, currentStepIndex + 1)
+		const allDpTables = relevantSteps.map((step) => step.dpTable)
+		const maxLength = Math.max(...allDpTables.map((table) => table.length))
+
 		return (
-			<TableContainer component={Paper} className='max-h-96 overflow-auto'>
+			<TableContainer component={Paper} className='max-h-96 overflow-auto' id='dp-table'>
 				<Table size='small' stickyHeader>
 					<TableHead>
 						<TableRow>
-							<TableCell className='font-bold text-xs'>索引</TableCell>
-							<TableCell className='font-bold text-xs'>匹配字符数</TableCell>
-							<TableCell className='font-bold text-xs'>匹配字母数</TableCell>
-							<TableCell className='font-bold text-xs'>边界开始</TableCell>
-							<TableCell className='font-bold text-xs'>边界结束</TableCell>
+							<TableCell className='font-bold text-xs sticky left-0 bg-white z-10 border-r-2 border-gray-300'>
+								索引
+							</TableCell>
+							{relevantSteps.map((_, stepIndex) => (
+								<TableCell key={`step-header-${stepIndex}`} className='font-bold text-xs' data-step-col={stepIndex}>
+									Step {stepIndex}
+								</TableCell>
+							))}
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{dpTable.map((row, index) => (
+						{Array.from({ length: maxLength }, (_, rowIndex) => (
 							<TableRow
-								key={`dp-table-row-${index}`}
-								className={index === highlightIndex ? 'bg-yellow-300 font-bold' : ''}
+								key={`dp-table-row-${rowIndex}`}
+								className={rowIndex === highlightIndex ? 'bg-yellow-300 font-bold' : ''}
+								data-row-index={rowIndex}
 							>
-								<TableCell className='text-xs'>{index}</TableCell>
-								<TableCell className='text-xs'>{row[0]}</TableCell>
-								<TableCell className='text-xs'>{row[1]}</TableCell>
-								<TableCell className='text-xs'>{row[2]}</TableCell>
-								<TableCell className='text-xs'>{row[3]}</TableCell>
+								<TableCell
+									className={`text-xs font-bold sticky left-0 z-10 border-r-2 border-gray-300 ${rowIndex === highlightIndex ? 'bg-yellow-300' : 'bg-white'}`}
+								>
+									{rowIndex}
+								</TableCell>
+								{relevantSteps.map((step, stepIndex) => {
+									const cellClass =
+										rowIndex === highlightIndex && stepIndex === currentStepIndex ? 'bg-green-200 font-bold' : ''
+									const row = step.dpTable[rowIndex]
+									const value = row ? `[${row.join(',')}]` : 'undefined'
+									return (
+										<TableCell
+											key={`table-cell-${rowIndex}-${stepIndex}`}
+											className={`text-xs ${cellClass}`}
+											data-step-col={stepIndex}
+											data-row-index={rowIndex}
+										>
+											{value}
+										</TableCell>
+									)
+								})}
 							</TableRow>
 						))}
 					</TableBody>
@@ -370,24 +474,55 @@ export default function Visual() {
 		)
 	}
 
-	const generateScoresHTML = (dpScores: number[], highlightIndex?: number) => {
+	const generateScoresHTML = (allSteps: any[], currentStepIndex: number, highlightIndex?: number) => {
+		// 获取所有步骤的 dpScores 数据，但只显示到当前步骤
+		const relevantSteps = allSteps.slice(0, currentStepIndex + 1)
+		const allDpScores = relevantSteps.map((step) => step.dpScores)
+		const maxLength = Math.max(...allDpScores.map((scores) => scores.length))
+
 		return (
-			<TableContainer component={Paper} className='max-h-96 overflow-auto'>
+			<TableContainer component={Paper} className='max-h-96 overflow-auto' id='dp-scores'>
 				<Table size='small' stickyHeader>
 					<TableHead>
 						<TableRow>
-							<TableCell className='font-bold text-xs'>索引</TableCell>
-							<TableCell className='font-bold text-xs'>得分</TableCell>
+							<TableCell className='font-bold text-xs sticky left-0 bg-white z-10 border-r-2 border-gray-300'>
+								索引
+							</TableCell>
+							{relevantSteps.map((_, stepIndex) => (
+								<TableCell key={`step-header-${stepIndex}`} className='font-bold text-xs' data-step-col={stepIndex}>
+									Step {stepIndex}
+								</TableCell>
+							))}
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{dpScores.map((score, index) => (
+						{Array.from({ length: maxLength }, (_, rowIndex) => (
 							<TableRow
-								key={`dp-scores-row-${index}`}
-								className={index === highlightIndex ? 'bg-yellow-300 font-bold' : ''}
+								key={`dp-scores-row-${rowIndex}`}
+								className={rowIndex === highlightIndex ? 'bg-yellow-300 font-bold' : ''}
+								data-row-index={rowIndex}
 							>
-								<TableCell className='text-xs'>{index}</TableCell>
-								<TableCell className='text-xs'>{score}</TableCell>
+								<TableCell
+									className={`text-xs font-bold sticky left-0 z-10 border-r-2 border-gray-300 ${rowIndex === highlightIndex ? 'bg-yellow-300' : 'bg-white'}`}
+								>
+									{rowIndex}
+								</TableCell>
+								{relevantSteps.map((step, stepIndex) => {
+									const cellClass =
+										rowIndex === highlightIndex && stepIndex === currentStepIndex ? 'bg-green-200 font-bold' : ''
+									const score = step.dpScores[rowIndex]
+									const value = score !== undefined ? score : 'undefined'
+									return (
+										<TableCell
+											key={`scores-cell-${rowIndex}-${stepIndex}`}
+											className={`text-xs ${cellClass}`}
+											data-step-col={stepIndex}
+											data-row-index={rowIndex}
+										>
+											{value}
+										</TableCell>
+									)
+								})}
 							</TableRow>
 						))}
 					</TableBody>
@@ -400,13 +535,15 @@ export default function Visual() {
 		const maxMatchIndex = Math.max(...dpMatchPath.map((row) => row.length))
 
 		return (
-			<TableContainer component={Paper} className='max-h-96 overflow-auto'>
+			<TableContainer component={Paper} className='max-h-96 overflow-auto' id='dp-match-path'>
 				<Table size='small' stickyHeader>
 					<TableHead>
 						<TableRow>
-							<TableCell className='font-bold text-xs'>索引</TableCell>
+							<TableCell className='font-bold text-xs sticky left-0 bg-white z-10 border-r-2 border-gray-300'>
+								索引
+							</TableCell>
 							{Array.from({ length: maxMatchIndex }, (_, i) => (
-								<TableCell key={`match-header-${i}`} className='font-bold text-xs'>
+								<TableCell key={`match-header-${i}`} className='font-bold text-xs' data-step-col={i}>
 									Match {i}
 								</TableCell>
 							))}
@@ -417,13 +554,23 @@ export default function Visual() {
 							<TableRow
 								key={`dp-match-path-row-${index}`}
 								className={index === highlightIndex ? 'bg-yellow-300 font-bold' : ''}
+								data-row-index={index}
 							>
-								<TableCell className='text-xs'>{index}</TableCell>
+								<TableCell
+									className={`text-xs font-bold sticky left-0 z-10 border-r-2 border-gray-300 ${index === highlightIndex ? 'bg-yellow-300' : 'bg-white'}`}
+								>
+									{index}
+								</TableCell>
 								{Array.from({ length: maxMatchIndex }, (_, i) => {
 									const cellClass = index === highlightIndex && i === matchIndex ? 'bg-green-200 font-bold' : ''
 									const value = row[i] ? `[${row[i].join(',')}]` : 'undefined'
 									return (
-										<TableCell key={`match-cell-${index}-${i}`} className={`text-xs ${cellClass}`}>
+										<TableCell
+											key={`match-cell-${index}-${i}`}
+											className={`text-xs ${cellClass}`}
+											data-step-col={i}
+											data-row-index={index}
+										>
 											{value}
 										</TableCell>
 									)
@@ -726,11 +873,18 @@ export default function Visual() {
 								<Grid size={{ xs: 12, lg: 4 }}>
 									<Card>
 										<CardHeader
-											title='📋 dpTable'
+											title={
+												<div>
+													<div>📋 dpTable</div>
+													<div className='text-xs text-gray-600 font-normal mt-1'>
+														格式: [匹配字符数, 匹配字母数, 边界开始, 边界结束]
+													</div>
+												</div>
+											}
 											classes={{ title: 'text-center text-sm font-bold bg-gray-100 p-1 rounded' }}
 										/>
 										<CardContent className='p-2'>
-											{generateTableHTML(currentStep.dpTable, currentStep.highlightIndex)}
+											{generateTableHTML(allSteps, currentStepIndex, currentStep.highlightIndex)}
 										</CardContent>
 									</Card>
 								</Grid>
@@ -738,11 +892,16 @@ export default function Visual() {
 								<Grid size={{ xs: 12, lg: 4 }}>
 									<Card>
 										<CardHeader
-											title='📊 dpScores'
+											title={
+												<div>
+													<div>📊 dpScores</div>
+													<div className='text-xs text-gray-600 font-normal mt-1'>每个位置的匹配得分</div>
+												</div>
+											}
 											classes={{ title: 'text-center text-sm font-bold bg-gray-100 p-1 rounded' }}
 										/>
 										<CardContent className='p-2'>
-											{generateScoresHTML(currentStep.dpScores, currentStep.highlightIndex)}
+											{generateScoresHTML(allSteps, currentStepIndex, currentStep.highlightIndex)}
 										</CardContent>
 									</Card>
 								</Grid>
@@ -750,7 +909,14 @@ export default function Visual() {
 								<Grid size={{ xs: 12, lg: 4 }}>
 									<Card>
 										<CardHeader
-											title='🛤️ dpMatchPath'
+											title={
+												<div>
+													<div>🛤️ dpMatchPath</div>
+													<div className='text-xs text-gray-600 font-normal mt-1'>
+														格式: [匹配字母（拼音）下标, 匹配原文下标, 匹配字母个数]
+													</div>
+												</div>
+											}
 											classes={{ title: 'text-center text-sm font-bold bg-gray-100 p-1 rounded' }}
 										/>
 										<CardContent className='p-2'>
