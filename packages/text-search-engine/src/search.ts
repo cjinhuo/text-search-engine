@@ -7,6 +7,9 @@ import { debugFn, getRestRanges, highlightTextWithRanges, isConsecutiveForChar, 
  * @param data the processed data of `extractBoundaryMapping` which records the mapping relationship
  *             between letters, pinyin, and Chinese characters
  * @param target only could be a single word which can't include space or special characters
+ * @param startIndex the start index of the original string
+ * @param endIndex the end index of the original string
+ *
  * @returns the hit indices
  */
 export function searchByBoundaryMapping(data: SourceMappingData, target: string, startIndex: number, endIndex: number) {
@@ -21,32 +24,45 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	const startBoundary = boundary[1][0]
 	const endBoundary = boundary[1][1]
 
-	const matchPositions: number[] = Array(targetLength).fill(-1)
+	// 输入字符与还原出来的拼音及英文匹配位置，便于直接从首个匹配位置开始遍历：
+	// source：你ni好hao target: h => 命中'好h'，下标跳过'你ni'
+	const matchLetterPositions: number[] = Array(targetLength).fill(-1)
 
-	let _matchIndex = 0
-	for (let i = 0; i < pinyinLength && _matchIndex < targetLength; i++) {
-		if (pinyinString[i] === target[_matchIndex]) {
-			matchPositions[_matchIndex++] = i
+	// 输入字符与还原出来的拼音及英文匹配个数
+	let targetMatchLetterCount = 0
+	for (let i = 0; i < pinyinLength && targetMatchLetterCount < targetLength; i++) {
+		if (pinyinString[i] === target[targetMatchLetterCount]) {
+			matchLetterPositions[targetMatchLetterCount++] = i
 		}
 	}
 
 	// it would be invalid if the input character is smaller than the matched character
-	if (_matchIndex < targetLength) return undefined
+	if (targetMatchLetterCount < targetLength) return undefined
 
 	const defaultDpTableValue = [0, 0, -1, -1]
+
+	/**
+	 * - 最优子结构 ：通过 dpTable 和 dpScores 保证每步都是最优选择
+	 * - 路径追踪 ：通过 dpMatchPath 能够完整重建匹配路径
+	 */
+
 	// x你 => x你ni target = ni
 	// n => [1, 1, xx, xx] i => [1, 2, xx, xx]
+	// dpTable：[匹配字符数（包括中文）, 匹配字母数（包括拼音和英文）, 边界开始, 边界结束] 字符包括中文，字母仅包括英文
 	const dpTable = Array.from({ length: pinyinLength + 1 }, () => defaultDpTableValue)
+	// 每个下标的得分，每一轮都会更新
 	const dpScores: number[] = Array(pinyinLength + 1).fill(0)
+	// dpMatchPath: [匹配字母（拼音）下标, 匹配原文下标, 匹配字母个数]
 	const dpMatchPath: [number, number, number][][] = Array.from({ length: pinyinLength + 1 }, () => Array(targetLength))
 
-	// 添加遍历次数统计
-	let totalLoopCount = 0
+	// 遍历次数统计
 
-	for (let matchIndex = 0; matchIndex < matchPositions.length; matchIndex++) {
+	let totalLoopCount = 0
+	for (let matchIndex = 0; matchIndex < matchLetterPositions.length; matchIndex++) {
 		// If the array index start from 0, then when accessing the 0th element to get 0 - 1,
-		// we need to check for null. Therefore, uniformly start from 1.
-		let matchedPinyinIndex = matchPositions[matchIndex] + 1
+		// we need to check for null. Therefore, index uniformly start from 1.
+		//
+		let matchedPinyinIndex = matchLetterPositions[matchIndex] + 1
 
 		debugFn(() => {
 			console.log('outer for letter:', pinyinString[matchedPinyinIndex - 1], 'matchedPinyinIndex', matchedPinyinIndex)
@@ -66,12 +82,13 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 		// 标记是否找到当前字符的有效匹配
 		let foundValidMatchForCurrentChar = false
 		for (; matchedPinyinIndex <= pinyinLength; matchedPinyinIndex++) {
-			totalLoopCount++
-
+			debugFn(() => {
+				totalLoopCount++
+			})
 			debugFn(() => {
 				console.log('inner for letter:', pinyinString[matchedPinyinIndex - 1])
 			})
-			let prevScore = currentScore
+			const prevScore = currentScore
 			// character => a chinese character or a latin
 			// letter => a letter of pinyin
 			const [prevMatchedCharacters, prevMatchedLetters, prevBoundaryStart, prevBoundaryEnd] = currentDpTableItem
@@ -89,7 +106,6 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 				prevBoundaryStart !== boundary[matchedPinyinIndex][0] - startBoundary
 
 			// for pinyin：是否是连续匹配的首字母
-			// todo 暴露这个开关，是否只匹配连续的字符或汉字
 			const isContinuation =
 				prevMatchedCharacters > 0 &&
 				// 适配多音字，比如"的" dedi，匹配到 de 后不会再匹配 di
@@ -101,13 +117,13 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 			// 除了第一次进来，只有上一个得分大于 0 时才进入
 			// 比如 chen,输入 ce，遍历 e 时如前面的 h 不是连续的，得分为 0 即 skip
 			if (isEqual && (isNewWord || isContinuation) && (matchIndex === 0 || prevScore > 0)) {
-				prevScore += prevMatchedLetters * 2 + 1
+				const computedScore = prevScore + (prevMatchedLetters * 2 + 1)
 
 				const matchedLettersCount = prevMatchedLetters + 1
 				// only update the state when the score is greater than or equal to the previous score
 				// for example, source: 'no_node', input: 'nod', it will match the second 'n'.(no_'nod'e)
-				if (prevScore >= dpScores[matchedPinyinIndex - 1]) {
-					dpScores[matchedPinyinIndex] = prevScore
+				if (computedScore >= dpScores[matchedPinyinIndex - 1]) {
+					dpScores[matchedPinyinIndex] = computedScore
 					// prevMatchedCharacters + ~~isNewWord:means the count of continuous matched characters
 					dpTable[matchedPinyinIndex] = [
 						prevMatchedCharacters + ~~isNewWord,
@@ -118,7 +134,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 
 					const originalStringIndex = boundary[matchedPinyinIndex][0] - startBoundary
 					// 只有 大于 才需要替换 dpMatchPath，不然就命中前面，比如 no_no 输入 no 命中第一次的 no
-					const newMatched = prevScore > dpScores[matchedPinyinIndex - 1]
+					const newMatched = computedScore > dpScores[matchedPinyinIndex - 1]
 					dpMatchPath[matchedPinyinIndex][matchIndex] = newMatched
 						? // 首字母时 prevMatchedCharacters = 0，不是首字母时应该加 1
 							[originalStringIndex - prevMatchedCharacters + ~~!isNewWord, originalStringIndex, matchedLettersCount]
@@ -158,10 +174,11 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 
 	if (dpMatchPath[pinyinLength][targetLength - 1] === undefined) return undefined
 	const hitIndices: Matrix = []
-
+	// console.log('dpMatchPath', dpMatchPath)
 	let gIndex = pinyinLength
 	let restMatched = targetLength - 1
 	while (restMatched >= 0) {
+		console.log('start, end, matchedLetters', gIndex, restMatched)
 		const [start, end, matchedLetters] = dpMatchPath[gIndex][restMatched]
 		hitIndices.unshift([start + startIndex, end + startIndex])
 		// 优先全字母匹配，从后开始往前遍历
@@ -253,17 +270,32 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 }
 
 debugFn(() => {
-	const originalString = 'zz 中国Chinese People'
-	const input = 'z zgp'
+	const originalString = 'zeheozh'
+	const input = 'zho'
 	console.log('original string:', originalString, 'input:', input)
 	const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
 	console.log('boundaryData', boundaryData)
-	const { hitRanges, wordHitRangesMapping } = searchSentenceByBoundaryMapping(boundaryData, input)
-	console.log('wordHitRangesMapping', wordHitRangesMapping)
+	const hitRanges = searchByBoundaryMapping(boundaryData, input, 0, originalString.length)
 	if (hitRanges) {
 		console.log('hitRanges', hitRanges)
 		// console.log('isConsecutiveForChar', isConsecutiveForChar(originalString, input, hitIndices))
-		console.log('merged spaces', mergeSpacesWithRanges(originalString, hitRanges))
-		console.log(highlightTextWithRanges(originalString, mergeSpacesWithRanges(originalString, hitRanges)))
+		// console.log('merged spaces', mergeSpacesWithRanges(originalString, hitRanges))
+		console.log(highlightTextWithRanges(originalString, hitRanges))
 	}
 })
+
+// debugFn(() => {
+// 	const originalString = 'zz 中国Chinese People'
+// 	const input = 'z zgp'
+// 	console.log('original string:', originalString, 'input:', input)
+// 	const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
+// 	console.log('boundaryData', boundaryData)
+// 	const { hitRanges, wordHitRangesMapping } = searchSentenceByBoundaryMapping(boundaryData, input)
+// 	console.log('wordHitRangesMapping', wordHitRangesMapping)
+// 	if (hitRanges) {
+// 		console.log('hitRanges', hitRanges)
+// 		// console.log('isConsecutiveForChar', isConsecutiveForChar(originalString, input, hitIndices))
+// 		console.log('merged spaces', mergeSpacesWithRanges(originalString, hitRanges))
+// 		console.log(highlightTextWithRanges(originalString, mergeSpacesWithRanges(originalString, hitRanges)))
+// 	}
+// })

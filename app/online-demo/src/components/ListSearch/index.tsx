@@ -3,9 +3,9 @@ import InputAdornment from '@mui/material/InputAdornment'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import {
-	type Matrix,
 	extractBoundaryMapping,
 	isConsecutiveForChar,
+	type Matrix,
 	mergeSpacesWithRanges,
 	searchSentenceByBoundaryMapping,
 } from 'text-search-engine'
