@@ -178,7 +178,6 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	let gIndex = pinyinLength
 	let restMatched = targetLength - 1
 	while (restMatched >= 0) {
-		console.log('start, end, matchedLetters', gIndex, restMatched)
 		const [start, end, matchedLetters] = dpMatchPath[gIndex][restMatched]
 		hitIndices.unshift([start + startIndex, end + startIndex])
 		// 优先全字母匹配，从后开始往前遍历
