@@ -3,7 +3,21 @@ import type { Matrix, SourceMappingData } from './types'
 
 /**
  * extract the mapping relationship between letters, pinyin, and Chinese characters by the source string
- * @param source the string you want to search
+ * @param source the string you want to process
+ * @param pinyinMap the pinyin map you want to use
+ * @example
+ * pinyinMap: {
+ * 	你: ['ni'],
+ *  的: ['de', 'di'],
+ * }
+ * source: 你的
+ * pinyinString: 你ni的dedi
+ * boundary: [ [ -1, -1 ], [ 0, 0 ], [ 0, 1 ], [ 0, 1 ], [ 1, 3 ], [ 1, 4 ], [ 1, 4 ], [ 1, 6 ], [ 1, 6 ] ]
+ * source: test
+ * boundary: [ [ -1, -1 ], [ 0, 0 ], [ 1, 1 ], [ 2, 2 ], [ 3, 3 ] ]
+ * source: 你test
+ * pinyinString: 你nitest
+ * boundary: [ [ -1, -1 ], [ 0, 0 ], [ 0, 1 ], [ 0, 1 ], [ 1, 3 ], [ 2, 4 ], [ 3, 5 ], [ 4, 6 ] ]
  * @returns the processed data
  */
 export function extractBoundaryMapping(source: string, pinyinMap: Record<string, string[]> = {}): SourceMappingData {
