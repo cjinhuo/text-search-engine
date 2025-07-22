@@ -1,6 +1,4 @@
 {
 	"*.@(js|ts|tsx)": ["npx @biomejs/biome check --write"],
-	"*.@(yml|yaml)": ["prettier --parser yaml --write"],
-	"*.md": ["prettier --parser markdown --write"],
 	"*.json": ["npx @biomejs/biome check --write"]
 }
