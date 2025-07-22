@@ -133,7 +133,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 					]
 
 					const originalStringIndex = boundary[matchedPinyinIndex][0] - startBoundary
-					// 只有 大于 才需要替换 dpMatchPath，不然就命中前面，比如 no_no 输入 no 命中第一次的 no
+					// 只有当前得分 大于 前面，才需要替换 dpMatchPath，不然就命中前面，比如 no_no 输入 no 命中第一次的 no
 					const newMatched = computedScore > dpScores[matchedPinyinIndex - 1]
 					dpMatchPath[matchedPinyinIndex][matchIndex] = newMatched
 						? // 首字母时 prevMatchedCharacters = 0，不是首字母时应该加 1

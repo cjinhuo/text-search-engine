@@ -1,3 +1,4 @@
+// [当前字符下标, 拼音或英文下标]，如果都不在中文拼音集中，则两个下标相同
 export type Matrix = [number, number][]
 
 export interface SourceMappingData {
