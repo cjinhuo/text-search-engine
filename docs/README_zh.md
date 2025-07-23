@@ -19,12 +19,12 @@
 # 在线示例
 可以进[线上示例](https://cjinhuo.github.io/text-search-engine/)试试搜索高亮的效果。
 
-![online-demo](../packages/text-search-engine/assets/online_demo.gif)
+![online-demo](../assets/online_demo.gif)
 
 ## 算法可视化
 搜索引擎使用动态规划算法来寻找最优匹配路径。以下是算法工作原理的可视化演示：
 
-![visual-dp](../packages/text-search-engine/assets/visual_dp.gif)
+![visual-dp](../assets/visual_dp.gif)
 
 你也可以访问[在线可视化演示](https://cjinhuo.github.io/text-search-engine/visual)来交互式地体验算法的工作过程。
 

@@ -18,12 +18,12 @@ A dynamic programming-based text search engine that supports mixed Chinese and E
 # Online Demo
 Check out this [online demo](https://cjinhuo.github.io/text-search-engine/) if you are interested.
 
-![online-demo](./packages/text-search-engine/assets/online_demo.gif)
+![online-demo](./assets/online_demo.gif)
 
 ## Algorithm Visualization
 The search engine uses dynamic programming algorithm to find the optimal matching path. Here's a visualization of how the algorithm works:
 
-![visual-dp](./packages/text-search-engine/assets/visual_dp.gif)
+![visual-dp](./assets/visual_dp.gif)
 
 You can also visit the [online visualization demo](https://cjinhuo.github.io/text-search-engine/visual) to interactively experience how the algorithm works.
 

@@ -50,8 +50,7 @@
 	"files": [
 		"dist",
 		"README.md",
-		"CHANGELOG.md",
-		"assets"
+		"CHANGELOG.md"
 	],
 	"scripts": {
 		"esm": "tsc -b ./tsconfig.json",
