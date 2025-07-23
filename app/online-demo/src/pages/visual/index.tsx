@@ -19,8 +19,8 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material'
-import { ChevronLeft, ChevronRight, FastForward, RotateCcw } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { ChevronLeft, ChevronRight, FastForward, Pause, Play, RotateCcw } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { extractBoundaryMapping, searchSentenceByBoundaryMapping } from 'text-search-engine'
 
 interface Step {
@@ -252,6 +252,8 @@ export default function Visual() {
 	const [results, setResults] = useState<SimulationResult | null>(null)
 	const [showTables, setShowTables] = useState(false)
 	const [mappingData, setMappingData] = useState<any>(null)
+	const [isPlaying, setIsPlaying] = useState(false)
+	const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
 	const analyzeAlgorithm = useCallback(() => {
 		if (!sourceText || !targetText) {
@@ -365,6 +367,40 @@ export default function Visual() {
 		scrollToPosition(lastIndex)
 	}, [allSteps.length, scrollToPosition])
 
+	// 播放功能
+	const handlePlay = useCallback(() => {
+		if (currentStepIndex >= allSteps.length - 1) {
+			return // 已经是最后一步，不能播放
+		}
+
+		setIsPlaying(true)
+		intervalRef.current = setInterval(() => {
+			setCurrentStepIndex((prevIndex) => {
+				const newIndex = prevIndex + 1
+				if (newIndex >= allSteps.length - 1) {
+					// 到达最后一步，停止播放
+					setIsPlaying(false)
+					if (intervalRef.current) {
+						clearInterval(intervalRef.current)
+						intervalRef.current = null
+					}
+					return allSteps.length - 1
+				}
+				setTimeout(() => scrollToPosition(newIndex), 50)
+				return newIndex
+			})
+		}, 1000) // 每秒执行一次
+	}, [currentStepIndex, allSteps.length, scrollToPosition])
+
+	// 暂停功能
+	const handlePause = useCallback(() => {
+		setIsPlaying(false)
+		if (intervalRef.current) {
+			clearInterval(intervalRef.current)
+			intervalRef.current = null
+		}
+	}, [])
+
 	// 监听输入变化，自动触发分析
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
@@ -415,6 +451,23 @@ export default function Visual() {
 		return () => document.removeEventListener('keydown', handleKeyDown)
 	}, [showTables, allSteps.length, previousStep, nextStep])
 
+	// 清理定时器
+	useEffect(() => {
+		return () => {
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current)
+				intervalRef.current = null
+			}
+		}
+	}, [])
+
+	// 当步骤改变时，如果正在播放且到达最后一步，停止播放
+	useEffect(() => {
+		if (isPlaying && currentStepIndex >= allSteps.length - 1) {
+			handlePause()
+		}
+	}, [currentStepIndex, allSteps.length, isPlaying, handlePause])
+
 	const currentStep = allSteps[currentStepIndex]
 
 	const generateTableHTML = (allSteps: any[], currentStepIndex: number, highlightIndex?: number) => {
@@ -454,7 +507,7 @@ export default function Visual() {
 									const cellClass =
 										rowIndex === highlightIndex && stepIndex === currentStepIndex ? 'bg-green-200 font-bold' : ''
 									const row = step.dpTable[rowIndex]
-									const value = row ? `[${row.join(',')}]` : 'undefined'
+									const value = row ? `[${row.join(',')}]` : '-'
 									return (
 										<TableCell
 											key={`table-cell-${rowIndex}-${stepIndex}`}
@@ -511,7 +564,7 @@ export default function Visual() {
 									const cellClass =
 										rowIndex === highlightIndex && stepIndex === currentStepIndex ? 'bg-green-200 font-bold' : ''
 									const score = step.dpScores[rowIndex]
-									const value = score !== undefined ? score : 'undefined'
+									const value = score !== undefined ? score : '-'
 									return (
 										<TableCell
 											key={`scores-cell-${rowIndex}-${stepIndex}`}
@@ -534,6 +587,45 @@ export default function Visual() {
 	const generateMatchPathHTML = (dpMatchPath: any[][], highlightIndex?: number, matchIndex?: number) => {
 		const maxMatchIndex = Math.max(...dpMatchPath.map((row) => row.length))
 
+		// 计算回溯路径（仅在最后一步时）
+		const backtrackPath: Array<{ row: number; col: number }> = []
+		const isLastStep = currentStepIndex === allSteps.length - 1
+
+		if (isLastStep && dpMatchPath && dpMatchPath.length > 0 && targetText) {
+			const pinyinLength = dpMatchPath.length - 1
+			const targetLength = targetText.length
+
+			// 模拟回溯算法
+			if (dpMatchPath[pinyinLength] && dpMatchPath[pinyinLength][targetLength - 1]) {
+				let backtrackPinyinIndex = pinyinLength
+				let remainingTargetIndex = targetLength - 1
+
+				while (remainingTargetIndex >= 0 && backtrackPinyinIndex >= 0) {
+					const matchData = dpMatchPath[backtrackPinyinIndex][remainingTargetIndex]
+					if (matchData) {
+						// 记录被访问的路径
+						backtrackPath.push({
+							row: backtrackPinyinIndex,
+							col: remainingTargetIndex,
+						})
+
+						const [start, end, matchedLetters] = matchData
+						// 模拟回溯逻辑
+						if (mappingData && mappingData.originalIndices) {
+							const startIndex = mappingData.boundary[1][0]
+							backtrackPinyinIndex =
+								mappingData.originalIndices[start + startIndex] - mappingData.originalIndices[startIndex] - 1
+						} else {
+							backtrackPinyinIndex -= matchedLetters
+						}
+						remainingTargetIndex -= matchedLetters
+					} else {
+						break
+					}
+				}
+			}
+		}
+
 		return (
 			<TableContainer component={Paper} className='max-h-96 overflow-auto' id='dp-match-path'>
 				<Table size='small' stickyHeader>
@@ -550,35 +642,79 @@ export default function Visual() {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{dpMatchPath.map((row, index) => (
-							<TableRow
-								key={`dp-match-path-row-${index}`}
-								className={index === highlightIndex ? 'bg-yellow-300 font-bold' : ''}
-								data-row-index={index}
-							>
-								<TableCell
-									className={`text-xs font-bold sticky left-0 z-10 border-r-2 border-gray-300 ${index === highlightIndex ? 'bg-yellow-300' : 'bg-white'}`}
+						{dpMatchPath.map((row, index) => {
+							// 检查当前行是否在回溯路径中
+							const isInBacktrackPath = backtrackPath.some((path) => path.row === index)
+
+							return (
+								<TableRow
+									key={`dp-match-path-row-${index}`}
+									className={`${
+										index === highlightIndex
+											? 'bg-yellow-300 font-bold'
+											: isInBacktrackPath
+												? 'bg-blue-100 border-2 border-blue-400'
+												: ''
+									}`}
+									data-row-index={index}
 								>
-									{index}
-								</TableCell>
-								{Array.from({ length: maxMatchIndex }, (_, i) => {
-									const cellClass = index === highlightIndex && i === matchIndex ? 'bg-green-200 font-bold' : ''
-									const value = row[i] ? `[${row[i].join(',')}]` : 'undefined'
-									return (
-										<TableCell
-											key={`match-cell-${index}-${i}`}
-											className={`text-xs ${cellClass}`}
-											data-step-col={i}
-											data-row-index={index}
-										>
-											{value}
-										</TableCell>
-									)
-								})}
-							</TableRow>
-						))}
+									<TableCell
+										className={`text-xs font-bold sticky left-0 z-10 border-r-2 border-gray-300 ${
+											index === highlightIndex ? 'bg-yellow-300' : isInBacktrackPath ? 'bg-blue-100' : 'bg-white'
+										}`}
+									>
+										{index}
+									</TableCell>
+									{Array.from({ length: maxMatchIndex }, (_, i) => {
+										// 检查当前单元格是否在回溯路径中
+										const isBacktrackCell = backtrackPath.some((path) => path.row === index && path.col === i)
+
+										let cellClass = 'text-xs'
+										if (index === highlightIndex && i === matchIndex) {
+											cellClass += ' bg-green-200 font-bold'
+										} else if (isBacktrackCell) {
+											cellClass += ' bg-red-200 font-bold border-2 border-red-400'
+										} else if (isInBacktrackPath) {
+											cellClass += ' bg-blue-50'
+										}
+
+										const value = row[i] ? `[${row[i].join(',')}]` : '-'
+										return (
+											<TableCell
+												key={`match-cell-${index}-${i}`}
+												className={cellClass}
+												data-step-col={i}
+												data-row-index={index}
+											>
+												{value}
+											</TableCell>
+										)
+									})}
+								</TableRow>
+							)
+						})}
 					</TableBody>
 				</Table>
+				{isLastStep && backtrackPath.length > 0 && (
+					<Box className='mt-2 p-2 bg-blue-50 rounded border border-blue-200'>
+						<Typography variant='caption' className='text-blue-800 font-bold'>
+							🔍 回溯路径高亮说明:
+						</Typography>
+						<Box className='flex flex-wrap gap-2 mt-1 text-xs'>
+							<span className='inline-flex items-center gap-1'>
+								<span className='w-3 h-3 bg-blue-100 border border-blue-400 rounded'></span>
+								回溯访问的行
+							</span>
+							<span className='inline-flex items-center gap-1'>
+								<span className='w-3 h-3 bg-red-200 border-2 border-red-400 rounded'></span>
+								回溯获取的数据
+							</span>
+						</Box>
+						<Typography variant='caption' className='text-blue-600 mt-1 block'>
+							回溯路径: {backtrackPath.map((p) => `(${p.row},${p.col})`).join(' → ')}
+						</Typography>
+					</Box>
+				)}
 			</TableContainer>
 		)
 	}
@@ -757,7 +893,7 @@ export default function Visual() {
 											size='small'
 											startIcon={<ChevronLeft />}
 											onClick={previousStep}
-											disabled={currentStepIndex === 0}
+											disabled={currentStepIndex === 0 || isPlaying}
 											className='bg-green-600 hover:bg-green-700 disabled:bg-gray-400'
 										>
 											{`上一步(键盘⬅️)`}
@@ -767,17 +903,39 @@ export default function Visual() {
 											size='small'
 											endIcon={<ChevronRight />}
 											onClick={nextStep}
-											disabled={currentStepIndex === allSteps.length - 1}
+											disabled={currentStepIndex === allSteps.length - 1 || isPlaying}
 											className='bg-green-600 hover:bg-green-700 disabled:bg-gray-400'
 										>
 											{`下一步(键盘➡️)`}
 										</Button>
+										{!isPlaying ? (
+											<Button
+												variant='contained'
+												size='small'
+												startIcon={<Play />}
+												onClick={handlePlay}
+												disabled={currentStepIndex >= allSteps.length - 1}
+												className='bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400'
+											>
+												▶️ 播放
+											</Button>
+										) : (
+											<Button
+												variant='contained'
+												size='small'
+												startIcon={<Pause />}
+												onClick={handlePause}
+												className='bg-red-600 hover:bg-red-700'
+											>
+												⏸️ 暂停
+											</Button>
+										)}
 										<Button
 											variant='contained'
 											size='small'
 											startIcon={<FastForward />}
 											onClick={jumpToLastStep}
-											disabled={currentStepIndex === allSteps.length - 1}
+											disabled={currentStepIndex === allSteps.length - 1 || isPlaying}
 											className='bg-green-600 hover:bg-green-700 disabled:bg-gray-400'
 										>
 											⏩ 快进到最后一步
@@ -787,7 +945,8 @@ export default function Visual() {
 											size='small'
 											startIcon={<RotateCcw />}
 											onClick={resetToStart}
-											className='bg-green-600 hover:bg-green-700'
+											disabled={isPlaying}
+											className='bg-green-600 hover:bg-green-700 disabled:bg-gray-400'
 										>
 											🔄 重置
 										</Button>
@@ -877,7 +1036,7 @@ export default function Visual() {
 												<div>
 													<div>📋 dpTable</div>
 													<div className='text-xs text-gray-600 font-normal mt-1'>
-														格式: [匹配字符数, 匹配字母数, 边界开始, 边界结束]
+														[匹配字符数, 匹配字母数, 边界开始, 边界结束]
 													</div>
 												</div>
 											}
@@ -913,7 +1072,7 @@ export default function Visual() {
 												<div>
 													<div>🛤️ dpMatchPath</div>
 													<div className='text-xs text-gray-600 font-normal mt-1'>
-														格式: [匹配字母（拼音）下标, 匹配原文下标, 匹配字母个数]
+														[匹配开始的原文字符下标,匹配结束的原文字符下标,匹配的字母个数]
 													</div>
 												</div>
 											}
