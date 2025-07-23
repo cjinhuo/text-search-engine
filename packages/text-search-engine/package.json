@@ -9,8 +9,12 @@
 	"types": "src/index.ts",
 	"typesVersions": {
 		"*": {
-			".": ["dist/index.d.ts"],
-			"react": ["dist/react/index.d.ts"]
+			".": [
+				"dist/index.d.ts"
+			],
+			"react": [
+				"dist/react/index.d.ts"
+			]
 		}
 	},
 	"exports": {
@@ -43,7 +47,12 @@
 		"fuzzy search",
 		"SDK"
 	],
-	"files": ["dist", "README.md", "CHANGELOG.md"],
+	"files": [
+		"dist",
+		"README.md",
+		"CHANGELOG.md",
+		"assets"
+	],
 	"scripts": {
 		"esm": "tsc -b ./tsconfig.json",
 		"rollup": "batch-rollup -d ./rollups",
