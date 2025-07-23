@@ -1,5 +1,12 @@
 # text-search-engine
 
+## 1.5.2
+
+### Patch Changes
+
+- chore: Use the full image address instead of a relative path @cjinhuo · 2025-07-23 · [#6af6d779](https://github.com/cjinhuo/text-search-engine/commit/6af6d7796b57d0314b37c5554fc4af2b52a31b08)
+- chore: 在 readme 中使用完整的图片地址来代替相对路径 @cjinhuo · 2025-07-23 · [#6af6d779](https://github.com/cjinhuo/text-search-engine/commit/6af6d7796b57d0314b37c5554fc4af2b52a31b08)
+
 ## 1.5.2-beta.0
 
 ### Patch Changes
