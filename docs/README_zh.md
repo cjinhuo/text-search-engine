@@ -19,7 +19,16 @@
 # 在线示例
 可以进[线上示例](https://cjinhuo.github.io/text-search-engine/)试试搜索高亮的效果。
 
-![online-demo](./online-demo.jpeg)
+![online-demo](./online_demo.gif)
+
+## 算法可视化
+搜索引擎使用动态规划算法来寻找最优匹配路径。以下是算法工作原理的可视化演示：
+
+![visual-dp](./visual_dp.gif)
+
+该可视化展示了算法如何构建矩阵来计算搜索查询与目标文本之间的最优匹配分数，突出显示产生最佳匹配结果的路径。
+
+你也可以访问[在线可视化演示](https://cjinhuo.github.io/text-search-engine/visual)来交互式地体验算法的工作过程。
 
 # 安装
 ```bash
