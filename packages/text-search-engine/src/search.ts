@@ -52,7 +52,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	const dpTable = Array.from({ length: pinyinLength + 1 }, () => defaultDpTableValue)
 	// 每个下标的得分，每一轮都会更新
 	const dpScores: number[] = Array(pinyinLength + 1).fill(0)
-	// dpMatchPath: [匹配字母（拼音）下标, 匹配原文下标, 匹配字母个数]
+	// dpMatchPath: [start：匹配开始的原文字符下标, end：匹配结束的原文字符下标, matchedLetters：匹配的字母个数]
 	const dpMatchPath: [number, number, number][][] = Array.from({ length: pinyinLength + 1 }, () => Array(targetLength))
 
 	// 遍历次数统计
@@ -61,7 +61,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	for (let matchIndex = 0; matchIndex < matchLetterPositions.length; matchIndex++) {
 		// If the array index start from 0, then when accessing the 0th element to get 0 - 1,
 		// we need to check for null. Therefore, index uniformly start from 1.
-		//
+		// 在
 		let matchedPinyinIndex = matchLetterPositions[matchIndex] + 1
 
 		debugFn(() => {
@@ -84,15 +84,14 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 		for (; matchedPinyinIndex <= pinyinLength; matchedPinyinIndex++) {
 			debugFn(() => {
 				totalLoopCount++
-			})
-			debugFn(() => {
 				console.log('inner for letter:', pinyinString[matchedPinyinIndex - 1])
 			})
+
 			const prevScore = currentScore
 			// character => a chinese character or a latin
 			// letter => a letter of pinyin
 			const [prevMatchedCharacters, prevMatchedLetters, prevBoundaryStart, prevBoundaryEnd] = currentDpTableItem
-			// 提前缓存未计算的 score 和 dptable 作为下一次的判断，因为当前 for 循环会从命中的下标遍历至结尾
+			// 提前缓存未计算的 score 和 dpTable 作为下一次的判断，因为当前 for 循环会从命中的下标遍历至结尾
 			// 例如 noo，输入 no，首次遍历 o 时拿到 n 的 dpTable [1, 1, 0, 0]，遍历第二个 o 时应拿到 [0, 0, -1, -1]，
 			// 而不是 [2, 2, 1, 1]，只有在上面首次遍历才缓存了上一次的 dpTable 和 score
 			// eg: source: 'noo', input: 'no', the first time iterate the first 'o', score is 1,
@@ -162,7 +161,6 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 		if (!foundValidMatchForCurrentChar) {
 			debugFn(() => {
 				console.log('not found valid match for current char, matchedPinyinIndex', matchedPinyinIndex)
-				console.log(`total loop count: ${totalLoopCount}`)
 			})
 			return undefined
 		}
@@ -174,16 +172,29 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 
 	if (dpMatchPath[pinyinLength][targetLength - 1] === undefined) return undefined
 	const hitIndices: Matrix = []
-	// console.log('dpMatchPath', dpMatchPath)
-	let gIndex = pinyinLength
-	let restMatched = targetLength - 1
-	while (restMatched >= 0) {
-		const [start, end, matchedLetters] = dpMatchPath[gIndex][restMatched]
+	// 从后往前遍历 dpMatchPath，记录未匹配拼音字符的下标
+	let backtrackPinyinIndex = pinyinLength
+	// 剩余待匹配的 target 字符下标（数量）
+	let remainingTargetIndex = targetLength - 1
+
+	while (remainingTargetIndex >= 0) {
+		// 贪心策略 ：从后开始往前遍历的原因
+		// 	优先选择连续匹配度更高的路径
+		// 	优先让target（输入字符）全字母匹配
+		// source：atbcab，target： abc，虽然最后连续的 ab 权重比较大，但没有匹配到 c
+		// 下面是 dpMatchPath 的最终结果，在第二轮结束时 [4,5,2] 是最优策略，但第三轮结束时 [2,3,2] 是最优策略
+		// 0	undefined	undefined	undefined
+		// [0,0,1]	undefined	undefined
+		// hit-[0,0,1]	undefined	undefined
+		// [0,0,1]	[2,2,1]	undefined
+		// [0,0,1]	[2,2,1]	[2,3,2]
+		// [0,0,1]	[2,2,1]	[2,3,2]
+		// [0,0,1]	[4,5,2]	[2,3,2]-hit
+		const [start, end, matchedLetters] = dpMatchPath[backtrackPinyinIndex][remainingTargetIndex]
 		hitIndices.unshift([start + startIndex, end + startIndex])
-		// 优先全字母匹配，从后开始往前遍历
-		// 比如 zeheozh，输入 zho，虽然最后连续的 zh 权重比较大，但没有匹配到 o，从前面的 dpMatchPath 获取
-		gIndex = originalIndices[start + startIndex] - originalIndices[startIndex] - 1
-		restMatched -= matchedLetters
+		// 找到当前匹配之前的位置，继续寻找前面字符的匹配路径
+		backtrackPinyinIndex = originalIndices[start + startIndex] - originalIndices[startIndex] - 1
+		remainingTargetIndex -= matchedLetters
 	}
 
 	return hitIndices
@@ -269,8 +280,8 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 }
 
 debugFn(() => {
-	const originalString = 'zeheozh'
-	const input = 'zho'
+	const originalString = 'atbcab'
+	const input = 'abc'
 	console.log('original string:', originalString, 'input:', input)
 	const boundaryData = extractBoundaryMappingWithPresetPinyin(originalString)
 	console.log('boundaryData', boundaryData)

@@ -13,6 +13,8 @@ import type { Matrix, SourceMappingData } from './types'
  * source: 你的
  * pinyinString: 你ni的dedi
  * boundary: [ [ -1, -1 ], [ 0, 0 ], [ 0, 1 ], [ 0, 1 ], [ 1, 3 ], [ 1, 4 ], [ 1, 4 ], [ 1, 6 ], [ 1, 6 ] ]
+ * originalIndices（用做拼音下标映射，比如你 ni 属于 0~3,的属于3~8）: [0,3,8]
+ *
  * source: test
  * boundary: [ [ -1, -1 ], [ 0, 0 ], [ 1, 1 ], [ 2, 2 ], [ 3, 3 ] ]
  * source: 你test
