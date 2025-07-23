@@ -1,6 +1,6 @@
 {
 	"name": "text-search-engine",
-	"version": "1.5.0",
+	"version": "1.5.1",
 	"description": "A dynamic programming-based text search engine that supports mixed Chinese and English fuzzy search, returning the highest-weight matching results.",
 	"license": "MIT",
 	"author": "cjinhuo",

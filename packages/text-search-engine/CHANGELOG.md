@@ -1,5 +1,14 @@
 # text-search-engine
 
+## 1.5.1
+
+### Patch Changes
+
+- chore: optimize variable name and add annotation @cjinhuo · 2025-07-22 · [#09de1a7f](https://github.com/cjinhuo/text-search-engine/commit/09de1a7f5b44fd13290dc14466877e1ce597141b)
+- chore: 优化变量名和新增代码注释 @cjinhuo · 2025-07-22 · [#09de1a7f](https://github.com/cjinhuo/text-search-engine/commit/09de1a7f5b44fd13290dc14466877e1ce597141b)
+- chore: new gif to show online demo and a visualization of how the algorithm works @cjinhuo · 2025-07-23 · [#37583019](https://github.com/cjinhuo/text-search-engine/commit/37583019b094977984765a104d5f2891f5a19171)
+- chore: 添加 gif 图来展示线上 demo 和可视化搜索算法工作原理 @cjinhuo · 2025-07-23 · [#37583019](https://github.com/cjinhuo/text-search-engine/commit/37583019b094977984765a104d5f2891f5a19171)
+
 ## 1.5.0
 
 ### Minor Changes
