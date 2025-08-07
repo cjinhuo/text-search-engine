@@ -12,7 +12,7 @@ export interface SourceMappingData {
 export interface SearchOption {
 	strictCase?: boolean
 	mergeSpaces?: boolean
-	// (0, 1]
+	// (0, 1] Lower values mean stricter matching
 	strictnessCoefficient?: number
 	isCharConsecutive?: boolean // 判断命中的字符串是否为连续单词
 }

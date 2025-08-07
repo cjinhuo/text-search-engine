@@ -94,14 +94,17 @@ export function mergeSpacesWithRanges(source: string, rawHitRanges: Matrix) {
 }
 
 /**
- * check if the strictness coefficient is satisfied
- * @param strictnessCoefficient
- * @param target
- * @param rawHitRanges
- * @returns boolean
+ * Check if the strictness coefficient is satisfied for search results
+ * @param strictnessCoefficient The strictness coefficient (recommended range: 0-1 decimal).
+ *                              Lower values mean stricter matching. Values > 1 will be clamped to 1.
+ * @param target The target string being searched
+ * @param rawHitRanges The raw hit ranges found in the search
+ * @returns boolean indicating whether the strictness requirement is satisfied
  */
 export function isStrictnessSatisfied(strictnessCoefficient: number, target: string, rawHitRanges: Matrix) {
-	const maxHitLength = Math.ceil(Math.abs(strictnessCoefficient) * target.length)
+	// Clamp strictnessCoefficient to range [0.1, 1] (recommended range: 0-1)
+	const clampedCoefficient = Math.min(Math.max(strictnessCoefficient, 0.1), 1)
+	const maxHitLength = Math.ceil(clampedCoefficient * target.length)
 	return maxHitLength >= rawHitRanges.length
 }
 
