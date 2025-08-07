@@ -1,31 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="text fuzzy search engine、text fuzzy search、pinyin match、汉字拼音模糊搜索、中英文模糊搜索、文本搜索引擎">
-    <meta name="keywords" content="text fuzzy search engine、text fuzzy search、pinyin match、汉字拼音模糊搜索、中英文模糊搜索、文本搜索引擎">
+    <link rel="icon"
+          type="image/svg+xml"
+          href="/icon.svg" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+          content="text fuzzy search engine、text fuzzy search、pinyin match、汉字拼音模糊搜索、中英文模糊搜索、文本搜索引擎">
+    <meta name="keywords"
+          content="text fuzzy search engine、text fuzzy search、pinyin match、汉字拼音模糊搜索、中英文模糊搜索、文本搜索引擎">
     <title>Text Search Engine</title>
-    <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_33805_18.5474ccb76ee11bb549826605c2cbcf62.es5.js"></script>
-    <script type="text/javascript" src="https://js-cdn.dynatrace.com/jstag/178598305ee/bf27173cpn/67773006ef28b6f_complete.js" crossorigin="anonymous"></script>
+    <script
+            src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_33805_18.5474ccb76ee11bb549826605c2cbcf62.es5.js"></script>
+    <script type="text/javascript"
+            src="https://js-cdn.dynatrace.com/jstag/178598305ee/bf27173cpn/67773006ef28b6f_complete.js"
+            crossorigin="anonymous"></script>
   </head>
+
   <body>
     <div id="root"></div>
     <script>
-      ;(function () {
+      ; (function () {
         var html = document.documentElement
-        if (window.matchMedia?.('(prefers-color-scheme: dark)').matches || localStorage.getItem('theme') === 'dark') {
-          html.classList.add('dark')
-        }
+        // if (window.matchMedia?.('(prefers-color-scheme: dark)').matches || localStorage.getItem('theme') === 'dark') {
+        //   html.classList.add('dark')
+        // }
         function onWindowResize() {
           const rem = html.getBoundingClientRect().width / 30
           html.style.fontSize = rem > 18 ? 18 : rem + 'px'
         }
-        window.addEventListener('resize', onWindowResize) 
-        window.addEventListener('DOMContentLoaded',onWindowResize)
+        window.addEventListener('resize', onWindowResize)
+        window.addEventListener('DOMContentLoaded', onWindowResize)
       })()
     </script>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module"
+            src="/src/main.tsx"></script>
   </body>
+
 </html>
