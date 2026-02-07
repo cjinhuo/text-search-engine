@@ -1,0 +1,61 @@
+root = true
+
+[*]
+indent_style = tab
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+max_line_length = 120
+
+[*.{yml,yaml}]
+indent_style = space
+
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+[*.{cmd,bat}]
+end_of_line = crlf
+
+[*.{js,ts,jsx,tsx,mjs}]
+quote_type = single
+
+[*.{json,jsonc}]
+max_line_length = 80
+
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 88
+
+[*.rs]
+indent_style = space
+indent_size = 4
+max_line_length = 100
+
+[*.go]
+indent_size = 4
+
+[*.{c,cpp,cc,cxx,h,hpp}]
+indent_size = 4
+
+[*.java]
+indent_style = space
+indent_size = 4
+
+[*.{sh,bash,zsh}]
+indent_style = space
+
+[*.sql]
+indent_style = space
+
+[*.{toml,ini,cfg}]
+indent_style = space
+
+[Makefile]
+indent_style = tab
+
+[*.{graphql,gql}]
+indent_style = space
