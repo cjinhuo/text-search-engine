@@ -53,7 +53,7 @@
 		"lint-staged": "^15.2.8",
 		"npm-run-all": "^4.1.5",
 		"nx": "^19.5.7",
-		"rollup": "^4.22.4",
+		"rollup": "^4.59.0",
 		"rollup-plugin-cleanup": "^3.2.1",
 		"rollup-plugin-clear": "^2.0.7",
 		"rollup-plugin-sizes": "^1.0.6",
