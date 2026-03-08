@@ -1,0 +1,7 @@
+export const version = "6.0.0-beta.5";
+export const major = Number("6");
+export const minor = Number("0");
+export const patch = Number("0");
+export const preReleaseLabel = "beta" || null;
+export const preReleaseNumber = Number("5") || null;
+export default version;

@@ -1,0 +1,31 @@
+{
+	"name": "micromatch",
+	"version": "4.0.7",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953435020,
+			"integrity": "sha512-cjkrzNiWTIjsiqPYFXRqK2pEZtnHyo9CjX0PPiuxFnTvSUyjNciyVe7lglwIene7RaXWACXzGLeKZOGb7M0jxw==",
+			"mode": 493,
+			"size": 1091
+		},
+		"index.js": {
+			"checkedAt": 1772953435020,
+			"integrity": "sha512-n+iWYw8GwMojP2vbeuJA+TzdZx0RkrkOnTMZV1rS1H1S6zgzWpc4FHLVXKpcSS+fx7ihu2Tuc+UulJstKOcjtg==",
+			"mode": 420,
+			"size": 13741
+		},
+		"package.json": {
+			"checkedAt": 1772953435021,
+			"integrity": "sha512-EFaAszeaxQuqURZo5VGztkl6MdNhzMFWMEM4iqtMF3zkOeeCzq1M0MpUik8WDu2qpRPB6OX518ngp/7vqykjaA==",
+			"mode": 420,
+			"size": 2532
+		},
+		"README.md": {
+			"checkedAt": 1772953435021,
+			"integrity": "sha512-8ksbABqbWbbIWS/vjBrOanGn9rmjFfOvRnlvohl/hoPKoQ4Mw4EhinzObumMOs43J3yN6u4xx+hE2H6DwoUoDg==",
+			"mode": 420,
+			"size": 38901
+		}
+	}
+}

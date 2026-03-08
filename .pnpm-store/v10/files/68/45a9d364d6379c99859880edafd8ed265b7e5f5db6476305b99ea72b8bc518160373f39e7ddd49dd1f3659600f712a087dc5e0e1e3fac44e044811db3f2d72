@@ -1,0 +1,25 @@
+import * as React from 'react';
+import { SupportedColorScheme } from './createThemeWithVars';
+declare const CssVarsProvider: (props: React.PropsWithChildren<Partial<import("@mui/system").CssVarsProviderConfig<SupportedColorScheme>> & {
+    theme?: {
+        cssVariables?: false | undefined;
+        cssVarPrefix?: string | undefined;
+        colorSchemes: Partial<Record<SupportedColorScheme, any>>;
+        colorSchemeSelector?: string | undefined;
+    } | {
+        $$material: {
+            cssVariables?: false | undefined;
+            cssVarPrefix?: string | undefined;
+            colorSchemes: Partial<Record<SupportedColorScheme, any>>;
+            colorSchemeSelector?: string | undefined;
+        };
+    } | undefined;
+    documentNode?: Document | null | undefined;
+    colorSchemeNode?: Element | null | undefined;
+    storageWindow?: Window | null | undefined;
+    disableNestedContext?: boolean | undefined;
+    disableStyleSheetGeneration?: boolean | undefined;
+}>) => React.ReactElement<any, string | React.JSXElementConstructor<any>>, useColorScheme: () => import("@mui/system").ColorSchemeContextValue<SupportedColorScheme>, deprecatedGetInitColorSchemeScript: typeof import("@mui/system/InitColorSchemeScript").default;
+declare function Experimental_CssVarsProvider(props: any): React.JSX.Element;
+declare const getInitColorSchemeScript: typeof deprecatedGetInitColorSchemeScript;
+export { useColorScheme, CssVarsProvider, getInitColorSchemeScript, Experimental_CssVarsProvider };

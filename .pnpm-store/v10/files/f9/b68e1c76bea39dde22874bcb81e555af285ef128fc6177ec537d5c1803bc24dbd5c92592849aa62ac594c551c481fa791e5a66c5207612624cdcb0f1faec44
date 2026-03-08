@@ -1,0 +1,76 @@
+"use strict";
+'use client';
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CssVarsProvider = void 0;
+exports.Experimental_CssVarsProvider = Experimental_CssVarsProvider;
+exports.useColorScheme = exports.getInitColorSchemeScript = void 0;
+var React = _interopRequireWildcard(require("react"));
+var _styleFunctionSx = _interopRequireDefault(require("@mui/system/styleFunctionSx"));
+var _system = require("@mui/system");
+var _createTheme = _interopRequireDefault(require("./createTheme"));
+var _createTypography = _interopRequireDefault(require("./createTypography"));
+var _identifier = _interopRequireDefault(require("./identifier"));
+var _InitColorSchemeScript = require("../InitColorSchemeScript/InitColorSchemeScript");
+var _jsxRuntime = require("react/jsx-runtime");
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function (e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != typeof e && "function" != typeof e) return { default: e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n.default = e, t && t.set(e, n), n; }
+const {
+  CssVarsProvider,
+  useColorScheme,
+  getInitColorSchemeScript: deprecatedGetInitColorSchemeScript
+} = (0, _system.unstable_createCssVarsProvider)({
+  themeId: _identifier.default,
+  // @ts-ignore ignore module augmentation tests
+  theme: () => (0, _createTheme.default)({
+    cssVariables: true
+  }),
+  colorSchemeStorageKey: _InitColorSchemeScript.defaultConfig.colorSchemeStorageKey,
+  modeStorageKey: _InitColorSchemeScript.defaultConfig.modeStorageKey,
+  defaultColorScheme: {
+    light: _InitColorSchemeScript.defaultConfig.defaultLightColorScheme,
+    dark: _InitColorSchemeScript.defaultConfig.defaultDarkColorScheme
+  },
+  resolveTheme: theme => {
+    const newTheme = {
+      ...theme,
+      typography: (0, _createTypography.default)(theme.palette, theme.typography)
+    };
+    newTheme.unstable_sx = function sx(props) {
+      return (0, _styleFunctionSx.default)({
+        sx: props,
+        theme: this
+      });
+    };
+    return newTheme;
+  }
+});
+exports.useColorScheme = useColorScheme;
+exports.CssVarsProvider = CssVarsProvider;
+let warnedOnce = false;
+
+// TODO: remove in v7
+// eslint-disable-next-line @typescript-eslint/naming-convention
+function Experimental_CssVarsProvider(props) {
+  if (!warnedOnce) {
+    console.warn(['MUI: The Experimental_CssVarsProvider component has been stabilized.', '', "You should use `import { CssVarsProvider } from '@mui/material/styles'`"].join('\n'));
+    warnedOnce = true;
+  }
+  return /*#__PURE__*/(0, _jsxRuntime.jsx)(CssVarsProvider, {
+    ...props
+  });
+}
+let warnedInitScriptOnce = false;
+
+// TODO: remove in v7
+const getInitColorSchemeScript = params => {
+  if (!warnedInitScriptOnce) {
+    console.warn(['MUI: The getInitColorSchemeScript function has been deprecated.', '', "You should use `import InitColorSchemeScript from '@mui/material/InitColorSchemeScript'`", 'and replace the function call with `<InitColorSchemeScript />` instead.'].join('\n'));
+    warnedInitScriptOnce = true;
+  }
+  return deprecatedGetInitColorSchemeScript(params);
+};
+exports.getInitColorSchemeScript = getInitColorSchemeScript;

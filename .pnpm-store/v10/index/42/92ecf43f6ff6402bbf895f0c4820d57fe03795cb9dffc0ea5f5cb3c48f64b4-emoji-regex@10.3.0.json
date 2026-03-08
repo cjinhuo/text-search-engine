@@ -1,0 +1,43 @@
+{
+	"name": "emoji-regex",
+	"version": "10.3.0",
+	"requiresBuild": false,
+	"files": {
+		"index.js": {
+			"checkedAt": 1772953444103,
+			"integrity": "sha512-Tb5fn8TvHNuNnXHM8KOUWUO0vl5gS6LS/WcVywDLfF3dEdygnMfthTgaQ4Jjjg0ILO7nC/qG1TCfIz4xNlqnWw==",
+			"mode": 420,
+			"size": 12887
+		},
+		"package.json": {
+			"checkedAt": 1772953444106,
+			"integrity": "sha512-htYJhxqNTAW+K5t3XJosWxFlobkIhV9Cy46QT1RsPQrfVCHCqKSDTxl01TadkZg4Ot2Jj47+NfKmzvPX9ecuZA==",
+			"mode": 420,
+			"size": 1048
+		},
+		"README.md": {
+			"checkedAt": 1772953444106,
+			"integrity": "sha512-0CipxAZ/4LQRKh+rKAXsSqQOQtVIz7tgnXiA3PBLJ6jY2m7J6fyiK2urBcnCriRXTxKWUvOxK/7YzRheISVjSw==",
+			"mode": 420,
+			"size": 3558
+		},
+		"index.mjs": {
+			"checkedAt": 1772953444107,
+			"integrity": "sha512-viLiDyFiXPz3a8iU63keaG3q2yKY1XGWaLvGrGS3zWJzOP/CGaV1I0zkdZ04s9CK0GECRckLq/aXLhnPtRdqUQ==",
+			"mode": 420,
+			"size": 12885
+		},
+		"index.d.ts": {
+			"checkedAt": 1772953444107,
+			"integrity": "sha512-ffDCGwGOtJrYOC4SCXrRS+Ec12hbb3Y+PNynoLjOAAbciIyFuVkbrFt+q6Pm/QfQK1sDImULrSv54kfp/UL8GA==",
+			"mode": 420,
+			"size": 81
+		},
+		"LICENSE-MIT.txt": {
+			"checkedAt": 1772953431590,
+			"integrity": "sha512-fWtEu2WGJSgbSBlOWj06B0Ur6h8lZQbdFveiGUHvPw0lnhvNDMYgJkK/H9EpvBh+ajkh04LVaNMSvYPzAjl5oA==",
+			"mode": 420,
+			"size": 1077
+		}
+	}
+}

@@ -1,0 +1,67 @@
+{
+	"name": "shx",
+	"version": "0.3.4",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953445164,
+			"integrity": "sha512-53KATgT5sqEABjZhlfye37ZmxjpMrnsT/LDDSOOFQFueTn9Knmx5gfcRUCHgVM1yZCC4+KGVw/LCw4L+JPIO9Q==",
+			"mode": 420,
+			"size": 1107
+		},
+		"lib/cli.js": {
+			"checkedAt": 1772953445164,
+			"integrity": "sha512-INOuPMhnQTspv22NvAfrIb/Pj3/N424IykEXoXenZPeb9Llrb101c9GqT+7YG3s1iccOo8JDyRfbFQuIcVbeRw==",
+			"mode": 509,
+			"size": 1269
+		},
+		"lib/config.js": {
+			"checkedAt": 1772953445164,
+			"integrity": "sha512-GY5FdmCO9M7voOyx/PWci50SohagNfFD7+tbn2igyrFI7ZocyUj7WqIV6I9ufrmIgGQ+sOs+8lNP/4yosM/KHQ==",
+			"mode": 436,
+			"size": 1991
+		},
+		"lib/help.js": {
+			"checkedAt": 1772953445164,
+			"integrity": "sha512-KlRL0gO2xu8A9nwIJmtqqrWORNKSM38A9E35Hl9DXgRYNaVhk/Yww3DoLdBnI467Bey4aQ/V2gOKC5D9DLgDAw==",
+			"mode": 436,
+			"size": 1471
+		},
+		"lib/plugin-true-false.js": {
+			"checkedAt": 1772953445165,
+			"integrity": "sha512-NHt3JWfCGQCG+D6xYgCn72mM+D7/pKVFafnEGTFe9CD9kj4cl9wvnVVOHYwrB4+TVK4MX3qUT8DsREs5DoGMdQ==",
+			"mode": 436,
+			"size": 542
+		},
+		"lib/printCmdRet.js": {
+			"checkedAt": 1772953445165,
+			"integrity": "sha512-PSGRxd3avYwmX9ofEc0XNHgZ/JBtZUTyIaFj5czDqnKveevCKJmpuErR+LJ9GjOLhAYVTcJ2/OtGiCxc6JIrHw==",
+			"mode": 436,
+			"size": 524
+		},
+		"lib/shx.js": {
+			"checkedAt": 1772953445165,
+			"integrity": "sha512-8bHMO20anesHMo4rFoKkehSfEpwEoARwmF5IsOlbrZN7FB1ukEbG8JTvVq2HqGqwTiUuogXtJTVbBxpz7jLrYQ==",
+			"mode": 436,
+			"size": 4890
+		},
+		"package.json": {
+			"checkedAt": 1772953445166,
+			"integrity": "sha512-1j1Gemb8vAO5ToMordhVgC3cn8AclSuwbYXw1NO7frGIfK+QHZWCMjAfMRN5bYtNGKKjH7B9dv6zqA09Hx/UIw==",
+			"mode": 436,
+			"size": 2177
+		},
+		"CHANGELOG.md": {
+			"checkedAt": 1772953445166,
+			"integrity": "sha512-Ae/W6nyZQCPCP1jflgMH3heAzYFvqVUUaprJ3sabc/fjMJMhiYvM90VwhgQFei53KoxxCSdlrS16HFmA5cA4PQ==",
+			"mode": 436,
+			"size": 19150
+		},
+		"README.md": {
+			"checkedAt": 1772953445166,
+			"integrity": "sha512-rZhyjYMYBbCZYx41I0MmZASf2Tdo312zf30Rk+QSqG4Gy2baQemXx9kjjSISnnAcdelNSRnH3xPTK8/NB25zPA==",
+			"mode": 436,
+			"size": 5522
+		}
+	}
+}

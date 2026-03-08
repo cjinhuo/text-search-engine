@@ -1,0 +1,217 @@
+{
+	"name": "@changesets/cli",
+	"version": "2.27.7",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953441191,
+			"integrity": "sha512-JRv+CHsNZgaeURvdv2o6m+uue55aaI3hFD6w3/6TW6IsWHejxPDHqkKt+i2zIMlejIRYF1unahFxGpXdC9mlxw==",
+			"mode": 420,
+			"size": 1068
+		},
+		"bin.js": {
+			"checkedAt": 1772953441191,
+			"integrity": "sha512-d4tkRbyFnfms1Ten1PTrHt6b35hMTpUfUGL3Dk5NP28Q+2hbaioTU+5XYL48akDtBlI2+PG3q8Zh6E4JxX+ZJQ==",
+			"mode": 493,
+			"size": 50
+		},
+		"changelog/dist/changesets-cli-changelog.cjs.default.js": {
+			"checkedAt": 1772953441192,
+			"integrity": "sha512-kd/QtIspJCPgczk456iQtEtJj1pWXc2CmFrM6eEsFQwm4SJGnc53Kp0Vo7HMI/2agpskaWYRDLyXR5lkaSj2Hg==",
+			"mode": 420,
+			"size": 73
+		},
+		"changelog/dist/changesets-cli-changelog.cjs.js": {
+			"checkedAt": 1772953441192,
+			"integrity": "sha512-bn2e14nf1uYfgTWaZJAPH6ZrL5RBhN88UGuIt2ASwq7NRVQhX29t/hlqGZT8v115yxvBnW77ZqumSdI76lXXGg==",
+			"mode": 420,
+			"size": 425
+		},
+		"changelog/dist/changesets-cli-changelog.esm.js": {
+			"checkedAt": 1772953441192,
+			"integrity": "sha512-UAQqnP7dkoE2913B7BQTVUhvR4tIDpLmtYQYuFi+4Lp/xjNa9nRTJ20Vf9zfmhksxmEfkSMDm0Hg2EApVgckbA==",
+			"mode": 420,
+			"size": 53
+		},
+		"commit/dist/changesets-cli-commit.cjs.default.js": {
+			"checkedAt": 1772953441193,
+			"integrity": "sha512-CGl3OIe4En/Sn7dDFGDW2IDiUz2e78xO8wL0P70QFDXrGlH3t7QdEBRo9MJzNr2X29PAyAdz4+gRIhxqFeaHEg==",
+			"mode": 420,
+			"size": 70
+		},
+		"commit/dist/changesets-cli-commit.cjs.js": {
+			"checkedAt": 1772953441193,
+			"integrity": "sha512-3UOZj6Lp0hsOV9nRZSpxt+aOPxFOM2vsHyP0bTjXc9XhbrDBED/8fA5xlTDzdEA/nCzOrx1cYF/qwXQX0MLEdA==",
+			"mode": 420,
+			"size": 1404
+		},
+		"commit/dist/changesets-cli-commit.esm.js": {
+			"checkedAt": 1772953441193,
+			"integrity": "sha512-UNSg+dCqp66BzP9ak3RhfcwBZWRTnNbNuzZlNjxud0/+rSPM1Mw8mj2Ezn5xvDNYcV9KfFMCK8KJ2mlBgRvotw==",
+			"mode": 420,
+			"size": 1137
+		},
+		"dist/changesets-cli.cjs.js": {
+			"checkedAt": 1772953441194,
+			"integrity": "sha512-NtjqGNZ22pzUHorUQX6y290/IX4rlb2G98W64my9lGtVOXj8yCxW+eGOv5W2D1NbRuYiHaYhqq2Og7uBMQq9tg==",
+			"mode": 420,
+			"size": 55633
+		},
+		"dist/changesets-cli.esm.js": {
+			"checkedAt": 1772953441194,
+			"integrity": "sha512-yr2DgIUKwehCayiP6jTQWIk76G6IE0BvJoy57S4ALtJQ7FQ9B88LOjmJ9JuH7Xkv2du8XrchfAusoXFKwOcaaQ==",
+			"mode": 420,
+			"size": 50844
+		},
+		"changelog/package.json": {
+			"checkedAt": 1772953441195,
+			"integrity": "sha512-5vocOqY0B25dSLWD74UefW54VvRL1Lx7xAJ0yXHL/RBsabmLmtZOVeVE3BX/KA9fgwJib/DSvpS85igjDvDBsg==",
+			"mode": 420,
+			"size": 105
+		},
+		"commit/package.json": {
+			"checkedAt": 1772953441195,
+			"integrity": "sha512-xAQq0JWNKzQBpxirnVxIhtH5qK8UpSvpXJokIg5/XbNWdywhj5NtcxuP57FZ5icBxGp7E/56OfjBf2SXlDZplQ==",
+			"mode": 420,
+			"size": 99
+		},
+		"package.json": {
+			"checkedAt": 1772953441195,
+			"integrity": "sha512-ETvOl09eDWZs4TZ2RKHza3jwddM0mxIflK5cNMTVWEtQQHnyXgLunPz2X1iJfc4t6MtPwMhgC9nV7D4/ee9sYA==",
+			"mode": 420,
+			"size": 3242
+		},
+		"changelog/dist/changesets-cli-changelog.cjs.d.mts.map": {
+			"checkedAt": 1772953441195,
+			"integrity": "sha512-6dEhaYwJDrXpApH4cOpBdkMXSUmctaYw11nsDJf3P2UD9Iy941wqG57lBb5oZX8O4hArtIPTgZ2MTmWQ/xFrUg==",
+			"mode": 420,
+			"size": 160
+		},
+		"changelog/dist/changesets-cli-changelog.cjs.d.ts.map": {
+			"checkedAt": 1772953441196,
+			"integrity": "sha512-DxmOBt4fzR3l3giWjJmR+w8UyRb6NmFFVEeKQKDzWk6r31hKEjZuTDijwMtLRp16pwis6bucKwlm/6stWAMLWA==",
+			"mode": 420,
+			"size": 159
+		},
+		"commit/dist/changesets-cli-commit.cjs.d.mts.map": {
+			"checkedAt": 1772953441196,
+			"integrity": "sha512-y1wMba5No+WOOe7LWLiBJXFB+OsXqYU97uoAAINwdZ4qaS20Tbl01/WBtf7Dz3La3aChyooJdcedc0gIvin57Q==",
+			"mode": 420,
+			"size": 160
+		},
+		"commit/dist/changesets-cli-commit.cjs.d.ts.map": {
+			"checkedAt": 1772953441196,
+			"integrity": "sha512-coAq90aBlp3NxUAiLRWAoUTi3BWG8j85iaV+us8raWnh2//Be7ihMtljA/mvAonl8nizXf9m27Y0B1/sDgUEzw==",
+			"mode": 420,
+			"size": 159
+		},
+		"dist/changesets-cli.cjs.d.mts.map": {
+			"checkedAt": 1772953441197,
+			"integrity": "sha512-zzF/y2fPJdaNB5364CjoMCXbMP3XHUQpGX3xHD0Uoqk3WjTya0GcjtLov9GAlMfkZbNgg5KyObftDUhhq0dm0A==",
+			"mode": 420,
+			"size": 137
+		},
+		"dist/changesets-cli.cjs.d.ts.map": {
+			"checkedAt": 1772953441197,
+			"integrity": "sha512-trQI263/FmmQNagwGPXxCUHhCp447USV68WiatqQw4pq3iugZSZUBXr92JTB7aB1Z5TafVngoqeI9rZaNYbcqg==",
+			"mode": 420,
+			"size": 136
+		},
+		"default-files/README.md": {
+			"checkedAt": 1772953441197,
+			"integrity": "sha512-BQYoiEyc73nXyLbIHVBVHxKR7J6hR9r7oLAtb2P6iKw7cYu6nAY8QOfuCAMx9JbdJGTp5r/vrONP04nwExqecA==",
+			"mode": 420,
+			"size": 510
+		},
+		"README.md": {
+			"checkedAt": 1772953441198,
+			"integrity": "sha512-dorpYfnAeviB8+fLAt8zVEEPbXg4F3h3My5VPw//dDk4dijXRqMgdOvGty4LAOXXJBesK6Iok0LC403DG75sBw==",
+			"mode": 420,
+			"size": 6984
+		},
+		"changelog/dist/changesets-cli-changelog.cjs.mjs": {
+			"checkedAt": 1772953441198,
+			"integrity": "sha512-vxxJl7PlY4luh9X/Gfj8IpyPcwPImCM1DfXWAFij+5d/VejmovU5VC9qIOE6vL15i6GCAHvK67r8cCtSYy+9qA==",
+			"mode": 420,
+			"size": 125
+		},
+		"commit/dist/changesets-cli-commit.cjs.mjs": {
+			"checkedAt": 1772953441198,
+			"integrity": "sha512-1gIcJXKO0Vycetp70WjGrABFLq2l6+jcgdRT2PwqRoNc7lKI2OCunsH8RybFCSZRbwkbVbspcyoVW0uFqOXxow==",
+			"mode": 420,
+			"size": 119
+		},
+		"dist/changesets-cli.cjs.mjs": {
+			"checkedAt": 1772953441199,
+			"integrity": "sha512-DtWhYplO6h6QgTvOKDc25WTEdguqtwYHuFcRKhCEwJiqo3EwTE7LRaFSm3C/YpMek+5MjyvNCu2svQbUYh1/sw==",
+			"mode": 420,
+			"size": 34
+		},
+		"changelog/dist/changesets-cli-changelog.cjs.d.mts": {
+			"checkedAt": 1772953441199,
+			"integrity": "sha512-dI4Fqkc5moItgHT85wEr1jG+xLZ06sN3EC+/EsgzG3E1VIoDAMCDfTvAkrQ/wnbIkS9mEGplbt3Pwc1lOHyklQ==",
+			"mode": 420,
+			"size": 199
+		},
+		"commit/dist/changesets-cli-commit.cjs.d.mts": {
+			"checkedAt": 1772953441199,
+			"integrity": "sha512-Mjmc3G0ntkPM45pPx/IAjFBZmmnKY+skvvuWXThg49DjJzPMAOX1GF315wgscO2XpGNEHVhWGegTP4ZRZ/fFgQ==",
+			"mode": 420,
+			"size": 196
+		},
+		"dist/changesets-cli.cjs.d.mts": {
+			"checkedAt": 1772953441199,
+			"integrity": "sha512-HB44MIOb9JCbZFfjpGEM3arGFGaeTQXfrU5+L75GCu+fu75La4DJXB0lmrXRkwJymJFChKAYNC456KzjpdV2vw==",
+			"mode": 420,
+			"size": 95
+		},
+		"dist/declarations/src/changelog.d.ts": {
+			"checkedAt": 1772953441200,
+			"integrity": "sha512-imgdGTQRUQYilndTUiKHIOBi6MqqHEgPVGHi30tRCvsEqlIS7f5JdxwCSO7akgqn5FrYshTHxTxVnjB+Uq1hhg==",
+			"mode": 420,
+			"size": 53
+		},
+		"changelog/dist/changesets-cli-changelog.cjs.d.ts": {
+			"checkedAt": 1772953441200,
+			"integrity": "sha512-O+gou5lGvoP3IAHO/u+UNTNpSnY1/DMlzuIBRN5lxHkfUEVKaKRyK1yMay4xmp/1NJ8er9sCwuz8Q4NOkbypAw==",
+			"mode": 420,
+			"size": 179
+		},
+		"changelog/dist/changesets-cli-changelog.cjs.default.d.ts": {
+			"checkedAt": 1772953441200,
+			"integrity": "sha512-Ofdrmr3eQAswWIJvxzQsyvHgRQipLODNi2HsWIPL/2BR7urZE6KELaGJ9acg/6HJMdiPxaojk/pv5dLWawWdZg==",
+			"mode": 420,
+			"size": 79
+		},
+		"commit/dist/changesets-cli-commit.cjs.d.ts": {
+			"checkedAt": 1772953441201,
+			"integrity": "sha512-bvpyjsik+sCS4dPRBK4rwurwz/knNREIKZsxsWHvuMRgkb8tT8zeRy2/AZzxNExZgfKiiwy1lLnjOiCZoznwRg==",
+			"mode": 420,
+			"size": 182
+		},
+		"commit/dist/changesets-cli-commit.cjs.default.d.ts": {
+			"checkedAt": 1772953441201,
+			"integrity": "sha512-aCnRaDLAW4HZzlUtranu8GVUTkxLEWSXyFow1fc/lBO7lYQSmIe6gc3hwA0Jfwl4lQE8IoHeRUefi0Moq1+yFw==",
+			"mode": 420,
+			"size": 82
+		},
+		"dist/changesets-cli.cjs.d.ts": {
+			"checkedAt": 1772953441201,
+			"integrity": "sha512-l3isfZ2wmZ3ZU7LpIyEspRlhTsCjkbj7C/hXKjrPSuMxINnWf56TUxmiHrg69QFiQ9/dwKiACzzMcHXWil2lKA==",
+			"mode": 420,
+			"size": 91
+		},
+		"dist/declarations/src/commit/index.d.ts": {
+			"checkedAt": 1772953441201,
+			"integrity": "sha512-OMU/fHEVfYll3j9K2JXqGDDdah+cusshBQtCdO8SNZ8+Rr6Q2GSdiCBBjDdjqex8QKK/eI6w2p7bFo/45p8x/w==",
+			"mode": 420,
+			"size": 157
+		},
+		"dist/declarations/src/index.d.ts": {
+			"checkedAt": 1772953435108,
+			"integrity": "sha512-TuHIj4w/TkzTTLbAAzm/nW0Db/St469J6HHMiWa4THKdi3VJKsxkE8mmZKwApXlYIjrBPEIp2oxi6+alPk94Pw==",
+			"mode": 420,
+			"size": 11
+		}
+	}
+}

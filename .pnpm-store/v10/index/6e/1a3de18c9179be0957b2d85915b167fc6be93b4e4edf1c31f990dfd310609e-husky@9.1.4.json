@@ -1,0 +1,49 @@
+{
+	"name": "husky",
+	"version": "9.1.4",
+	"requiresBuild": false,
+	"files": {
+		"husky": {
+			"checkedAt": 1772953442972,
+			"integrity": "sha512-OEQwqjIeKkiIMW60/QSGagLxdC9KOBSCDcwo7Vs6GigFk3FkhUgL2p2TKZYWxobzGN/l2XZbqHJikK2aTSRZWg==",
+			"mode": 420,
+			"size": 551
+		},
+		"LICENSE": {
+			"checkedAt": 1772953442972,
+			"integrity": "sha512-M6SQz9kIlmzIoxVACTC2OP7I6O/7YL9hmQfGws5HUHasDAgQviO4U9ZKmus8S3cHF8hpBRr5oTYddpa+uKeoxg==",
+			"mode": 420,
+			"size": 1065
+		},
+		"bin.js": {
+			"checkedAt": 1772953442972,
+			"integrity": "sha512-b9z/8OmWHgyhrAnImhxud4mfnZEWONgj/Aw2VI8in0xKRa/msH8RmSRO1x4JYOOHnqFRQDUbE8WjxbNrENldVg==",
+			"mode": 493,
+			"size": 676
+		},
+		"index.js": {
+			"checkedAt": 1772953442973,
+			"integrity": "sha512-M4VadMQSKqM0Ugpuo9I0Ppb/0DoZH1vpplbcozM9BKr/1aHRfVvh8O3tNwVY7u0NKf9T/bwd419nWmugHBG5Nw==",
+			"mode": 420,
+			"size": 1199
+		},
+		"package.json": {
+			"checkedAt": 1772953442973,
+			"integrity": "sha512-02XpRSOweiC/b5YVAkisXbI4282+pv1hqyiV1mcfq+++IXmHOAvNbWgzsPwwv7hjb7yHbqn2uG2Ko8RdBZbi0w==",
+			"mode": 420,
+			"size": 438
+		},
+		"README.md": {
+			"checkedAt": 1772953442973,
+			"integrity": "sha512-vNo4tf/VRFouQl3SDkxrYQMsDZzjiV2GXiLe0sbBsmpyR4MNuVMCyMjRTet1BNgHFlfp4twd1mGWPOTK/sMVbQ==",
+			"mode": 420,
+			"size": 33
+		},
+		"index.d.ts": {
+			"checkedAt": 1772953442974,
+			"integrity": "sha512-ajmdleXewajT5BvorAOjMFxoHUbRZiLc0shbgpo6OPhx+ZriCdbvvOvKKDw0OFxqYN2w1sZQ2oJm+onRdymgGQ==",
+			"mode": 420,
+			"size": 47
+		}
+	}
+}

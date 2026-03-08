@@ -1,0 +1,49 @@
+{
+	"name": "esbuild",
+	"version": "0.25.0",
+	"requiresBuild": true,
+	"files": {
+		"bin/esbuild": {
+			"checkedAt": 1772953440275,
+			"integrity": "sha512-OTqWcUDgJyIkEE+1FoZlD3IwDvURXGoBtez4qQ0eIdBdY8UOaDwGfnSoG3GSK435i9kKjrHTiaWSOna6MW2YAw==",
+			"mode": 493,
+			"size": 9294
+		},
+		"install.js": {
+			"checkedAt": 1772953440275,
+			"integrity": "sha512-6jW5upUtTi3zPOsJDDvaDT/YR5ucc4UOyUU8aGQCmFcBuS4y3aNx/GqRqv31oXgLTmUjebdT2Nkhc8K+eRKebA==",
+			"mode": 420,
+			"size": 11037
+		},
+		"lib/main.js": {
+			"checkedAt": 1772953440276,
+			"integrity": "sha512-UeqFm3Q1+h9GPH4fFbmfT0BVhG+fF5z24EpTlZJhE9q1LwD6uDP2xv06nzzdbS7f6pL6HGmvF8e0E/mjJNMO8w==",
+			"mode": 420,
+			"size": 87971
+		},
+		"package.json": {
+			"checkedAt": 1772953440276,
+			"integrity": "sha512-5Sjkpuy9mek2+MUnlTabv2+0TF5jMA5YSOI8SpGYL30Uyk4o9wZhqM3aSDdPbvY/qx8NTQkGP7IMjvySB6Oy3g==",
+			"mode": 420,
+			"size": 1419
+		},
+		"LICENSE.md": {
+			"checkedAt": 1772953434334,
+			"integrity": "sha512-oQ9lr3GFGv53nYkl4A1WgBdsYLdqABglgLT15u2KH3GyGBkTT0Aa1apEyikCaWk8KOERe9SHT8f7hVezAfkAxw==",
+			"mode": 420,
+			"size": 1069
+		},
+		"README.md": {
+			"checkedAt": 1772953434334,
+			"integrity": "sha512-d8nFKDXLOjrfvX2ysOMMH70lmd6JzrJCMUDtSrlqRENr7wchIAA9o1hMX6i1xG+1AX6+N2fbGqAKklwnjx8wxA==",
+			"mode": 420,
+			"size": 175
+		},
+		"lib/main.d.ts": {
+			"checkedAt": 1772953440276,
+			"integrity": "sha512-KHb5r3rS8kTHv56A/58ME6JqLpqWdxfOBYHU5nFOrxKFaNaaHPdlrYh6YEX2nGXKCUkhAxR6oPl2A7tUhxquRA==",
+			"mode": 420,
+			"size": 23005
+		}
+	}
+}

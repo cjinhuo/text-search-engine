@@ -1,0 +1,37 @@
+{
+	"name": "rollup-plugin-sizes",
+	"version": "1.0.6",
+	"requiresBuild": false,
+	"files": {
+		"index.js": {
+			"checkedAt": 1772953446302,
+			"integrity": "sha512-9u5D50cZOxaU+oiiN5IdsDmbG9r/MDrf8IRld3HytCO4OndEtKfjTNLvY5ChI07QFbCng1vwjTv7Cl5McqQc7w==",
+			"mode": 420,
+			"size": 3841
+		},
+		"package.json": {
+			"checkedAt": 1772953446304,
+			"integrity": "sha512-AqPocHKH8B7foIYRP0fo2OoGjUn6OPAyh3nZrwmjiaAa65Xb8ZeQkikyYVF9b/zDQN3ja1//u0Ta1GnaN/1ABQ==",
+			"mode": 420,
+			"size": 909
+		},
+		"CHANGELOG.md": {
+			"checkedAt": 1772953446305,
+			"integrity": "sha512-BeOZI6XOX4TLoYJzHUBhn0hnxWI2nOxT7PwC7EuCvpDo5C93AGfASW6Utuu4bj24bBVU9KlqwU9hjUPtPImZow==",
+			"mode": 420,
+			"size": 4125
+		},
+		"LICENSE.md": {
+			"checkedAt": 1772953446307,
+			"integrity": "sha512-ElEvk6PUXVv3YN0pUbZK4FmJuGzEsqwJfEaCyW50zjW+Qz4hy3aHN8P/ICeQkigbWCFoT0Yy/TYBcTTaxkGT3w==",
+			"mode": 420,
+			"size": 1066
+		},
+		"README.md": {
+			"checkedAt": 1772953446308,
+			"integrity": "sha512-3by3M/f6m1OTkOPfkM8RwCAHZRCJDc69HNyG9Y5Av48N9UfnZVh7EGY1CGnC/sm0pMDbAMt1swfiJEIKxbt0Bg==",
+			"mode": 420,
+			"size": 2936
+		}
+	}
+}

@@ -1,0 +1,67 @@
+{
+	"name": "js-cleanup",
+	"version": "1.2.0",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953445084,
+			"integrity": "sha512-NDg6ZJzGdxK8XfKUXhHQ31lQuwRSFQhgRTSirCgBJoibynsH9ldSobwcjAg2IsJ1UzsI1Di3kfk4xlE5CJxrvw==",
+			"mode": 436,
+			"size": 1079
+		},
+		"index.js": {
+			"checkedAt": 1772953445084,
+			"integrity": "sha512-SKGkdQ57eR26CVIcpcDl+Xq+8UkdWPM4zbFxodIFsbf/v3o15B33YuxTlEz15OC4rlHDqMhMizJTd94Ia3Fzgg==",
+			"mode": 436,
+			"size": 17970
+		},
+		"package.json": {
+			"checkedAt": 1772953445085,
+			"integrity": "sha512-q5LGLNa5g+WKTjO/uglxFw4irbBQGFSrWqj8lLJtyl3vdrRwCTGxmTZTuy8DW3sY3hRtkwjyErxCEJGWnLQeqg==",
+			"mode": 436,
+			"size": 1867
+		},
+		"index.js.map": {
+			"checkedAt": 1772953445085,
+			"integrity": "sha512-eW0BNf5g3yGB4g7ibsjM2E0SQbpHcyA94FtFN8W2/UGlfCUT5DQ2FsVYeqMuBNgQpBHgZCajFZ7L23fEWX0Itw==",
+			"mode": 436,
+			"size": 31160
+		},
+		"esm/index.mjs.map": {
+			"checkedAt": 1772953445086,
+			"integrity": "sha512-8sFWrWb1NL8Oeq8RFphRkydYl/kEUZmrB9aQJeAJl3iJ1knaXjbfVHThzLKVe2lSkzlss754a4dUXW/hsm9QAg==",
+			"mode": 436,
+			"size": 31134
+		},
+		"CHANGELOG.md": {
+			"checkedAt": 1772953445086,
+			"integrity": "sha512-EziT7+JbKvkJYi+naSVMK4WijsedmCatzMeA8wcmWtt8XoGNqIhw02AtG/rt7lCIYBJTGyers9XSLHi7MDUp4g==",
+			"mode": 436,
+			"size": 1178
+		},
+		"README.md": {
+			"checkedAt": 1772953445086,
+			"integrity": "sha512-XLUZ/J2wu6nJZPuO5bfS3E5a/P04viOu2orF4KeCnnSKKX4hvKVnlCbkU6m78s6mVBDBrgOxIRG8SpfofYh29w==",
+			"mode": 436,
+			"size": 10542
+		},
+		"esm/index.mjs": {
+			"checkedAt": 1772953445087,
+			"integrity": "sha512-DU000yEWQG8HZeRQZGEnM19YQtGczjqmQU51mqvftvW4GX0qpq3LsENKij9+q6eHliCyv0C/HW0sTwjyS8Xp8g==",
+			"mode": 436,
+			"size": 17905
+		},
+		"esm/index.d.ts": {
+			"checkedAt": 1772953445087,
+			"integrity": "sha512-SfQQCrUenpwMa0YOZQmiRR3Aml66Dv3qByeCywIc+SPQcjx0oGgtR0xuDHkGvJG6x5DEmyOp2pU5m5kf4qYaZg==",
+			"mode": 436,
+			"size": 1720
+		},
+		"index.d.ts": {
+			"checkedAt": 1772953445087,
+			"integrity": "sha512-w6wVirAajB3ORz3y/5PO//kaTMn6ZXYajP79OjjZmBxbj7ZM8bhBimgg1eO9yyKAjl+nTvryDrWMbjxs1lGG2Q==",
+			"mode": 436,
+			"size": 1714
+		}
+	}
+}

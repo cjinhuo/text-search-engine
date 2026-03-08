@@ -1,0 +1,19 @@
+{
+	"name": "@nx/nx-linux-x64-musl",
+	"version": "19.5.7",
+	"requiresBuild": false,
+	"files": {
+		"package.json": {
+			"checkedAt": 1772953445548,
+			"integrity": "sha512-6R9u9CHB9PagPe3lq7q2vOp1P17mx0lsRncYBUIpBHpoSfns2x/+nW6ZeZgUbSlardC/aW/y5TliEe+5BZ/8tA==",
+			"mode": 420,
+			"size": 483
+		},
+		"nx.linux-x64-musl.node": {
+			"checkedAt": 1772953445564,
+			"integrity": "sha512-frpS2Cq3Man29OL4118eJiu0ClYn2RvLRvqpI2fGaGKvV+Fz/0WAp/gTeWKLqA/CVRNKRVNq/kFNjKl+wl5IgQ==",
+			"mode": 420,
+			"size": 7080480
+		}
+	}
+}

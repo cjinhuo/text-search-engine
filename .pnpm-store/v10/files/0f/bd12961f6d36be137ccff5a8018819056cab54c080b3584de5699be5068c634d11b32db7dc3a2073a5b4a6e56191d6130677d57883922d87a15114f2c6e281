@@ -1,0 +1,32 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CommitTypeZhTitle = exports.CommitTypeTitle = exports.CommitType = exports.ChangesZhTitle = exports.ChangesTitle = exports.MAX_GIT_COMMIT_ID_LENGTH = exports.MAX_GIT_MESSAGE_LENGTH = void 0;
+exports.MAX_GIT_MESSAGE_LENGTH = 120;
+exports.MAX_GIT_COMMIT_ID_LENGTH = 8;
+exports.ChangesTitle = `What's Changed`;
+exports.ChangesZhTitle = '更新内容';
+var CommitType;
+(function (CommitType) {
+    CommitType["Performance"] = "perf";
+    CommitType["Features"] = "feat";
+    CommitType["BugFix"] = "fix";
+    CommitType["Doc"] = "doc";
+    CommitType["Build"] = "build";
+    CommitType["Other"] = "other";
+})(CommitType || (exports.CommitType = CommitType = {}));
+exports.CommitTypeTitle = {
+    [CommitType.Performance]: 'Performance Improvements ⚡',
+    [CommitType.Features]: 'New Features 🎉',
+    [CommitType.BugFix]: 'Bug Fixes 🐞',
+    [CommitType.Doc]: 'Docs update 📄',
+    [CommitType.Build]: 'Build System update 📦️',
+    [CommitType.Other]: 'Other Changes',
+};
+exports.CommitTypeZhTitle = {
+    [CommitType.Performance]: '性能优化 ⚡',
+    [CommitType.Features]: '新特性 🎉',
+    [CommitType.BugFix]: 'Bug 修复 🐞',
+    [CommitType.Doc]: '文档更新 📄',
+    [CommitType.Build]: '构建系统更新 📦️',
+    [CommitType.Other]: '其他变更',
+};

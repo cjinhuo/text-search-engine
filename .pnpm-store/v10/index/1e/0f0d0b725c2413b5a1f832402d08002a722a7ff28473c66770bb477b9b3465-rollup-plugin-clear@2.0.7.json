@@ -1,0 +1,25 @@
+{
+	"name": "rollup-plugin-clear",
+	"version": "2.0.7",
+	"requiresBuild": false,
+	"files": {
+		"package.json": {
+			"checkedAt": 1772953445704,
+			"integrity": "sha512-gI7ISTuA7HAV2Z79urCsLawAHInWLM8UfGw29mff1DA9qvy4FAGkpw3FJ2bq8XfYloyzfsCOeKmSQwKssN2kCw==",
+			"mode": 420,
+			"size": 1356
+		},
+		"README.md": {
+			"checkedAt": 1772953445704,
+			"integrity": "sha512-wMWC9nz1Z9zNlj9hJ52nymtC+W29pGS0RPlRAzBg7fjaiLUQWZxdV8IALh/yiFYMqMNRk1lzqUudTqVADxjSjg==",
+			"mode": 420,
+			"size": 664
+		},
+		"dist/index.js": {
+			"checkedAt": 1772953445704,
+			"integrity": "sha512-FWE3cJ4y3XpAbsbyIlwAM1Y/EWZueIwRW/UtKWva/Zb+JSOgyhp62MxsPPl06boBWXH21+koZlmwFyYo1tCDWg==",
+			"mode": 420,
+			"size": 1025
+		}
+	}
+}

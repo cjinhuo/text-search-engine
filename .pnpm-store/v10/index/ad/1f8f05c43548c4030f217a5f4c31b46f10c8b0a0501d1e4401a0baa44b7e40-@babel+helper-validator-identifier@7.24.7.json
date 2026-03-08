@@ -1,0 +1,67 @@
+{
+	"name": "@babel/helper-validator-identifier",
+	"version": "7.24.7",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953431353,
+			"integrity": "sha512-KYRMN3MVTuiy5XkFDHd5PnQmHaQnt3z16nsBDePxZ9YNmq7IFlslpBBlR3UI+zvlbEemzowOYeKil9a0ZkOYxQ==",
+			"mode": 420,
+			"size": 1106
+		},
+		"README.md": {
+			"checkedAt": 1772953431375,
+			"integrity": "sha512-OybkXcJeQWCYbybPJoktxeEZZ0klds3mvoHYCblhrMzq6xWRGQqkg91hu4NtOfYNS+3o5hWTJzjNtcmo6r7C/A==",
+			"mode": 420,
+			"size": 369
+		},
+		"lib/identifier.js": {
+			"checkedAt": 1772953431375,
+			"integrity": "sha512-qG4ZmuTi/C6RZc5Pf3G//VEy7hzRH7nG42cKMK8R1BH9nIeADN3d9J+XfgurTvJZ9Nxetjm1XXSo93dXgwXfBg==",
+			"mode": 420,
+			"size": 12224
+		},
+		"lib/identifier.js.map": {
+			"checkedAt": 1772953431376,
+			"integrity": "sha512-ouzyox+ittbqKGekaUP8tHuYTZuAXfmKvUHZvbIB2ITRFyXnu+Ky/a7y4Z8nQr1pErbRvA8v+BWEb1EPimiG+w==",
+			"mode": 420,
+			"size": 25572
+		},
+		"lib/index.js": {
+			"checkedAt": 1772953431376,
+			"integrity": "sha512-rGF4OfTHEsHSfwut/nwE8cMlmQYl9BirJUEvc3HOw9r1KJ86UPTDiLwYbYw01frRWMrYgzBj9upRF4VK4zGO4A==",
+			"mode": 420,
+			"size": 1362
+		},
+		"lib/index.js.map": {
+			"checkedAt": 1772953431376,
+			"integrity": "sha512-wR9RF6lWXTU0BPRJ+NLr4DbLQvY2OJlA7rvZRJAXmP9V5lTmGEOC2fa6ueo0hZewAdsNYPbBDOdS8QnvFjPT6A==",
+			"mode": 420,
+			"size": 505
+		},
+		"lib/keyword.js": {
+			"checkedAt": 1772953431377,
+			"integrity": "sha512-ctIOkwGPZyHcvXJRusvo+QzhIOACyF05DACq6JcHLKj3Alr3tFFtJZvb96aJVm0KmjRbh0UwOtuOzC34PKfnbg==",
+			"mode": 420,
+			"size": 1577
+		},
+		"lib/keyword.js.map": {
+			"checkedAt": 1772953431377,
+			"integrity": "sha512-DEr5QONVeYAVTt4aV4Rw40Yc7eBpIParZvg3sy2OC3GZfBrPbwMXrZgE9IqDJmTnDQwHxZBIUosiJpxMThpjcw==",
+			"mode": 420,
+			"size": 3842
+		},
+		"package.json": {
+			"checkedAt": 1772953431377,
+			"integrity": "sha512-ydyGA4XOMBMs8OSCHTAUhbAJdOATDzqzRIPTKpJWsAwTNtcwGbY4rLQzA+XNzH3WloDe7PQ+ixdljFexjmXacQ==",
+			"mode": 420,
+			"size": 737
+		},
+		"scripts/generate-identifier-regex.js": {
+			"checkedAt": 1772953431378,
+			"integrity": "sha512-jAwSnLcE4mTVuk4vgxLPbr7Nc+CoOzUUi+mPO8ko2Fpd0TZu1maj9KHIZk7VMLuG0XoDoeHACx67SSZkCiYl3w==",
+			"mode": 420,
+			"size": 2010
+		}
+	}
+}

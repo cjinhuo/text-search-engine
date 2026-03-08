@@ -1,0 +1,36 @@
+{
+  "name": "changesets-toolkit",
+  "description": "toolkit for changesets which make commit message more automatic and changelogs more readable",
+  "version": "0.0.3",
+  "author": {
+    "name": "cjinhuo",
+    "email": "cjinhuo@qq.com",
+    "url": "https://cjinhuo.netlify.com/"
+  },
+  "license": "MIT",
+  "bin": {
+    "changeset_version": "./dist/bin/changeset_version.js",
+    "changeset_publish": "./dist/bin/changeset_publish.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "README_zh.md"
+  ],
+  "devDependencies": {
+    "@changesets/types": "^6.1.0"
+  },
+  "dependencies": {
+    "consola": "^3.2.3",
+    "fast-glob": "^3.3.3",
+    "micromatch": "^4.0.8",
+    "axios": "^1.10.0",
+    "dayjs": "^1.11.13",
+    "execa": "^5.1.1",
+    "minimist": "^1.2.7"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc"
+  }
+}

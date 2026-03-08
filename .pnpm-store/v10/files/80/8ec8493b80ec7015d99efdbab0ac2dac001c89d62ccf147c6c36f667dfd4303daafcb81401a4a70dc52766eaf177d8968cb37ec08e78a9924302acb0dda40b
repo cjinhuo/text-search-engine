@@ -1,0 +1,59 @@
+{
+  "name": "rollup-plugin-clear",
+  "version": "2.0.7",
+  "description": "Rollup clean plugin",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "node_modules/.bin/jest --coverage",
+    "build": "node_modules/.bin/rollup -c"
+  },
+  "keywords": [
+    "rollup",
+    "rollup-plugin",
+    "clear",
+    "clean"
+  ],
+  "author": "Shelton Dong <dongxu2048@gmail.com>",
+  "license": "ISC",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "bugs": {
+    "url": "https://github.com/DongShelton/rollup-plugin-clear/issues",
+    "email": "dongxu2048@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DongShelton/rollup-plugin-clear"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.1.2",
+    "@types/rimraf": "^2.0.2",
+    "jest": "^22.2.2",
+    "rollup": "^0.55.5",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "rollup-plugin-filesize": "^1.5.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-progress": "^0.4.0",
+    "rollup-plugin-typescript2": "^0.11.1",
+    "ts-jest": "^22.0.4",
+    "typescript": "^2.7.1"
+  },
+  "dependencies": {
+    "rimraf": "^2.6.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testMatch": [
+      "<rootDir>/**/*.test.ts"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "node"
+    ]
+  }
+}

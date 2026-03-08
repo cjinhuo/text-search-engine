@@ -1,0 +1,38 @@
+{
+  "name": "rollup-plugin-sizes",
+  "version": "1.0.6",
+  "description": "Show info about files/packages included with your rollup bundle",
+  "main": "index.js",
+  "repository": "tivac/rollup-plugin-sizes",
+  "bugs": {
+    "url": "https://github.com/tivac/rollup-plugin-sizes/issues"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "jest",
+    "release": "changeset publish"
+  },
+  "keywords": [
+    "rollup",
+    "filesizes",
+    "bundler",
+    "rollup-plugin"
+  ],
+  "author": "Pat Cavit <npm@patcavit.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.0",
+    "@tivac/eslint-config": "^2.3.1",
+    "eslint": "^8.1.0",
+    "jest": "^28.0.3",
+    "rollup": "^4.2.0"
+  },
+  "dependencies": {
+    "filesize": "^9.0.0",
+    "module-details-from-path": "^1.0.3"
+  },
+  "peerDependencies": {
+    "rollup": "^2 || ^3 || ^4"
+  }
+}

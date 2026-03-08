@@ -1,0 +1,37 @@
+{
+	"name": "node-releases",
+	"version": "2.0.4",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953440179,
+			"integrity": "sha512-Z7cB51PZdzP3HlW3aOh7wAMWWeD9DLWXOLaiyfNgQ8ofbBgVjjmKuqVubKkQWAr1KLYi7A+RK472Di8r+ZzBfg==",
+			"mode": 420,
+			"size": 1107
+		},
+		"data/processed/envs.json": {
+			"checkedAt": 1772953440180,
+			"integrity": "sha512-FqtOv58RtC1/oI+9eURbZzG8YL2pi8rfCF+0Npi4dD7aVwPB1NqXb8/5M4xW/4KHZGdXrUrrPNQ8S+wpzByzgA==",
+			"mode": 420,
+			"size": 20261
+		},
+		"package.json": {
+			"checkedAt": 1772953440180,
+			"integrity": "sha512-urqyuOxfwuP9zO23+Uqh3qkohq6wYzotYYuRqCA7Myw+Bg2MOvWQzCI3zzdWyKrt/3J5+Skwi7ewM1SLmJ3dKg==",
+			"mode": 420,
+			"size": 365
+		},
+		"data/release-schedule/release-schedule.json": {
+			"checkedAt": 1772953440180,
+			"integrity": "sha512-3hvXlgEByrAGjwzwl21XmXmYrWemuRsldPnCsmwO9biibp3FuiciZ5r4OUMtDx3QjiT9siUOP4inghZ8HKbe1A==",
+			"mode": 420,
+			"size": 1759
+		},
+		"README.md": {
+			"checkedAt": 1772953440181,
+			"integrity": "sha512-4earaVtpfbfpQBMIpT9lzDY+e5jiUinM5pE0XnZlO9pAczCvEerq58U6ZhYVRBQicUMLeeJeQuEE+1yA72fw8Q==",
+			"mode": 420,
+			"size": 1043
+		}
+	}
+}

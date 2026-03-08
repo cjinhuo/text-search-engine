@@ -1,0 +1,121 @@
+{
+	"name": "@nrwl/tao",
+	"version": "19.5.7",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953445039,
+			"integrity": "sha512-0aasblS/IIqDMkNp4K6JPozxuN5aDwepHU3+20zHdU3RZQOzCOFp8V64vI2L7I86qcqhEWCQiOZoE5vW0tOKVg==",
+			"mode": 420,
+			"size": 1093
+		},
+		"src/utils/app-root.js": {
+			"checkedAt": 1772953445039,
+			"integrity": "sha512-42ZtCrZj91LZ76DiHaRUDygFVRVj6PV6XFvd8jRNFYKB2Gt/wRSnsv9ES6lWx7uWMapsK33BJR5dBxCXKEynng==",
+			"mode": 420,
+			"size": 303
+		},
+		"index.js": {
+			"checkedAt": 1772953445040,
+			"integrity": "sha512-eNIVaUWrFQxh9XxVfPXHPiTrkIOUueSzzqB3ecYbT0N5L5vpGYEZO+8MmazSaR/RPVtdtrym8xCOoo/TXMNWIQ==",
+			"mode": 493,
+			"size": 317
+		},
+		"src/shared/logger.js": {
+			"checkedAt": 1772953445040,
+			"integrity": "sha512-+GpwOVni4D/ksZD0LlCB1xqM0Sp1h2QdEq9KkUNo9VV+oiQr83Ciu3U0QAyS/v3cL8+fQ4YAETbFYsHhZZ8wFQ==",
+			"mode": 420,
+			"size": 295
+		},
+		"src/commands/ngcli-adapter.js": {
+			"checkedAt": 1772953445040,
+			"integrity": "sha512-yl4P6pq8r2U+XiQDXNj156OhDV7IrguOMgZmVgPwNdi2SVAjVdCdAoZA/QPR1Bbin524tI/ZVETRlelUEj0kxA==",
+			"mode": 420,
+			"size": 318
+		},
+		"src/shared/nx.js": {
+			"checkedAt": 1772953445041,
+			"integrity": "sha512-2kwIRupIY5egYoIWrKGpVrj+J4m2IRjA9NSpUsG9PWsyKVKaDuHfPccIBT2FIyMRtgkFBYVY3rl+0i8m/alJ6w==",
+			"mode": 420,
+			"size": 297
+		},
+		"src/shared/package-manager.js": {
+			"checkedAt": 1772953445041,
+			"integrity": "sha512-Ea4VAZp3FRaMDtvrySUvj4QnHCa8QbaAtoAfQz8DB+csDSSOsb6oblzeQloZXcNdDkoR+ilmOWHR7VzQ/VYBCw==",
+			"mode": 420,
+			"size": 304
+		},
+		"src/shared/project-graph.js": {
+			"checkedAt": 1772953445041,
+			"integrity": "sha512-4BtaIdHtW5FYbfL6NVN8nm/IeoUrSsW6U6bfJx4HmeVZkL5sS9BX6jgQaabv8B8/aFIqicaXC0gpZPLpThgI1g==",
+			"mode": 420,
+			"size": 303
+		},
+		"src/shared/tree.js": {
+			"checkedAt": 1772953445042,
+			"integrity": "sha512-cAEw0oKM3CIiqlT8QMUklgelzmoDDptd0g6ugiyxHRXbyr026Xrt8DhAkwoGaz2BEFzcPu2LVbBxH/W39uWGfw==",
+			"mode": 420,
+			"size": 298
+		},
+		"package.json": {
+			"checkedAt": 1772953445042,
+			"integrity": "sha512-og0DACvzON8XGd1aU+N7f0a4D1OmBj5DjxpgwwXimiF2C1c+th+pKbUrAl3pJbANsJ4cLLWVasximfpsz4l7IA==",
+			"mode": 420,
+			"size": 763
+		},
+		"README.md": {
+			"checkedAt": 1772953445042,
+			"integrity": "sha512-e301D1w7LmJudKXXJ2jhOeNBUxMnfRElDmPBddIUs3MqoF++m3s1kCIxjz1sqT0QxCBfxYEnhf8anMFZeQJcTg==",
+			"mode": 420,
+			"size": 753
+		},
+		"src/utils/app-root.d.ts": {
+			"checkedAt": 1772953445043,
+			"integrity": "sha512-kymeiL9ombvUF7RSOO0pguhXTyn2HOMSizXicMg5PAySov8iDrezpb7ptUxlHoSyQOOC7Gk6BDMGs2yZ+F92XA==",
+			"mode": 420,
+			"size": 45
+		},
+		"index.d.ts": {
+			"checkedAt": 1772953445044,
+			"integrity": "sha512-oNSZLI0U5Z2OX79hsFEVZDEJ3ifx6llFxfATWeWh1Ow/74RjsVirp2d7bG3kBAV36OinNUPinWG6K3FaLnjyGw==",
+			"mode": 420,
+			"size": 20
+		},
+		"src/shared/logger.d.ts": {
+			"checkedAt": 1772953445044,
+			"integrity": "sha512-7suVHRKNUfHtcSnS/aNXZgXwBM3hR+Em/b96/p6kU1JRUwmyWT9jKLAoLj4YuC2hJaU0+/EIKLAL0tUTZg5j6g==",
+			"mode": 420,
+			"size": 37
+		},
+		"src/commands/ngcli-adapter.d.ts": {
+			"checkedAt": 1772953445044,
+			"integrity": "sha512-gfTe8VrrLUnhQvhYxT0zjQpw6oyzzcKloBDqcT0si7O2fqmeKlTavAx6Y099dHA+hg9LoaXRwdVUJPfKT6CXvw==",
+			"mode": 420,
+			"size": 46
+		},
+		"src/shared/nx.d.ts": {
+			"checkedAt": 1772953445045,
+			"integrity": "sha512-obTS0T0pl4GFg18zL7xC611rBhgTdVJAlRLFux17KL3DAlFp3AbT8d474LqknvHS+zCIxn25d75QJcv74Mejig==",
+			"mode": 420,
+			"size": 39
+		},
+		"src/shared/package-manager.d.ts": {
+			"checkedAt": 1772953445045,
+			"integrity": "sha512-Sow81pr81sT64W7napTDAqXwmuJQlSPQUDYqdpQa2s7r6q5i8aQQ1JP79dYKbGTDvUq5nj7nnS+FecivcuKomg==",
+			"mode": 420,
+			"size": 46
+		},
+		"src/shared/project-graph.d.ts": {
+			"checkedAt": 1772953445045,
+			"integrity": "sha512-Wk7eIfr8eiaULs4BiQFlaC29qgd9G+qvrNBxD/VLwM/UjjhPgmWvJBFEbWGS1mDTvQUz5os6ENpngP77jquvhQ==",
+			"mode": 420,
+			"size": 45
+		},
+		"src/shared/tree.d.ts": {
+			"checkedAt": 1772953445046,
+			"integrity": "sha512-tYu4rzK0BbPrPW9MgihFNXFlLFhm+YT/bgebjyKCx36NGFamX/p+MMYSZbQFByMNRrjqu0XmqnN8SvE5TcVk4A==",
+			"mode": 420,
+			"size": 40
+		}
+	}
+}

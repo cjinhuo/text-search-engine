@@ -1,0 +1,97 @@
+{
+	"name": "@emnapi/wasi-threads",
+	"version": "1.0.1",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953444800,
+			"integrity": "sha512-7S3hisFk5rhqLUP4uh3s3ZQHKBcZvMmheEARL+xFYLMwzddBbIf0PexnZ0oT48OC0U8W1Dap9Hln5dC9TWPJhw==",
+			"mode": 420,
+			"size": 1076
+		},
+		"index.js": {
+			"checkedAt": 1772953444801,
+			"integrity": "sha512-6+Lcm0U7nfvUe9Uk6EPYB8b7lpk2Zo4JQl+ntWR4ZU4QtS47iWOBT7AiehwHhVba/ZI4TIdHSozp/Xf+buKVpw==",
+			"mode": 420,
+			"size": 208
+		},
+		"dist/wasi-threads.cjs.js": {
+			"checkedAt": 1772953444801,
+			"integrity": "sha512-e3f/DqKNBhpaJfsxEIlkCDECmbdpkXzSmlU6QmwZ9Z9ORR7Ml7ZPILVeMGmkZk9+hnF/qBG13SDOT5ozZviE1A==",
+			"mode": 420,
+			"size": 31759
+		},
+		"dist/wasi-threads.cjs.min.js": {
+			"checkedAt": 1772953444801,
+			"integrity": "sha512-RcUEh+eEPojf6ermaRoKbFdp6KTEHO7bHECqypVY7EKju3PyTgt099RnhHPapDnQVNgqIcEyR9DBBWs34D68iA==",
+			"mode": 420,
+			"size": 14028
+		},
+		"dist/wasi-threads.esm-bundler.js": {
+			"checkedAt": 1772953444802,
+			"integrity": "sha512-0j6TDPvLEFAQx7dv7EU57nDtS0JCu4IV5qdK07wxKojH1Uhb6LCypqW/GjpciTfDOiApsUt5Ez2DOCH/9wzX/w==",
+			"mode": 420,
+			"size": 34987
+		},
+		"dist/wasi-threads.js": {
+			"checkedAt": 1772953444802,
+			"integrity": "sha512-ys2c5RXT1gSmUxSHNFVHoyTBguxEO5jlcIxTg4suGfq6I3erVdAnWAPkrh8aHE8KE1UfzFAkflre1OwgINPHSA==",
+			"mode": 420,
+			"size": 39194
+		},
+		"dist/wasi-threads.min.js": {
+			"checkedAt": 1772953444802,
+			"integrity": "sha512-XgKmEcoEc+vhPvTYyNu/Lzrai9gpDVR6uNlTLVQZ3OXFlXCfkqTuyO8sSrY0llUhqlraEaBOYRB16b5bUUatZw==",
+			"mode": 420,
+			"size": 15096
+		},
+		"package.json": {
+			"checkedAt": 1772953444803,
+			"integrity": "sha512-ZgsSFOPRX4WrIKQDm+3YBEd/EW05g8yq1UtZFQTtxe7Zj2/RYHcJHqsW6NO92WgYuUQ8P+8L2v22mwya3rOJ4g==",
+			"mode": 420,
+			"size": 1383
+		},
+		"README.md": {
+			"checkedAt": 1772953444803,
+			"integrity": "sha512-3uNTDbJeedVimE5sb725i6xTFcaF3QMXiStfUJTMs0dyCWT17nJX5U8Dly615QEq/iyMMmpCxPySyHvYXkF/rQ==",
+			"mode": 420,
+			"size": 5888
+		},
+		"dist/wasi-threads.min.mjs": {
+			"checkedAt": 1772953444803,
+			"integrity": "sha512-1+Eqmqvz8JrqDMq991gXG/QNy2OThrR70GFcjlshFCx/Myoc9mxyy0KwhisxqAx3ohfiOMyD0mOTrPzKFus3rw==",
+			"mode": 420,
+			"size": 14012
+		},
+		"dist/wasi-threads.mjs": {
+			"checkedAt": 1772953444804,
+			"integrity": "sha512-jbZp1IOKyEajozuQ7S6aDzLRe6iiSVxQNdVjmF2TKlPhIKqyYvE0cqHqDTU8OFokD4exX0KNwenp7F83ctb1yg==",
+			"mode": 420,
+			"size": 31611
+		},
+		"dist/wasi-threads.d.mts": {
+			"checkedAt": 1772953444804,
+			"integrity": "sha512-d4UVBRSk1UzFkbKja+IK//kDvd741RW79QkK1ZEiT5LXUrVdqLdOtpRfbnFlp/Bgsnk0pUjLOQ90os7XVHhRig==",
+			"mode": 420,
+			"size": 7553
+		},
+		"dist/wasi-threads.min.d.mts": {
+			"checkedAt": 1772953444804,
+			"integrity": "sha512-d4UVBRSk1UzFkbKja+IK//kDvd741RW79QkK1ZEiT5LXUrVdqLdOtpRfbnFlp/Bgsnk0pUjLOQ90os7XVHhRig==",
+			"mode": 420,
+			"size": 7553
+		},
+		"dist/wasi-threads.cjs.min.d.ts": {
+			"checkedAt": 1772953444804,
+			"integrity": "sha512-d4UVBRSk1UzFkbKja+IK//kDvd741RW79QkK1ZEiT5LXUrVdqLdOtpRfbnFlp/Bgsnk0pUjLOQ90os7XVHhRig==",
+			"mode": 420,
+			"size": 7553
+		},
+		"dist/wasi-threads.d.ts": {
+			"checkedAt": 1772953444804,
+			"integrity": "sha512-JUmVa5i+oWeQPckuPJduteM63ZMPVWXIrOCWU7gn5tK+7UTMYwJ8Lw43/ZvMyr7ysrVPSPeDgifHG7RL17i+4A==",
+			"mode": 420,
+			"size": 7587
+		}
+	}
+}

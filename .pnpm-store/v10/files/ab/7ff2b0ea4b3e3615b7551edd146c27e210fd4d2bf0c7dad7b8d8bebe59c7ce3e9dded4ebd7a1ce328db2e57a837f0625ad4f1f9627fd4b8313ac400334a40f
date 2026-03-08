@@ -1,0 +1,395 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.detectPackageManager = detectPackageManager;
+exports.isWorkspacesEnabled = isWorkspacesEnabled;
+exports.getPackageManagerCommand = getPackageManagerCommand;
+exports.getPackageManagerVersion = getPackageManagerVersion;
+exports.findFileInPackageJsonDirectory = findFileInPackageJsonDirectory;
+exports.modifyYarnRcYmlToFitNewDirectory = modifyYarnRcYmlToFitNewDirectory;
+exports.modifyYarnRcToFitNewDirectory = modifyYarnRcToFitNewDirectory;
+exports.copyPackageManagerConfigurationFiles = copyPackageManagerConfigurationFiles;
+exports.createTempNpmDirectory = createTempNpmDirectory;
+exports.resolvePackageVersionUsingRegistry = resolvePackageVersionUsingRegistry;
+exports.resolvePackageVersionUsingInstallation = resolvePackageVersionUsingInstallation;
+exports.packageRegistryView = packageRegistryView;
+exports.packageRegistryPack = packageRegistryPack;
+const child_process_1 = require("child_process");
+const fs_1 = require("fs");
+const fs_extra_1 = require("fs-extra");
+const path_1 = require("path");
+const semver_1 = require("semver");
+const tmp_1 = require("tmp");
+const util_1 = require("util");
+const configuration_1 = require("../config/configuration");
+const file_utils_1 = require("../project-graph/file-utils");
+const fileutils_1 = require("./fileutils");
+const package_json_1 = require("./package-json");
+const workspace_root_1 = require("./workspace-root");
+const execAsync = (0, util_1.promisify)(child_process_1.exec);
+/**
+ * Detects which package manager is used in the workspace based on the lock file.
+ */
+function detectPackageManager(dir = '') {
+    const nxJson = (0, configuration_1.readNxJson)();
+    return (nxJson.cli?.packageManager ??
+        ((0, fs_1.existsSync)((0, path_1.join)(dir, 'bun.lockb'))
+            ? 'bun'
+            : (0, fs_1.existsSync)((0, path_1.join)(dir, 'yarn.lock'))
+                ? 'yarn'
+                : (0, fs_1.existsSync)((0, path_1.join)(dir, 'pnpm-lock.yaml'))
+                    ? 'pnpm'
+                    : 'npm'));
+}
+/**
+ * Returns true if the workspace is using npm workspaces, yarn workspaces, or pnpm workspaces.
+ * @param packageManager The package manager to use. If not provided, it will be detected based on the lock file.
+ * @param root The directory the commands will be ran inside of. Defaults to the current workspace's root.
+ */
+function isWorkspacesEnabled(packageManager = detectPackageManager(), root = workspace_root_1.workspaceRoot) {
+    if (packageManager === 'pnpm') {
+        return (0, fs_1.existsSync)((0, path_1.join)(root, 'pnpm-workspace.yaml'));
+    }
+    // yarn and pnpm both use the same 'workspaces' property in package.json
+    const packageJson = (0, file_utils_1.readPackageJson)();
+    return !!packageJson?.workspaces;
+}
+/**
+ * Returns commands for the package manager used in the workspace.
+ * By default, the package manager is derived based on the lock file,
+ * but it can also be passed in explicitly.
+ *
+ * Example:
+ *
+ * ```javascript
+ * execSync(`${getPackageManagerCommand().addDev} my-dev-package`);
+ * ```
+ *
+ * @param packageManager The package manager to use. If not provided, it will be detected based on the lock file.
+ * @param root The directory the commands will be ran inside of. Defaults to the current workspace's root.
+ */
+function getPackageManagerCommand(packageManager = detectPackageManager(), root = workspace_root_1.workspaceRoot) {
+    const commands = {
+        yarn: () => {
+            let yarnVersion, useBerry;
+            try {
+                yarnVersion = getPackageManagerVersion('yarn', root);
+                useBerry = (0, semver_1.gte)(yarnVersion, '2.0.0');
+            }
+            catch {
+                yarnVersion = 'latest';
+                useBerry = true;
+            }
+            return {
+                preInstall: `yarn set version ${yarnVersion}`,
+                install: 'yarn',
+                ciInstall: useBerry
+                    ? 'yarn install --immutable'
+                    : 'yarn install --frozen-lockfile',
+                updateLockFile: useBerry
+                    ? 'yarn install --mode update-lockfile'
+                    : 'yarn install',
+                add: useBerry ? 'yarn add' : 'yarn add -W',
+                addDev: useBerry ? 'yarn add -D' : 'yarn add -D -W',
+                rm: 'yarn remove',
+                exec: 'yarn',
+                dlx: useBerry ? 'yarn dlx' : 'yarn',
+                run: (script, args) => `yarn ${script}${args ? ` ${args}` : ''}`,
+                list: useBerry ? 'yarn info --name-only' : 'yarn list',
+                getRegistryUrl: useBerry
+                    ? 'yarn config get npmRegistryServer'
+                    : 'yarn config get registry',
+            };
+        },
+        pnpm: () => {
+            let modernPnpm, includeDoubleDashBeforeArgs;
+            try {
+                const pnpmVersion = getPackageManagerVersion('pnpm', root);
+                modernPnpm = (0, semver_1.gte)(pnpmVersion, '6.13.0');
+                includeDoubleDashBeforeArgs = (0, semver_1.lt)(pnpmVersion, '7.0.0');
+            }
+            catch {
+                modernPnpm = true;
+                includeDoubleDashBeforeArgs = true;
+            }
+            const isPnpmWorkspace = (0, fs_1.existsSync)((0, path_1.join)(root, 'pnpm-workspace.yaml'));
+            return {
+                install: 'pnpm install --no-frozen-lockfile', // explicitly disable in case of CI
+                ciInstall: 'pnpm install --frozen-lockfile',
+                updateLockFile: 'pnpm install --lockfile-only',
+                add: isPnpmWorkspace ? 'pnpm add -w' : 'pnpm add',
+                addDev: isPnpmWorkspace ? 'pnpm add -Dw' : 'pnpm add -D',
+                rm: 'pnpm rm',
+                exec: modernPnpm ? 'pnpm exec' : 'pnpx',
+                dlx: modernPnpm ? 'pnpm dlx' : 'pnpx',
+                run: (script, args) => `pnpm run ${script}${args
+                    ? includeDoubleDashBeforeArgs
+                        ? ' -- ' + args
+                        : ` ${args}`
+                    : ''}`,
+                list: 'pnpm ls --depth 100',
+                getRegistryUrl: 'pnpm config get registry',
+            };
+        },
+        npm: () => {
+            // TODO: Remove this
+            process.env.npm_config_legacy_peer_deps ??= 'true';
+            return {
+                install: 'npm install',
+                ciInstall: 'npm ci --legacy-peer-deps',
+                updateLockFile: 'npm install --package-lock-only',
+                add: 'npm install',
+                addDev: 'npm install -D',
+                rm: 'npm rm',
+                exec: 'npx',
+                dlx: 'npx',
+                run: (script, args) => `npm run ${script}${args ? ' -- ' + args : ''}`,
+                list: 'npm ls',
+                getRegistryUrl: 'npm config get registry',
+            };
+        },
+        bun: () => {
+            // bun doesn't current support programatically reading config https://github.com/oven-sh/bun/issues/7140
+            return {
+                install: 'bun install',
+                ciInstall: 'bun install --no-cache',
+                updateLockFile: 'bun install --frozen-lockfile',
+                add: 'bun install',
+                addDev: 'bun install -D',
+                rm: 'bun rm',
+                exec: 'bun',
+                dlx: 'bunx',
+                run: (script, args) => `bun run ${script} -- ${args}`,
+                list: 'bun pm ls',
+            };
+        },
+    };
+    return commands[packageManager]();
+}
+/**
+ * Returns the version of the package manager used in the workspace.
+ * By default, the package manager is derived based on the lock file,
+ * but it can also be passed in explicitly.
+ */
+function getPackageManagerVersion(packageManager = detectPackageManager(), cwd = process.cwd()) {
+    let version;
+    try {
+        version = (0, child_process_1.execSync)(`${packageManager} --version`, {
+            cwd,
+            encoding: 'utf-8',
+        }).trim();
+    }
+    catch {
+        if ((0, fs_1.existsSync)((0, path_1.join)(cwd, 'package.json'))) {
+            const packageVersion = (0, fileutils_1.readJsonFile)((0, path_1.join)(cwd, 'package.json'))?.packageManager;
+            if (packageVersion) {
+                const [packageManagerFromPackageJson, versionFromPackageJson] = packageVersion.split('@');
+                if (packageManagerFromPackageJson === packageManager &&
+                    versionFromPackageJson) {
+                    version = versionFromPackageJson;
+                }
+            }
+        }
+    }
+    if (!version) {
+        throw new Error(`Cannot determine the version of ${packageManager}.`);
+    }
+    return version;
+}
+/**
+ * Checks for a project level npmrc file by crawling up the file tree until
+ * hitting a package.json file, as this is how npm finds them as well.
+ */
+function findFileInPackageJsonDirectory(file, directory = process.cwd()) {
+    while (!(0, fs_1.existsSync)((0, path_1.join)(directory, 'package.json'))) {
+        directory = (0, path_1.dirname)(directory);
+    }
+    const path = (0, path_1.join)(directory, file);
+    return (0, fs_1.existsSync)(path) ? path : null;
+}
+/**
+ * We copy yarnrc.yml to the temporary directory to ensure things like the specified
+ * package registry are still used. However, there are a few relative paths that can
+ * cause issues, so we modify them to fit the new directory.
+ *
+ * Exported for testing - not meant to be used outside of this file.
+ *
+ * @param contents The string contents of the yarnrc.yml file
+ * @returns Updated string contents of the yarnrc.yml file
+ */
+function modifyYarnRcYmlToFitNewDirectory(contents) {
+    const { parseSyml, stringifySyml } = require('@yarnpkg/parsers');
+    const parsed = parseSyml(contents);
+    if (parsed.yarnPath) {
+        // yarnPath is relative to the workspace root, so we need to make it relative
+        // to the new directory s.t. it still points to the same yarn binary.
+        delete parsed.yarnPath;
+    }
+    if (parsed.plugins) {
+        // Plugins specified by a string are relative paths from workspace root.
+        // ex: https://yarnpkg.com/advanced/plugin-tutorial#writing-our-first-plugin
+        delete parsed.plugins;
+    }
+    return stringifySyml(parsed);
+}
+/**
+ * We copy .yarnrc to the temporary directory to ensure things like the specified
+ * package registry are still used. However, there are a few relative paths that can
+ * cause issues, so we modify them to fit the new directory.
+ *
+ * Exported for testing - not meant to be used outside of this file.
+ *
+ * @param contents The string contents of the yarnrc.yml file
+ * @returns Updated string contents of the yarnrc.yml file
+ */
+function modifyYarnRcToFitNewDirectory(contents) {
+    const lines = contents.split('\n');
+    const yarnPathIndex = lines.findIndex((line) => line.startsWith('yarn-path'));
+    if (yarnPathIndex !== -1) {
+        lines.splice(yarnPathIndex, 1);
+    }
+    return lines.join('\n');
+}
+function copyPackageManagerConfigurationFiles(root, destination) {
+    for (const packageManagerConfigFile of [
+        '.npmrc',
+        '.yarnrc',
+        '.yarnrc.yml',
+        'bunfig.toml',
+    ]) {
+        // f is an absolute path, including the {workspaceRoot}.
+        const f = findFileInPackageJsonDirectory(packageManagerConfigFile, root);
+        if (f) {
+            // Destination should be the same relative path from the {workspaceRoot},
+            // but now relative to the destination. `relative` makes `{workspaceRoot}/some/path`
+            // look like `./some/path`, and joining that gets us `{destination}/some/path
+            const destinationPath = (0, path_1.join)(destination, (0, path_1.relative)(root, f));
+            switch (packageManagerConfigFile) {
+                case '.npmrc': {
+                    (0, fs_1.copyFileSync)(f, destinationPath);
+                    break;
+                }
+                case '.yarnrc': {
+                    const updated = modifyYarnRcToFitNewDirectory((0, fileutils_1.readFileIfExisting)(f));
+                    (0, fs_1.writeFileSync)(destinationPath, updated);
+                    break;
+                }
+                case '.yarnrc.yml': {
+                    const updated = modifyYarnRcYmlToFitNewDirectory((0, fileutils_1.readFileIfExisting)(f));
+                    (0, fs_1.writeFileSync)(destinationPath, updated);
+                    break;
+                }
+                case 'bunfig.toml': {
+                    (0, fs_1.copyFileSync)(f, destinationPath);
+                    break;
+                }
+            }
+        }
+    }
+}
+/**
+ * Creates a temporary directory where you can run package manager commands safely.
+ *
+ * For cases where you'd want to install packages that require an `.npmrc` set up,
+ * this function looks up for the nearest `.npmrc` (if exists) and copies it over to the
+ * temp directory.
+ */
+function createTempNpmDirectory() {
+    const dir = (0, tmp_1.dirSync)().name;
+    // A package.json is needed for pnpm pack and for .npmrc to resolve
+    (0, fileutils_1.writeJsonFile)(`${dir}/package.json`, {});
+    copyPackageManagerConfigurationFiles(workspace_root_1.workspaceRoot, dir);
+    const cleanup = async () => {
+        try {
+            await (0, fs_extra_1.remove)(dir);
+        }
+        catch {
+            // It's okay if this fails, the OS will clean it up eventually
+        }
+    };
+    return { dir, cleanup };
+}
+/**
+ * Returns the resolved version for a given package and version tag using the
+ * NPM registry (when using Yarn it will fall back to NPM to fetch the info).
+ */
+async function resolvePackageVersionUsingRegistry(packageName, version) {
+    try {
+        const result = await packageRegistryView(packageName, version, 'version');
+        if (!result) {
+            throw new Error(`Unable to resolve version ${packageName}@${version}.`);
+        }
+        const lines = result.split('\n');
+        if (lines.length === 1) {
+            return lines[0];
+        }
+        /**
+         * The output contains multiple lines ordered by release date, so the last
+         * version might not be the last one in the list. We need to sort it. Each
+         * line looks like:
+         *
+         * <package>@<version> '<version>'
+         */
+        const resolvedVersion = lines
+            .map((line) => line.split(' ')[1])
+            .sort()
+            .pop()
+            .replace(/'/g, '');
+        return resolvedVersion;
+    }
+    catch {
+        throw new Error(`Unable to resolve version ${packageName}@${version}.`);
+    }
+}
+/**
+ * Return the resolved version for a given package and version tag using by
+ * installing it in a temporary directory and fetching the version from the
+ * package.json.
+ */
+async function resolvePackageVersionUsingInstallation(packageName, version) {
+    const { dir, cleanup } = createTempNpmDirectory();
+    try {
+        const pmc = getPackageManagerCommand();
+        await execAsync(`${pmc.add} ${packageName}@${version}`, { cwd: dir });
+        const { packageJson } = (0, package_json_1.readModulePackageJson)(packageName, [dir]);
+        return packageJson.version;
+    }
+    finally {
+        await cleanup();
+    }
+}
+async function packageRegistryView(pkg, version, args) {
+    let pm = detectPackageManager();
+    if (pm === 'yarn' || pm === 'bun') {
+        /**
+         * yarn has `yarn info` but it behaves differently than (p)npm,
+         * which makes it's usage unreliable
+         *
+         * @see https://github.com/nrwl/nx/pull/9667#discussion_r842553994
+         *
+         * Bun has a pm ls function but it only relates to its lockfile
+         * and acts differently from all other package managers
+         * from Jarred: "it probably would be bun pm view <package-name>"
+         */
+        pm = 'npm';
+    }
+    const { stdout } = await execAsync(`${pm} view ${pkg}@${version} ${args}`);
+    return stdout.toString().trim();
+}
+async function packageRegistryPack(cwd, pkg, version) {
+    let pm = detectPackageManager();
+    if (pm === 'yarn' || pm === 'bun') {
+        /**
+         * `(p)npm pack` will download a tarball of the specified version,
+         * whereas `yarn` pack creates a tarball of the active workspace, so it
+         * does not work for getting the content of a library.
+         *
+         * @see https://github.com/nrwl/nx/pull/9667#discussion_r842553994
+         *
+         * bun doesn't currently support pack
+         */
+        pm = 'npm';
+    }
+    const { stdout } = await execAsync(`${pm} pack ${pkg}@${version}`, { cwd });
+    const tarballPath = stdout.trim();
+    return { tarballPath };
+}

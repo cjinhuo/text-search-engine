@@ -1,0 +1,181 @@
+{
+	"name": "workbox-expiration",
+	"version": "7.1.0",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953438743,
+			"integrity": "sha512-F0EJlZ4aSoeyEErBWe0zX80jJl1WWzVP0Qy3KL4Q12gVca2+YsvkTsVkk3uHnDJ72/cENRZza+yxXCUa9231mw==",
+			"mode": 420,
+			"size": 1050
+		},
+		"_version.js": {
+			"checkedAt": 1772953438866,
+			"integrity": "sha512-T01mUNC0cthx8fIL4Q0kDucGx82G45Vbi9PaHa3zcmD+VLD6OfXY38/VZUYuHqOELZwFnCNdQ/RS5RkP0GpMXA==",
+			"mode": 420,
+			"size": 95
+		},
+		"CacheExpiration.js": {
+			"checkedAt": 1772953438867,
+			"integrity": "sha512-QVOTlhzPSh+KRFtZ9OcW3lNG+wq6eqWIQiclxd6AbHqmeh0gIjBNWOsNsCDZzOOrq8Fxh0PAeP6Gut98GoCDng==",
+			"mode": 420,
+			"size": 6812
+		},
+		"models/CacheTimestampsModel.js": {
+			"checkedAt": 1772953438868,
+			"integrity": "sha512-geddjATAO970BjqQVbQ6q3GccIxm08EDZ+sY8anbhhbdOPwFDE5fpL5DUUAGFow33Hwu4lxdLC4nyrDgtGqFIQ==",
+			"mode": 420,
+			"size": 6315
+		},
+		"ExpirationPlugin.js": {
+			"checkedAt": 1772953438868,
+			"integrity": "sha512-hYdavAjPF6RxfzVn3I7Rnt3sDah+Lor9YnyI1ciH0cYMuqnbu7Y9cFJ/pe4nUaNqm8xGBa0I3dnH87zWktEs/w==",
+			"mode": 420,
+			"size": 11227
+		},
+		"index.js": {
+			"checkedAt": 1772953438868,
+			"integrity": "sha512-jAXyVDiZqbGyuXHoVa6glqRPVcuaZIxCuU8PAgA0VFShvVBj/A2gXJkkgU/nzRSfT8DeBTNQJxiHViGApH/pwA==",
+			"mode": 420,
+			"size": 404
+		},
+		"build/workbox-expiration.dev.js": {
+			"checkedAt": 1772953438870,
+			"integrity": "sha512-GFtVCiUSu4brjvDqxoTynSCO5AhpkgoZpUxsKqiE+fFTC0te3cly1M4s7altvOcHNrl6gbP96MIdSoFaEYNGRw==",
+			"mode": 420,
+			"size": 32845
+		},
+		"build/workbox-expiration.prod.js": {
+			"checkedAt": 1772953438871,
+			"integrity": "sha512-WJNBtlYcBiY83xCHZk9eJOkzDxkoSq9SZdu5pNb5j4LOrBPilcdtL88eFzf4cNmJhVryDnMs7qZawe/0Hq7kmQ==",
+			"mode": 420,
+			"size": 6386
+		},
+		"package.json": {
+			"checkedAt": 1772953438871,
+			"integrity": "sha512-3hYdVEvGPvbRkrw4uEGZdAVUPZNjjRNWk2qT2faioyM+EgOvk7MLbrp3EqJkbxGKOC3ZYu7mE2SAWtGE5fnbtg==",
+			"mode": 420,
+			"size": 798
+		},
+		"tsconfig.json": {
+			"checkedAt": 1772953438797,
+			"integrity": "sha512-koIqvMk+flANVXUCbK0O+2oyWbJZyFlKFEZe/bqF6m75LzUeqfYn31u0/pJrTdFEn/Oiyz0IPuyv+PX/vDpyRw==",
+			"mode": 420,
+			"size": 232
+		},
+		"build/workbox-expiration.dev.js.map": {
+			"checkedAt": 1772953438872,
+			"integrity": "sha512-uMnY9L4qoCSNJr0UoAqWC8cC5ct9weFpBvgnG45W0VMHo38JzG6uWxNx9KrEiu54q3SfFRKuPpitATkrk6DtTg==",
+			"mode": 420,
+			"size": 60447
+		},
+		"build/workbox-expiration.prod.js.map": {
+			"checkedAt": 1772953438872,
+			"integrity": "sha512-1VkpjOiqb7UgcIb5lHAI4H75ux1mpjH3HQoG2mSDI3v05NGNuMz18S69i5y6a+5y3txLhwlAT99NpPskYtixjQ==",
+			"mode": 420,
+			"size": 45999
+		},
+		"README.md": {
+			"checkedAt": 1772953438873,
+			"integrity": "sha512-DQ3q3G5qfF8VD8YXfIBgJQE//NamDQEatq2hDhBvcD1Som7Pnz5mWbTNxAO6EFtWKjizzwvbQtcIhN6hDKCR1A==",
+			"mode": 420,
+			"size": 119
+		},
+		"_version.mjs": {
+			"checkedAt": 1772953438873,
+			"integrity": "sha512-GpipTB86x2yA/3UqYjSoJG5CSxg67Ipj0V/UXt0ajDOEr4We+fUk0aWFDZ1MXetUIeXcpFHb96Y3U8W5fEQWhQ==",
+			"mode": 420,
+			"size": 74
+		},
+		"CacheExpiration.mjs": {
+			"checkedAt": 1772953438873,
+			"integrity": "sha512-F4BEriSpZQBDV2mbLwRjhWBe79f3LZBpCldGbNZKaytqTaCwRVBmz31QEvp8zli5GRAQHUH5joSFkCayEDQrIg==",
+			"mode": 420,
+			"size": 37
+		},
+		"models/CacheTimestampsModel.mjs": {
+			"checkedAt": 1772953438874,
+			"integrity": "sha512-7q01f0NoGP3BlPKRbC747Aq95veCPHiopW1U4ws1QKVnIhv4FNPjNKiWIFJ4zaI13DVXUNvwu/6Hk+D9gKdi3Q==",
+			"mode": 420,
+			"size": 42
+		},
+		"ExpirationPlugin.mjs": {
+			"checkedAt": 1772953438874,
+			"integrity": "sha512-StD0ESDSWvexb4SUUKMaILlcF/ig0umkOXa9fboIMBsNl5SLvyPNBJu/KUtsRMWnA02l9lEcsbmDDBrH67VzDQ==",
+			"mode": 420,
+			"size": 38
+		},
+		"index.mjs": {
+			"checkedAt": 1772953438763,
+			"integrity": "sha512-l3X4PKjjuNX2X6mvZpPa1o+9w9eSHs+vbkTpwefZSeuhWvQRiGi2d7xZ1Zn0EiVL6294oa+fyCP0jiJHsap75A==",
+			"mode": 420,
+			"size": 27
+		},
+		"_version.d.ts": {
+			"checkedAt": 1772953431913,
+			"integrity": "sha512-z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg==",
+			"mode": 420,
+			"size": 0
+		},
+		"src/_version.ts": {
+			"checkedAt": 1772953438874,
+			"integrity": "sha512-YjmaYexMBaamw/zxRDFcDDEAEeaA7q9QI3TXmIQqbFc1+Weoh9SEbaIogmqOSuwQrln1MH8FSh4mjpe7aR6/Bw==",
+			"mode": 420,
+			"size": 66
+		},
+		"CacheExpiration.d.ts": {
+			"checkedAt": 1772953438875,
+			"integrity": "sha512-8nEi15tyi5VtA8FkE4Z0gq+EIbgB6ahxzUwyJn41+P8m4SO+vtuS7z6+EmlAus032SzXiDeV8Poj0vpIj+sNyg==",
+			"mode": 420,
+			"size": 2445
+		},
+		"src/CacheExpiration.ts": {
+			"checkedAt": 1772953438875,
+			"integrity": "sha512-gtSr0XGDXaJBQWHjHxAgiODVXeZaFlmzv5ZT3h9XFlZruBf2If3AL0z+w3ODcQ7G06LhgHXUAoQz6TuWUCcvNg==",
+			"mode": 420,
+			"size": 6629
+		},
+		"models/CacheTimestampsModel.d.ts": {
+			"checkedAt": 1772953438875,
+			"integrity": "sha512-KnQJAlEmvoXSqEeprVJmMjoUOfVO/BhhewBmYGYL1pAmcxYj7NUaUzzJVuXryIT2JFjm4Kw8pnspm1+WOdqhtA==",
+			"mode": 420,
+			"size": 1795
+		},
+		"src/models/CacheTimestampsModel.ts": {
+			"checkedAt": 1772953438876,
+			"integrity": "sha512-Seky2gbukm6dmt+kMafM2MZl/5UAkxM/KXgPSA4FgJYOcj7k91SatwICM4tLVKAcXleOf8LS/b1ojCuVpO8B7A==",
+			"mode": 420,
+			"size": 6348
+		},
+		"ExpirationPlugin.d.ts": {
+			"checkedAt": 1772953438876,
+			"integrity": "sha512-LRb+e9FRxNSWfcG8YW2r/Y5GCWaJFKR7QujzRZeXIc6El1l8sfmHoOCEAS6x2mwxUst17wvW5msGWK1UIg6Z1A==",
+			"mode": 420,
+			"size": 5137
+		},
+		"src/ExpirationPlugin.ts": {
+			"checkedAt": 1772953438876,
+			"integrity": "sha512-ODN1cm0ToAobUCMA/kfPvDejLTOLCr8kkQKeIHIGQCtKlOEPvKg6uxWwqCuP5ZtYMk9MC97iTWm7a84YDPll0Q==",
+			"mode": 420,
+			"size": 10710
+		},
+		"index.d.ts": {
+			"checkedAt": 1772953438877,
+			"integrity": "sha512-TZtIxRX0Wlg0eujW9/pamrnMSAe1kCa7BBHFt+nAOkqUg53oV1dqs2g1twypCjechHhYuW0JE6HGYqenC3Va5A==",
+			"mode": 420,
+			"size": 272
+		},
+		"src/index.ts": {
+			"checkedAt": 1772953438877,
+			"integrity": "sha512-y/OuRHWAER9dD9sy25KEdBZe1F/peJKQpz1I8lw7x1/8jv1RGISoAfCTDUyw4xF1vpQWwVc79hE3Wi+R2olhAw==",
+			"mode": 420,
+			"size": 452
+		},
+		"tsconfig.tsbuildinfo": {
+			"checkedAt": 1772953438877,
+			"integrity": "sha512-d9baxSbb0EZGxj0XhbGpkPdeExdQ8bSOVgMCdxJAmElRCVfZDEbrd0ehi07VYlY/onZj/jJGzWmiQcciF1vtOA==",
+			"mode": 420,
+			"size": 31925
+		}
+	}
+}

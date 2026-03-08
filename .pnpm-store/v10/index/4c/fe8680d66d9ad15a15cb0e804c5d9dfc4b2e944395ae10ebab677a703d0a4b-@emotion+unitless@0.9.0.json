@@ -1,0 +1,103 @@
+{
+	"name": "@emotion/unitless",
+	"version": "0.9.0",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953431876,
+			"integrity": "sha512-cK1dPk317HPKL3NZFCZh+fP1Xilf9AEzLGQiu0feSSo3CrMOqDqc5yH582PtZZyjEQc/f9K4YbJ+xp/a5ZIPHA==",
+			"mode": 420,
+			"size": 1087
+		},
+		"dist/emotion-unitless.cjs.default.js": {
+			"checkedAt": 1772953431876,
+			"integrity": "sha512-nyhJi9WfreWJyQ8ue71LL2DF2gjze3ZqNyWmdGWv1Rqfdmub/bTfQyx4ygd7xzZrIJ4e4KLUPINUHxeOqLCZ0g==",
+			"mode": 420,
+			"size": 65
+		},
+		"dist/emotion-unitless.cjs.dev.js": {
+			"checkedAt": 1772953431876,
+			"integrity": "sha512-BD1ssCl9JmEo+U1pxPS7JgAKWbF/UTK4tv3uy5gRcqU3O0GMxyFwXFtVwDlUCw3FJB52f7VKYeVVrF9cODWszw==",
+			"mode": 420,
+			"size": 1002
+		},
+		"dist/emotion-unitless.cjs.js": {
+			"checkedAt": 1772953431876,
+			"integrity": "sha512-3L5+vhH5xzp+trBLljpJyxa8Z6rvvWPxNqrj0lWpZ7NpnkNcrj/yHsf/GMbLPqwxLJG5RRVmSrDaByquUX80lw==",
+			"mode": 420,
+			"size": 194
+		},
+		"dist/emotion-unitless.cjs.prod.js": {
+			"checkedAt": 1772953431876,
+			"integrity": "sha512-BD1ssCl9JmEo+U1pxPS7JgAKWbF/UTK4tv3uy5gRcqU3O0GMxyFwXFtVwDlUCw3FJB52f7VKYeVVrF9cODWszw==",
+			"mode": 420,
+			"size": 1002
+		},
+		"dist/emotion-unitless.esm.js": {
+			"checkedAt": 1772953431877,
+			"integrity": "sha512-c8aIPKQbDeFRs+heNgLbMqKXq3PyOALY19BEDxkQm2uS5gqM9gtxCGP1r4Ht9O80COmsqhfwXi1f/SfQu2j72Q==",
+			"mode": 420,
+			"size": 924
+		},
+		"package.json": {
+			"checkedAt": 1772953431878,
+			"integrity": "sha512-4Z+P9SaGWsfjt+FbKFiBcog8FIzEJgwnB2bzuobB8394kostWkthjv7wT0Wz3gNL//oOCH3/gYkmRPQoW9+G7A==",
+			"mode": 420,
+			"size": 693
+		},
+		"dist/emotion-unitless.cjs.d.mts.map": {
+			"checkedAt": 1772953431878,
+			"integrity": "sha512-ClcFvVs1mRA0oUgsCTxUj2fGsQaTzKASSLhm+AQGJIfRtSjJbM6gitRqLWArxTaasQQs8dtKwHj7Vx6zMmfZVw==",
+			"mode": 420,
+			"size": 139
+		},
+		"dist/emotion-unitless.cjs.d.ts.map": {
+			"checkedAt": 1772953431878,
+			"integrity": "sha512-PC9/SQSzSXqN2sRrpAcCYne3gXJQfviJWUm7imASByLH7R8dwtFh+ouJiXQKBhOCPOrqNvW5NBl0GDddr1GG4g==",
+			"mode": 420,
+			"size": 138
+		},
+		"README.md": {
+			"checkedAt": 1772953431879,
+			"integrity": "sha512-Ekq8qjBxuNbmCl9r8cMBTne8C9FPVE1H1YrCjE5QfI2A/8q7PLh06ybs71Eg8ySiXRsWJyLFjGbN1PkeRsfWVA==",
+			"mode": 420,
+			"size": 193
+		},
+		"dist/emotion-unitless.cjs.mjs": {
+			"checkedAt": 1772953431879,
+			"integrity": "sha512-FblLj0mrctD4fEC7oS3Lx99d3BfuKeaVVk8VxU8gIcOgAnAfJp4WMnTkU6ny5/T2ttWO7KbgMVf7A0JfkmRoqA==",
+			"mode": 420,
+			"size": 121
+		},
+		"dist/emotion-unitless.cjs.d.mts": {
+			"checkedAt": 1772953431879,
+			"integrity": "sha512-szmQRooV8f4NaTkDBV7ueVGONn0OCgBIwznR+H4AMnDacNpwPemhgIjYfphoBj19Ke9jNBIPr3YFuL4nD+7UMQ==",
+			"mode": 420,
+			"size": 170
+		},
+		"dist/emotion-unitless.cjs.d.ts": {
+			"checkedAt": 1772953431880,
+			"integrity": "sha512-KEtWdmVOBE2tYfprXnSSLbJC+XiJF9Yx9kzk8BXCnE1Wa8Royn2K8k+RIosx1ecucFKRA/RcLc5r4NrM8cTNNw==",
+			"mode": 420,
+			"size": 145
+		},
+		"dist/emotion-unitless.cjs.default.d.ts": {
+			"checkedAt": 1772953431880,
+			"integrity": "sha512-Va8Lacg73xbU7KbjjLh4RTwMTfU2mFbYFGAGtVMEpObQ/JYJXfRtBSEiGgqJiVcdHN41GaDap2Ckv8vAK42BOg==",
+			"mode": 420,
+			"size": 66
+		},
+		"dist/declarations/src/index.d.ts": {
+			"checkedAt": 1772953431880,
+			"integrity": "sha512-7bcow/flw5YsaswVkjQAk8NSBZmhJwd8ySVG75WqOrbK3tsciMuAkEa+DIf6XDz0/UbD13XhaTC9+JLXhYy4Pg==",
+			"mode": 420,
+			"size": 74
+		},
+		"src/index.ts": {
+			"checkedAt": 1772953431881,
+			"integrity": "sha512-e5yxlwIFLFK9JzX8Za+O3oZFuePJwQwWvVYglwjtors65MjxIK+B+2D4T/ezMQYX9JrNE63cRvzVY8O1xwILwA==",
+			"mode": 420,
+			"size": 935
+		}
+	}
+}

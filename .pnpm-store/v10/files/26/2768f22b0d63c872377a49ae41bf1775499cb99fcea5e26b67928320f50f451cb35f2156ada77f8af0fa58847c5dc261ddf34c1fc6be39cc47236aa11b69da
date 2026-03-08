@@ -1,0 +1,62 @@
+{
+  "name": "tinyglobby",
+  "version": "0.2.9",
+  "description": "A fast and minimal alternative to globby and fast-glob",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "author": "Superchupu",
+  "license": "MIT",
+  "keywords": [
+    "glob",
+    "patterns",
+    "fast",
+    "implementation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SuperchupuDev/tinyglobby.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SuperchupuDev/tinyglobby/issues"
+  },
+  "homepage": "https://github.com/SuperchupuDev/tinyglobby#readme",
+  "dependencies": {
+    "fdir": "^6.4.0",
+    "picomatch": "^4.0.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.2",
+    "@types/node": "^22.7.4",
+    "@types/picomatch": "^3.0.1",
+    "fs-fixture": "^2.4.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsup",
+    "check": "biome check",
+    "format": "biome format --write",
+    "lint": "biome lint",
+    "lint:fix": "biome lint --fix --unsafe",
+    "test": "node --experimental-transform-types --test test/**/*.test.ts",
+    "test:coverage": "node --experimental-transform-types --test --experimental-test-coverage test/**/*.test.ts",
+    "test:only": "node --experimental-transform-types --test --test-only test/**/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  }
+}

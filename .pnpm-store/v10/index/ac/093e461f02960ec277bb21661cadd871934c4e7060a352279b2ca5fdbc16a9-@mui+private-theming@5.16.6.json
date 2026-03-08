@@ -1,0 +1,247 @@
+{
+	"name": "@mui/private-theming",
+	"version": "5.16.6",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953432953,
+			"integrity": "sha512-hEIJyjYB1+c0sxVoHjCZWQLKoOG5uNgAILlxeEOGI1xyrd2X68hwK8LaJRVnbJvBnkFRsr+DPvBK80QoBOZWfQ==",
+			"mode": 420,
+			"size": 1078
+		},
+		"index.js": {
+			"checkedAt": 1772953432953,
+			"integrity": "sha512-Qsuxwnu+zy1KZZJhENf/WBk0UgZZgXiMFkRI/5rubNNfD3iruOwsFOLuZlBXTnHShLNGdxK/MnAGqlez6IhhOg==",
+			"mode": 420,
+			"size": 327
+		},
+		"legacy/index.js": {
+			"checkedAt": 1772953432953,
+			"integrity": "sha512-Qsuxwnu+zy1KZZJhENf/WBk0UgZZgXiMFkRI/5rubNNfD3iruOwsFOLuZlBXTnHShLNGdxK/MnAGqlez6IhhOg==",
+			"mode": 420,
+			"size": 327
+		},
+		"legacy/ThemeProvider/index.js": {
+			"checkedAt": 1772953432954,
+			"integrity": "sha512-CLGuMYPj6yOJt82MsNt3Z9xWN0oAsEdj/fvGNeg5Jka0oDQ6hvAQM+Nbm9G71uqhNtYqbTPjHgO5X4kHOU0kaQ==",
+			"mode": 420,
+			"size": 97
+		},
+		"legacy/useTheme/index.js": {
+			"checkedAt": 1772953432954,
+			"integrity": "sha512-VvLNmN5JJH8iFnGnTs1EwuaNUzPsYSjf+NUiUjvTDWK8elPGgI695htztEWLORKfzXHz29x/Gy/456ILNGeY3w==",
+			"mode": 420,
+			"size": 37
+		},
+		"modern/index.js": {
+			"checkedAt": 1772953432953,
+			"integrity": "sha512-Qsuxwnu+zy1KZZJhENf/WBk0UgZZgXiMFkRI/5rubNNfD3iruOwsFOLuZlBXTnHShLNGdxK/MnAGqlez6IhhOg==",
+			"mode": 420,
+			"size": 327
+		},
+		"modern/ThemeProvider/index.js": {
+			"checkedAt": 1772953432954,
+			"integrity": "sha512-CLGuMYPj6yOJt82MsNt3Z9xWN0oAsEdj/fvGNeg5Jka0oDQ6hvAQM+Nbm9G71uqhNtYqbTPjHgO5X4kHOU0kaQ==",
+			"mode": 420,
+			"size": 97
+		},
+		"modern/useTheme/index.js": {
+			"checkedAt": 1772953432954,
+			"integrity": "sha512-VvLNmN5JJH8iFnGnTs1EwuaNUzPsYSjf+NUiUjvTDWK8elPGgI695htztEWLORKfzXHz29x/Gy/456ILNGeY3w==",
+			"mode": 420,
+			"size": 37
+		},
+		"node/index.js": {
+			"checkedAt": 1772953432954,
+			"integrity": "sha512-mIfL3Vr25K/DeRNdPrbYUca0fnKuwL7OHZqQY3oM/fKNXjgZVxCyuY5QWoPZ371x8TmWc7qoZTVzXL/RmslpgA==",
+			"mode": 420,
+			"size": 1994
+		},
+		"node/ThemeProvider/index.js": {
+			"checkedAt": 1772953432955,
+			"integrity": "sha512-5xWiS3QLvr1vDbE9QwamvYJqKwGZ42gbKvyxXrykTN5+d4oVLkkfvl0FPjlVjsv2qbuEOPipojQH0VPVkU1ZuQ==",
+			"mode": 420,
+			"size": 554
+		},
+		"node/useTheme/index.js": {
+			"checkedAt": 1772953432955,
+			"integrity": "sha512-nAGl0IlSxYmjOMZSh1cQBQeZspUiGIesVW8a8J18Le8T5NR+OFc7DoHJ1O32OQwj1z/ZMu4vpHYXYZNP/30ung==",
+			"mode": 420,
+			"size": 351
+		},
+		"ThemeProvider/index.js": {
+			"checkedAt": 1772953432954,
+			"integrity": "sha512-CLGuMYPj6yOJt82MsNt3Z9xWN0oAsEdj/fvGNeg5Jka0oDQ6hvAQM+Nbm9G71uqhNtYqbTPjHgO5X4kHOU0kaQ==",
+			"mode": 420,
+			"size": 97
+		},
+		"useTheme/index.js": {
+			"checkedAt": 1772953432954,
+			"integrity": "sha512-VvLNmN5JJH8iFnGnTs1EwuaNUzPsYSjf+NUiUjvTDWK8elPGgI695htztEWLORKfzXHz29x/Gy/456ILNGeY3w==",
+			"mode": 420,
+			"size": 37
+		},
+		"legacy/ThemeProvider/nested.js": {
+			"checkedAt": 1772953432955,
+			"integrity": "sha512-OOG0FDGD2/VRVuHBOwbY2zO6ofVIFa5MvBqrUdQHVmmKNKs0QHQVXYwt0SIujiu58mlbm5OkKLEkuPS1eCIMdw==",
+			"mode": 420,
+			"size": 133
+		},
+		"modern/ThemeProvider/nested.js": {
+			"checkedAt": 1772953432956,
+			"integrity": "sha512-XujQ5oh/WuQ27mLy+JIYhFUSOjnA366TxvFdrqpbfxs5wp1+/bR7mtNWsnkkYVTCw/vN8WXCCjvTsmvhajjKdQ==",
+			"mode": 420,
+			"size": 135
+		},
+		"node/ThemeProvider/nested.js": {
+			"checkedAt": 1772953432956,
+			"integrity": "sha512-vb+aVdIvea4n3CKAXw025ohJrt9Tuu+fJV75t2/TMetYsbwjBSe569ID1tdFcBFZjuIJbixTJtIy39PGZlnM3w==",
+			"mode": 420,
+			"size": 259
+		},
+		"ThemeProvider/nested.js": {
+			"checkedAt": 1772953432956,
+			"integrity": "sha512-XujQ5oh/WuQ27mLy+JIYhFUSOjnA366TxvFdrqpbfxs5wp1+/bR7mtNWsnkkYVTCw/vN8WXCCjvTsmvhajjKdQ==",
+			"mode": 420,
+			"size": 135
+		},
+		"legacy/useTheme/ThemeContext.js": {
+			"checkedAt": 1772953432956,
+			"integrity": "sha512-NULEDfuKK6P+YQv7Qfg9GNnl9oj+En/yKO/pOqiSHI+kKq+MBYRZLiVih2JSCxBkp9V4Q0HjiIlB8ws8MZB2oA==",
+			"mode": 420,
+			"size": 211
+		},
+		"modern/useTheme/ThemeContext.js": {
+			"checkedAt": 1772953432957,
+			"integrity": "sha512-2S+ntLmgmwBJ9DTX8NtkpI8IfX3f3yBl34Q1ncUorQ7v8qj8/naGGKsJ2yH4Px9tDdBV8+COHYu+mdwB7nJXUg==",
+			"mode": 420,
+			"size": 213
+		},
+		"node/useTheme/ThemeContext.js": {
+			"checkedAt": 1772953432957,
+			"integrity": "sha512-1UAxzEBtSilqajJTu7wGkX936237JTWiIoxcrckXz84d3Cg5ghKNJOAD1jJlkGWSI8BgJ/9fAjTm/rM6lxCwjw==",
+			"mode": 420,
+			"size": 1159
+		},
+		"useTheme/ThemeContext.js": {
+			"checkedAt": 1772953432957,
+			"integrity": "sha512-2S+ntLmgmwBJ9DTX8NtkpI8IfX3f3yBl34Q1ncUorQ7v8qj8/naGGKsJ2yH4Px9tDdBV8+COHYu+mdwB7nJXUg==",
+			"mode": 420,
+			"size": 213
+		},
+		"legacy/ThemeProvider/ThemeProvider.js": {
+			"checkedAt": 1772953432957,
+			"integrity": "sha512-NtR5DA7gea68DCq0eCDIJqXzkRASvnGMHkWwxxx7STuF62N0j5hDJQnDCNdsoWVs+QFt1GngtSsvXqtG9vg67w==",
+			"mode": 420,
+			"size": 2463
+		},
+		"modern/ThemeProvider/ThemeProvider.js": {
+			"checkedAt": 1772953432958,
+			"integrity": "sha512-x6M+aMHNWFBLGVxXkdtYq4skUd+tDNtfJZHqbEcG+8PsTEtgn10e6y18hS7LyHIqVGmKHksATYQYi4T8BPTd0A==",
+			"mode": 420,
+			"size": 2461
+		},
+		"node/ThemeProvider/ThemeProvider.js": {
+			"checkedAt": 1772953432958,
+			"integrity": "sha512-NVHTsz+3vvk5oc+lA4YttCz519Ybe2ewYXlZjYezyWb8xlzO2M1BPI1enDsqPhd6yAr44HbVmiuOj9m7JgjfDA==",
+			"mode": 420,
+			"size": 3733
+		},
+		"ThemeProvider/ThemeProvider.js": {
+			"checkedAt": 1772953432958,
+			"integrity": "sha512-x6M+aMHNWFBLGVxXkdtYq4skUd+tDNtfJZHqbEcG+8PsTEtgn10e6y18hS7LyHIqVGmKHksATYQYi4T8BPTd0A==",
+			"mode": 420,
+			"size": 2461
+		},
+		"legacy/useTheme/useTheme.js": {
+			"checkedAt": 1772953432958,
+			"integrity": "sha512-AWOiF5S1cVOoIBuqGC2LPe2E0f4iLGu1R61gTa/6y7JYiWkc47X9zPInGdUUey8O4AfKzai3yNoO9xY3YEwJeg==",
+			"mode": 420,
+			"size": 317
+		},
+		"modern/useTheme/useTheme.js": {
+			"checkedAt": 1772953432959,
+			"integrity": "sha512-xrfIrfy/nOI5L991Aqq2pQgghAkMFAXHGpPpbfwYmUJz6MbHifA9Yu6sFOrNQF4SKiDiU7HxnRnaH6E/PapTvg==",
+			"mode": 420,
+			"size": 319
+		},
+		"node/useTheme/useTheme.js": {
+			"checkedAt": 1772953432959,
+			"integrity": "sha512-EmCIgX1zS16n3Z8R2PAJlaPMrBR8qM7NMn7cwHyon6YOjoXscTseIYNfj6/KKSNsRXfj4kMBfX3tp7TDJMa85Q==",
+			"mode": 420,
+			"size": 1357
+		},
+		"useTheme/useTheme.js": {
+			"checkedAt": 1772953432959,
+			"integrity": "sha512-xrfIrfy/nOI5L991Aqq2pQgghAkMFAXHGpPpbfwYmUJz6MbHifA9Yu6sFOrNQF4SKiDiU7HxnRnaH6E/PapTvg==",
+			"mode": 420,
+			"size": 319
+		},
+		"package.json": {
+			"checkedAt": 1772953432959,
+			"integrity": "sha512-Mq3l00bXzsRdP/JMQ24eBwlKxhgLxyAg1KLU43rpsxUPJpZIBNnrfNWV2XS6IS3IJOuzXO0NmnRPbOkXBvIBKQ==",
+			"mode": 420,
+			"size": 1247
+		},
+		"ThemeProvider/package.json": {
+			"checkedAt": 1772953432959,
+			"integrity": "sha512-DRFAnNkBE7o7TQ0ES889t4H2y7t5SsgDnD3U5ijlP3BHBPWbouZNO82R/BMdShcaVTDe3Tj3sRNHPD7sJMkR4g==",
+			"mode": 420,
+			"size": 123
+		},
+		"useTheme/package.json": {
+			"checkedAt": 1772953432960,
+			"integrity": "sha512-eAX+r4t3rSNDpTDU6O1WMBNCm4nUo7+6ljsLPwfySOsyOoZF7iDiByQzkb+WbExy53SMX/N/03mM6Tr01E2eew==",
+			"mode": 420,
+			"size": 118
+		},
+		"CHANGELOG.md": {
+			"checkedAt": 1772953432962,
+			"integrity": "sha512-HTnfcsq4P9W6le752pV9Mn7JbYuKSb6KzxLbP5/yNqKm9XbWmYhvPSma04jyeMfggfAmX3cA/WG56iUF9JYXFg==",
+			"mode": 420,
+			"size": 789318
+		},
+		"README.md": {
+			"checkedAt": 1772953432963,
+			"integrity": "sha512-ldVrdwgtW+6Afc5qHHT4uACMka3oj2Oiha8TyLO+7ziEAL2dG7jObrV05QH7u26fH9Pn1FpuMbDZlOt03bFq/A==",
+			"mode": 420,
+			"size": 104
+		},
+		"defaultTheme/index.d.ts": {
+			"checkedAt": 1772953432963,
+			"integrity": "sha512-6ZsWgGdP39xVlqN/cVWAY3vHOl/L7PvZVaQKNMhlM425zTQT5m2KYvg4zOp1kp3181rlUR4C17UnZJ5pB1aRBw==",
+			"mode": 420,
+			"size": 310
+		},
+		"index.d.ts": {
+			"checkedAt": 1772953432964,
+			"integrity": "sha512-KvSksNVkJOeWmNcSfxEWuTOOuaTU5TQ9bg97+cC/dj7keIURxOf5HQCIUDpOTernyYDq+XRCBhWnSHTwk0xrsw==",
+			"mode": 420,
+			"size": 205
+		},
+		"ThemeProvider/index.d.ts": {
+			"checkedAt": 1772953432964,
+			"integrity": "sha512-nWuCy89Tb1UuAjYcyEkRdHxbWvgxL6Fl1UBh4aX2AZyuYM05s6HS47XXA2Urup0p4yFdLfqa8xW6PsJ8QGKnNg==",
+			"mode": 420,
+			"size": 76
+		},
+		"useTheme/index.d.ts": {
+			"checkedAt": 1772953432964,
+			"integrity": "sha512-vuW3fOLyVK/LEFh6rvTz2JWVTo+p07j+2SjmUKkSYSsqKvrMFuycPQxfg3H+DXW7iqZKWQytiNWW5oRD8AtEtg==",
+			"mode": 420,
+			"size": 66
+		},
+		"ThemeProvider/ThemeProvider.d.ts": {
+			"checkedAt": 1772953432964,
+			"integrity": "sha512-dY7hsGZht5SQBd4k/c3ABuGJhxY2hMykoedrHHrdAol8zeUb5UXIlVyawqEbeFzEzKay8O+FMDN2OrL6oYPGcw==",
+			"mode": 420,
+			"size": 334
+		},
+		"useTheme/useTheme.d.ts": {
+			"checkedAt": 1772953432965,
+			"integrity": "sha512-lym+4Fs0GbA4INXLnbzOWRDPbzWZ0BNLmVk/kmToBwSmbnPKgrw0tYJVTr3wTpGd0ZC75MnHDUxStLA01SpUbw==",
+			"mode": 420,
+			"size": 106
+		}
+	}
+}

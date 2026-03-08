@@ -1,0 +1,61 @@
+{
+	"name": "rollup-plugin-cleanup",
+	"version": "3.2.1",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953445296,
+			"integrity": "sha512-NDg6ZJzGdxK8XfKUXhHQ31lQuwRSFQhgRTSirCgBJoibynsH9ldSobwcjAg2IsJ1UzsI1Di3kfk4xlE5CJxrvw==",
+			"mode": 436,
+			"size": 1079
+		},
+		"dist/rollup-plugin-cleanup.es.js": {
+			"checkedAt": 1772953445296,
+			"integrity": "sha512-TpzrrOTVMzwOSszrKexYh4wHy3ObpCRAlfQGX09Z2MKoFN1IUSw0fEwDCoHTQ2ctpH5VYy+ZpaKSvpIzEOjkiw==",
+			"mode": 436,
+			"size": 3108
+		},
+		"dist/rollup-plugin-cleanup.js": {
+			"checkedAt": 1772953445297,
+			"integrity": "sha512-BXXblpUW+6BvQBPzTWM3QKnoqh0wZ89OobtOtBjgbErbhpxMneHMcvCoTiE6RNR2FXYP95ssLt3jReD54B0HBA==",
+			"mode": 436,
+			"size": 3151
+		},
+		"package.json": {
+			"checkedAt": 1772953445297,
+			"integrity": "sha512-9OyeAmCNBbC/q4EYBONwn70+8XQ9OAySUczndIspFvZN9ldEgzCIR6DywxObcSh9NfxtYViebZFgRrG5ndpV8Q==",
+			"mode": 436,
+			"size": 1642
+		},
+		"dist/rollup-plugin-cleanup.es.js.map": {
+			"checkedAt": 1772953445297,
+			"integrity": "sha512-wv+E8sOJ9bByGucz1+IM41iPQ2Ozo5n5tSMHfQJTe/PLvPaU1BzsDv/IVs71SwUQwvxh5eZDt219EgP9DgWwsg==",
+			"mode": 436,
+			"size": 6310
+		},
+		"dist/rollup-plugin-cleanup.js.map": {
+			"checkedAt": 1772953445297,
+			"integrity": "sha512-5tIWYdIrWnUF2eUXZ8PHzJX6djLXZmd+RypN+05fVSvaIQReJ3jUT3DV+5m/8p4Gbcs1947ZlyJfsGx6a/LMIw==",
+			"mode": 436,
+			"size": 6311
+		},
+		"CHANGELOG.md": {
+			"checkedAt": 1772953445298,
+			"integrity": "sha512-iKYB/mhVFisM36IyEZQvu+lEQi8tmKvvrcZzMWt7x7vQvw6LdByREwEZGo9nzLfGop8tSfYnYifyfIQ3Jb+A2A==",
+			"mode": 436,
+			"size": 5827
+		},
+		"README.md": {
+			"checkedAt": 1772953445298,
+			"integrity": "sha512-DJu65We+Vtx48ECBl3kqNhnjiiPbzL3Wy8VuLES3ugBL97i8RXbTa3h+WsoG29HZI2jQtc5a0A5KPgK9F6yATg==",
+			"mode": 436,
+			"size": 7615
+		},
+		"index.d.ts": {
+			"checkedAt": 1772953445299,
+			"integrity": "sha512-3PfmEUD/7XpvKnV5Ro621WujjKWr5RWyxSVd/3oTpVYcCI37IocItgcatRRG/qOsdAeuAQzVzVguUT7IpENfSw==",
+			"mode": 436,
+			"size": 1639
+		}
+	}
+}

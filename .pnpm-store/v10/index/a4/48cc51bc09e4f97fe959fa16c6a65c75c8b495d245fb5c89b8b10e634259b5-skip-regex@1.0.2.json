@@ -1,0 +1,67 @@
+{
+	"name": "skip-regex",
+	"version": "1.0.2",
+	"requiresBuild": false,
+	"files": {
+		"package.json": {
+			"checkedAt": 1772953445088,
+			"integrity": "sha512-1QMYhyRoF6WGdTfz6VyJ92YoGH3aayJqfV+0W0O673RqyUyUG/SvlH8dbzdoAMkparkWzZUb/lFtUAs95KPuOA==",
+			"mode": 420,
+			"size": 1505
+		},
+		"CHANGELOG.md": {
+			"checkedAt": 1772953445089,
+			"integrity": "sha512-eGnTWwrXnZvQ+PwDSTSDy53X/YdX9HfXLeSiA54ZLf9pe3mrsDebhQN97twgJeqIUiB8wLbbZcIEOekMNMrEgQ==",
+			"mode": 420,
+			"size": 1572
+		},
+		"index.d.ts": {
+			"checkedAt": 1772953445089,
+			"integrity": "sha512-17q8l5m26hjMKtOt05U4bn0Els7fAv06b2eX81EklTpLGzNTsC+DtlPQKRFVbDI4MbiX/8xwhu7D9G+kmUF10A==",
+			"mode": 420,
+			"size": 476
+		},
+		"index.min.js": {
+			"checkedAt": 1772953445089,
+			"integrity": "sha512-hPo5eXMGdOr0MZC/PRnsY3H49ouTmvOlpM1665JTrI/A/fuiPHUmgmdXSMHqJL5/3WSlx2hYZjbpHANCchLCXQ==",
+			"mode": 436,
+			"size": 942
+		},
+		"LICENSE": {
+			"checkedAt": 1772953445090,
+			"integrity": "sha512-U61SLPJrazqnZGLzJEiPegjv3ws8lpk/B6u8z0hSdP+lNBiyP+og9t7qbCPCkTSBOk1HstSCIVjVMK1USYWT7g==",
+			"mode": 420,
+			"size": 1074
+		},
+		"README.md": {
+			"checkedAt": 1772953445090,
+			"integrity": "sha512-CvGR57519q50k6pUpzGQ6oUSavO/mHsDfCh5seZmrVQFRlUYq51ihdepAvytslmHKlJNo+oUQ9tUyDs6CnPW3Q==",
+			"mode": 420,
+			"size": 4217
+		},
+		"dist/skip-regex.js": {
+			"checkedAt": 1772953445091,
+			"integrity": "sha512-cykHyAz2HC7MZi99kMGPiSmjrDCV//f0+ecD5/CbecdLoycof/TBlX6CtYIZgQxN6NvHST3uNYF+UN40IGCsWw==",
+			"mode": 436,
+			"size": 1882
+		},
+		"dist/skip-regex.js.map": {
+			"checkedAt": 1772953445091,
+			"integrity": "sha512-3aviRrlRoX5DMOwTuPyTBo3Ib+k4QgOHvkfyFklHk7/O5ev9oI3t/Of62/F3DvaB7CaUQu4fV/pnecbg+OQ70w==",
+			"mode": 436,
+			"size": 5870
+		},
+		"dist/skip-regex.mjs": {
+			"checkedAt": 1772953445091,
+			"integrity": "sha512-DcqTUuowbl5FFeMOGcJ1+y7a6XSs0me1EgNhJ2CD9hOef0DIgRydKuYw4N/LN2doLWGINHIJejzNBm+7O/0gNA==",
+			"mode": 436,
+			"size": 1866
+		},
+		"dist/skip-regex.mjs.map": {
+			"checkedAt": 1772953445092,
+			"integrity": "sha512-5lTp4I5rGlPewGTjpeuufh6+eoabH8dSX+yi4UFGkSrUfwHceMqgo1dI1yhrdBOE4YLEPqgU8I1sIEqdARdqTw==",
+			"mode": 436,
+			"size": 5869
+		}
+	}
+}

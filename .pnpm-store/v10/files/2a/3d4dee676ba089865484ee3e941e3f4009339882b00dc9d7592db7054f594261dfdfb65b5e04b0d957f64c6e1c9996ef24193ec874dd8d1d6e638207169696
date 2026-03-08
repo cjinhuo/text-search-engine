@@ -1,0 +1,63 @@
+{
+  "name": "perf-regexes",
+  "version": "1.0.1",
+  "description": "Optimized and powerful regexes for JavaScript",
+  "main": "./dist/perf-regexes.js",
+  "module": "./dist/perf-regexes.mjs",
+  "browser": "index.min.js",
+  "types": "index.d.ts",
+  "source": "./src/index.js",
+  "files": [
+    "index.*",
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=6.14"
+  },
+  "keywords": [
+    "html",
+    "javascript",
+    "typescript",
+    "comments",
+    "regexp",
+    "regexes",
+    "search",
+    "match",
+    "source"
+  ],
+  "scripts": {
+    "start": "rollup -c && mocha -w test/index.js",
+    "pretest": "rollup -c",
+    "test": "mocha test/index.js",
+    "prek": "rollup -c rollup.browser.js",
+    "k": "karma start ./test/karma.conf.js",
+    "lint": "eslint src/*.js test/*.js",
+    "build": "rollup -c && rollup -c rollup.browser.js",
+    "prepublish": "npm run lint && npm run prek && npm t"
+  },
+  "author": {
+    "name": "aMarCruz",
+    "email": "amarcruzbox-git@yahoo.com",
+    "url": "https://github.com/aMarCruz"
+  },
+  "homepage": "https://github.com/aMarCruz/perf-regexes",
+  "bugs": "https://github.com/aMarCruz/perf-regexes/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aMarCruz/perf-regexes.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.10.0",
+    "expect": "^1.20.2",
+    "karma": "^3.1.4",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-mocha": "^1.3.0",
+    "mocha": "^5.2.0",
+    "rollup": "^0.68.1",
+    "rollup-plugin-uglify": "^6.0.0",
+    "skip-regex": "^1.0.1"
+  }
+}

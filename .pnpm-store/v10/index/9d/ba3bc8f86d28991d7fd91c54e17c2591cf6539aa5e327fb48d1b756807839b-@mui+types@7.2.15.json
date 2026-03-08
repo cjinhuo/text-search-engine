@@ -1,0 +1,37 @@
+{
+	"name": "@mui/types",
+	"version": "7.2.15",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953432576,
+			"integrity": "sha512-hEIJyjYB1+c0sxVoHjCZWQLKoOG5uNgAILlxeEOGI1xyrd2X68hwK8LaJRVnbJvBnkFRsr+DPvBK80QoBOZWfQ==",
+			"mode": 420,
+			"size": 1078
+		},
+		"package.json": {
+			"checkedAt": 1772953432576,
+			"integrity": "sha512-Au1bbL9kWNptH/qovPQG2dOXIv4TlH9DRgd+tKrCwq1hb8rDAMw/3Nmh0o4GMCkUmGr1S/1ObUMbYO7SnJTtyg==",
+			"mode": 420,
+			"size": 882
+		},
+		"README.md": {
+			"checkedAt": 1772953432576,
+			"integrity": "sha512-Ig2jWBUNABFMaxPxBvwAmAzS5lXUMaqTM+z4AuA8n9ylA3Vz16wFq4VL7bYhVysaG+KFMw7r+an3rU2Ohufv9w==",
+			"mode": 420,
+			"size": 41
+		},
+		"index.d.ts": {
+			"checkedAt": 1772953432577,
+			"integrity": "sha512-YtAxjEpeJ9IEPTK8IRgtmrCQoI5fdhsyP0JkCA24LY546COYDqOQACbt7pfqd/U/I7CTJdMdLK2Vw0FC43FUVw==",
+			"mode": 420,
+			"size": 4622
+		},
+		"OverridableComponentAugmentation.ts": {
+			"checkedAt": 1772953432577,
+			"integrity": "sha512-jZb6svuZh++YoWJO72ByY2wmrXU6hdyN9lk8n8RUqB8hX7FsMG8DgcxzLp5p2+5LYgR60Gp5cytzcE1/6URauw==",
+			"mode": 420,
+			"size": 1270
+		}
+	}
+}

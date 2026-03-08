@@ -1,0 +1,108 @@
+{
+    "name": "framer-motion",
+    "version": "11.3.24",
+    "description": "A simple and powerful JavaScript animation library",
+    "main": "dist/cjs/index.js",
+    "module": "dist/es/index.mjs",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "require": "./dist/cjs/index.js",
+            "import": "./dist/es/index.mjs",
+            "default": "./dist/cjs/index.js"
+        },
+        "./dom": {
+            "types": "./dist/dom-entry.d.ts",
+            "require": "./dist/cjs/dom-entry.js",
+            "import": "./dist/es/dom-entry.mjs",
+            "default": "./dist/cjs/dom-entry.js"
+        },
+        "./projection": {
+            "import": "./dist/es/projection-entry.mjs",
+            "default": "./dist/es/projection-entry.mjs"
+        },
+        "./package.json": "./package.json"
+    },
+    "types": "dist/index.d.ts",
+    "author": "Framer",
+    "license": "MIT",
+    "repository": "https://github.com/framer/motion/",
+    "sideEffects": false,
+    "keywords": [
+        "react animation",
+        "react",
+        "three",
+        "3d",
+        "pose",
+        "react pose",
+        "animation",
+        "gestures",
+        "drag",
+        "spring",
+        "popmotion",
+        "framer",
+        "waapi"
+    ],
+    "scripts": {
+        "eslint": "yarn run lint",
+        "lint": "yarn eslint src/**/*.ts",
+        "build": "yarn clean && tsc -p . && rollup -c && node ./scripts/check-bundle.js",
+        "dev": "yarn watch",
+        "clean": "rm -rf types dist lib",
+        "test": "yarn test-server && yarn test-client",
+        "test-ci": "yarn test",
+        "test-client": "jest --config jest.config.json --max-workers=2",
+        "test-server": "jest --config jest.config.ssr.json",
+        "test-watch": "jest --watch --coverage --coverageReporters=lcov --config jest.config.json",
+        "test-e2e": "yarn test-e2e-html && yarn test-e2e-react",
+        "test-e2e-html": "node ../../dev/inc/collect-html-tests.js && start-server-and-test 'pushd ../../; yarn dev-server; popd' http://localhost:8000 'cypress run -s cypress/integration/appear.chrome.ts --config baseUrl=http://localhost:8000/ && cypress run -s cypress/integration/projection.chrome.ts --config baseUrl=http://localhost:8000/'",
+        "test-e2e-react": "start-server-and-test 'pushd ../../; yarn dev-server; popd' http://localhost:9990 'cypress run --headless --config ignoreTestFiles=*.chrome.ts'",
+        "prettier": "prettier ./src/* --write",
+        "watch": "concurrently -c blue,red -n tsc,rollup --kill-others \"tsc --watch -p . --preserveWatchOutput\" \"rollup --config --watch --no-watch.clearScreen\"",
+        "prepack": "yarn build",
+        "postpublish": "git push --tags",
+        "measure": "rollup -c ./rollup.size.config.mjs && bundlesize"
+    },
+    "dependencies": {
+        "tslib": "^2.4.0"
+    },
+    "peerDependencies": {
+        "@emotion/is-prop-valid": "*",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0"
+    },
+    "peerDependenciesMeta": {
+        "@emotion/is-prop-valid": {
+            "optional": true
+        },
+        "react": {
+            "optional": true
+        },
+        "react-dom": {
+            "optional": true
+        }
+    },
+    "bundlesize": [
+        {
+            "path": "./dist/size-rollup-motion.js",
+            "maxSize": "33.87 kB"
+        },
+        {
+            "path": "./dist/size-rollup-m.js",
+            "maxSize": "6 kB"
+        },
+        {
+            "path": "./dist/size-rollup-dom-animation.js",
+            "maxSize": "17 kB"
+        },
+        {
+            "path": "./dist/size-rollup-dom-max.js",
+            "maxSize": "28.82 kB"
+        },
+        {
+            "path": "./dist/size-rollup-animate.js",
+            "maxSize": "18 kB"
+        }
+    ],
+    "gitHead": "f59114d4d48f4fbd6a611aba62cd9ebab13e06ab"
+}

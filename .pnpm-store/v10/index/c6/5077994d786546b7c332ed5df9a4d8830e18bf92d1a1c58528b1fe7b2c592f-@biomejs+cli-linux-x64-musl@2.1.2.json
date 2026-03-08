@@ -1,0 +1,25 @@
+{
+	"name": "@biomejs/cli-linux-x64-musl",
+	"version": "2.1.2",
+	"requiresBuild": false,
+	"files": {
+		"biome": {
+			"checkedAt": 1772953443168,
+			"integrity": "sha512-hNJLQFkQ6WkCguKhrLG4cSXEeAee7PpYrp92F5XfbULy9KbTQy2HcRAQasxwbWgi+jsGCMbXJ1xcyF2Fv+PKAw==",
+			"mode": 493,
+			"size": 39814848
+		},
+		"package.json": {
+			"checkedAt": 1772953443169,
+			"integrity": "sha512-Vfv03PMgIdOmCKjnkUaFQmSfapyGxkdYfl/ZeK36rdAuFN+X0TrFdOxfvth6lHd6TtEyUigrJSbrBq6MQLfQtw==",
+			"mode": 420,
+			"size": 401
+		},
+		"CHANGELOG.md": {
+			"checkedAt": 1772953443169,
+			"integrity": "sha512-GCmcxCg/Yc5yGooj4SYs4cANfG3Oxmc17mkLLvXA/W6d2CZyF48/Kvm4pnsyMqedfCmzyB+GSIVUVl86zjlgZw==",
+			"mode": 420,
+			"size": 130
+		}
+	}
+}

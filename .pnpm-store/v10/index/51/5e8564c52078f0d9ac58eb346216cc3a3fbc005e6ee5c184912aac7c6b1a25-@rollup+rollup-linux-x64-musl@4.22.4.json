@@ -1,0 +1,25 @@
+{
+	"name": "@rollup/rollup-linux-x64-musl",
+	"version": "4.22.4",
+	"requiresBuild": false,
+	"files": {
+		"package.json": {
+			"checkedAt": 1772953442050,
+			"integrity": "sha512-L7ZXUQR3+TEoPx2Zq/K8eM9N0AcKbJD2Hhs/Ua5fID0XHm2NcCHdMQR7W+9Oc3/8B17peQ2dSpFLacpe4YE9Mg==",
+			"mode": 420,
+			"size": 419
+		},
+		"README.md": {
+			"checkedAt": 1772953434646,
+			"integrity": "sha512-5w0clYQzWCpPCMzdiw6R3wJDz9Xxt/3KdT5wZVKCz70lV7VB8JZ1W1n7kCcsC2/P+zGQxwmdlqbLWiAt92hzjw==",
+			"mode": 420,
+			"size": 97
+		},
+		"rollup.linux-x64-musl.node": {
+			"checkedAt": 1772953442056,
+			"integrity": "sha512-okJdzgnBd1VPuTnqZhxVv/fFQ8VMDGwfDm1ZiM6lxqydRm8cWjmc1rnMvAIiqGZmdYGme1U31Vy3BoUZI3ZXSw==",
+			"mode": 420,
+			"size": 2477080
+		}
+	}
+}

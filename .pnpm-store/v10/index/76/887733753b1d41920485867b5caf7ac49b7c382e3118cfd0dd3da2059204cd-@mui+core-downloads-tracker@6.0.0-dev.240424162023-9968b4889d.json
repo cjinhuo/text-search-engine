@@ -1,0 +1,25 @@
+{
+	"name": "@mui/core-downloads-tracker",
+	"version": "6.0.0-dev.240424162023-9968b4889d",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953433088,
+			"integrity": "sha512-hEIJyjYB1+c0sxVoHjCZWQLKoOG5uNgAILlxeEOGI1xyrd2X68hwK8LaJRVnbJvBnkFRsr+DPvBK80QoBOZWfQ==",
+			"mode": 420,
+			"size": 1078
+		},
+		"package.json": {
+			"checkedAt": 1772953433088,
+			"integrity": "sha512-EzxY2TGPwcwzwj/Y8mEWIhE3QD6BhWt5sE35g3VCmDVI/5TR+6ln9VZZtUmRBZ9WDbY3c7BaxRFPoWYNVrtDKw==",
+			"mode": 420,
+			"size": 694
+		},
+		"README.md": {
+			"checkedAt": 1772953433088,
+			"integrity": "sha512-js6KygpcTPmTX6A0Km56pWwI+NNl7phTlhj8USuMesWq3Oz9khHV6HQwBIAuDbgou5M1MtPPa2vvDFHPy5rh1A==",
+			"mode": 420,
+			"size": 306
+		}
+	}
+}

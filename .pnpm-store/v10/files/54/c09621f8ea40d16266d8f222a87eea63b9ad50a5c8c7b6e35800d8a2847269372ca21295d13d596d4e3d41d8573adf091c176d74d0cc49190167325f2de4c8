@@ -1,0 +1,222 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.logger = void 0;
+exports.splitSummary = splitSummary;
+exports.splitSummaryForCh = splitSummaryForCh;
+exports.formatGitMessage = formatGitMessage;
+exports.formatGitCommitId = formatGitCommitId;
+exports.getGitRemoteUrl = getGitRemoteUrl;
+exports.getInfoByCommitId = getInfoByCommitId;
+exports.getGithubAuthor = getGithubAuthor;
+exports.isContainsChinese = isContainsChinese;
+exports.detectPackageManager = detectPackageManager;
+exports.gitPush = gitPush;
+exports.gitAddAndCommit = gitAddAndCommit;
+const fs = __importStar(require("node:fs"));
+const path = __importStar(require("node:path"));
+const axios_1 = __importDefault(require("axios"));
+const consola_1 = require("consola");
+const dayjs_1 = __importDefault(require("dayjs"));
+const execa = require('execa');
+const constants_1 = require("./constants");
+function createLogger(tag = '') {
+    const consola = (0, consola_1.createConsola)({
+        fancy: true,
+        formatOptions: {
+            date: true,
+        },
+    });
+    return tag ? consola.withTag(tag) : consola;
+}
+exports.logger = createLogger('changeset');
+function splitSummary(changesetSummary) {
+    return changesetSummary.split('\n').filter((line) => line.trim());
+}
+function splitSummaryForCh(changesetSummary) {
+    const summaryLines = changesetSummary.split('\n').filter((line) => line.trim());
+    if (summaryLines.length !== 2) {
+        throw new Error('summary 有且仅包含一个 \\n 换行符');
+    }
+    let englishLine = '';
+    let chineseLine = '';
+    for (const line of summaryLines) {
+        if (isContainsChinese(line)) {
+            chineseLine = line;
+        }
+        else {
+            englishLine = line;
+        }
+    }
+    if (!englishLine) {
+        throw new Error('summary 必须包含英文摘要');
+    }
+    if (!chineseLine) {
+        throw new Error('summary 必须包含中文摘要');
+    }
+    return {
+        englishLine,
+        chineseLine,
+    };
+}
+function formatGitMessage(message) {
+    if (message.length > constants_1.MAX_GIT_MESSAGE_LENGTH) {
+        return `${message.slice(0, constants_1.MAX_GIT_MESSAGE_LENGTH - 4)}...`;
+    }
+    return message;
+}
+function formatGitCommitId(commitId) {
+    return commitId.slice(0, constants_1.MAX_GIT_COMMIT_ID_LENGTH);
+}
+function getGitRemoteUrl() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const res = yield execa('git', ['config', '--get', 'remote.origin.url'], { stdio: 'pipe' });
+            let url = res.stdout.trim();
+            if (url.startsWith('git@')) {
+                url = url.replace(/^git@([^:]+):/, 'https://$1/');
+            }
+            url = url.replace(/\.git$/, '');
+            return url;
+        }
+        catch (_error) {
+            return 'https://github.com/unknown/repo';
+        }
+    });
+}
+function getAuthorInfo(email, intactHash) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const token = process.env.CHANGESET_READ_REPO_TOKEN;
+            if (!token) {
+                throw new Error('CHANGESET_READ_REPO_TOKEN is undefined');
+            }
+            const remoteUrl = yield getGitRemoteUrl();
+            const repoMatch = remoteUrl.match(/github\.com\/([^/]+\/[^/]+)$/);
+            if (!repoMatch) {
+                throw new Error('Failed to get GitHub repo');
+            }
+            const repo = repoMatch[1];
+            const githubAuthor = yield getGithubAuthor(repo, intactHash, token);
+            if (githubAuthor) {
+                return githubAuthor;
+            }
+        }
+        catch (_error) {
+        }
+        return email;
+    });
+}
+function getInfoByCommitId(commitId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const splitChar = '__';
+        const res = yield execa('git', ['show', `--pretty=%ae${splitChar}%cd${splitChar}%H`, commitId], { stdio: 'pipe' });
+        const match = res.stdout.match(/^(.*?)\n/m);
+        if (!match) {
+            throw new Error(`commitId ${commitId} not found`);
+        }
+        const [email, date, intactHash] = match[1].split(splitChar);
+        const author = yield getAuthorInfo(email, intactHash);
+        return { email, author, date: (0, dayjs_1.default)(date).format('YYYY-MM-DD'), intactHash };
+    });
+}
+function getGithubAuthor(repo, commitId, token) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var _a, _b, _c, _d, _e;
+        try {
+            const res = yield axios_1.default.get(`https://api.github.com/repos/${repo}/commits/${commitId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: token,
+                },
+            });
+            return ((_b = (_a = res.data) === null || _a === void 0 ? void 0 : _a.author) === null || _b === void 0 ? void 0 : _b.login) || ((_e = (_d = (_c = res.data) === null || _c === void 0 ? void 0 : _c.commit) === null || _d === void 0 ? void 0 : _d.author) === null || _e === void 0 ? void 0 : _e.name) || '';
+        }
+        catch (error) {
+            exports.logger.warn('Failed to fetch GitHub author:', error);
+            return '';
+        }
+    });
+}
+function isContainsChinese(text) {
+    return /[\u4e00-\u9fff]/.test(text);
+}
+function detectPackageManager() {
+    const rootDir = process.cwd();
+    if (fs.existsSync(path.join(rootDir, 'pnpm-lock.yaml'))) {
+        return 'pnpm';
+    }
+    if (fs.existsSync(path.join(rootDir, 'yarn.lock'))) {
+        return 'yarn';
+    }
+    if (fs.existsSync(path.join(rootDir, 'package-lock.json'))) {
+        return 'npm';
+    }
+    return 'npx';
+}
+function gitPush() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield execa('git', ['push'], { stdio: 'inherit' });
+        }
+        catch (error) {
+            exports.logger.error('git push error', error.message);
+        }
+    });
+}
+function gitAddAndCommit(commitMessage) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield execa('git', ['add', '.'], { stdio: 'inherit' });
+            yield execa('git', ['commit', '-m', commitMessage], { stdio: 'inherit' });
+        }
+        catch (error) {
+            exports.logger.error('there is nothing to commit', error.message);
+        }
+    });
+}

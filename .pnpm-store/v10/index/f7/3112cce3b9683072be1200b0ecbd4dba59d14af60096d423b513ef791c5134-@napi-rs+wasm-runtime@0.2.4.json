@@ -1,0 +1,43 @@
+{
+	"name": "@napi-rs/wasm-runtime",
+	"version": "0.2.4",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953445005,
+			"integrity": "sha512-SM63PieZ306/Cxw8Ot56KwcVcmCZkDBHr3Yx4s8d18FAQNQdbCyns2AC9xfcmbcWvc8VmCG+s7a2g72xtmOPLw==",
+			"mode": 420,
+			"size": 2138
+		},
+		"fs-proxy.cjs": {
+			"checkedAt": 1772953445005,
+			"integrity": "sha512-oQg7tcTi2GVH62HNAgwnx5tA0Eb98wvGxfdSzRiym/vTCrLA4SFS9W4VY8oqa0eNTzk5ALGJVWvU79PruXzTyw==",
+			"mode": 420,
+			"size": 5497
+		},
+		"runtime.cjs": {
+			"checkedAt": 1772953445006,
+			"integrity": "sha512-BdGakDkXdkVnRQQP54bbJ3tv7wet2tPq12XyD/1c9xCpfkexJRp5MKECRJPxmv6HaJ9ffP/kT5flUxnS18cuXA==",
+			"mode": 420,
+			"size": 432
+		},
+		"dist/fs.js": {
+			"checkedAt": 1772953445017,
+			"integrity": "sha512-vl7dTgmWL8dZVtvzyFmAjsOxXMCzlVzyyW6yyW15q4Ty5Ud//YzqvNTmk7lVP3poA9HeSOwUWbgjMelDN5rxyg==",
+			"mode": 420,
+			"size": 5994998
+		},
+		"dist/runtime.js": {
+			"checkedAt": 1772953445021,
+			"integrity": "sha512-OR4jNqXrCssrCh7OciWoDtQP9FgX3/m5VpoVC1lJRcnqK7svvciqwc48zH62GU/unxo0nu8bRc7/1koa1vT/Yw==",
+			"mode": 420,
+			"size": 1930258
+		},
+		"package.json": {
+			"checkedAt": 1772953445021,
+			"integrity": "sha512-rpPU9N/1uDrRWb3tEPC4vlAmNyAx9gHrJz3qPJ77jmeVIdfF2pjcEX2/Ggnk2p8VgMWrjOT9Fu5hrVXjazYQRA==",
+			"mode": 420,
+			"size": 1488
+		}
+	}
+}

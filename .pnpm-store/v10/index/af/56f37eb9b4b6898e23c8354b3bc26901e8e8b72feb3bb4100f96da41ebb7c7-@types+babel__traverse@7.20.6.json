@@ -1,0 +1,31 @@
+{
+	"name": "@types/babel__traverse",
+	"version": "7.20.6",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953431796,
+			"integrity": "sha512-HQaIQk9pwOcyKutyDk4o2a87WnotwYuLGYFW43emGm4FvIJFKPyg+OYaw5sTegKAKf+C5SKa1ACjzCLivbaHrQ==",
+			"mode": 420,
+			"size": 1141
+		},
+		"README.md": {
+			"checkedAt": 1772953434256,
+			"integrity": "sha512-peFRNZsu8LguG6fmIYQZ88LLr0zc3vcyedgjCUUeYE23BkTU3Yu4Etf1Gvn1QiPOBhi1uTUaKZ0VZmlTZkvYHQ==",
+			"mode": 420,
+			"size": 893
+		},
+		"index.d.ts": {
+			"checkedAt": 1772953434257,
+			"integrity": "sha512-orOrC5q6x+ihmwANmtoLojRs79hAoRabqCjIfs0jC6ukxjgbAD6HrgvwcqRBm/7qXs8T678HD8JwYQO+EtN9SA==",
+			"mode": 420,
+			"size": 80203
+		},
+		"package.json": {
+			"checkedAt": 1772953434257,
+			"integrity": "sha512-MeMv1Av+Aa/76Q8NRseik+LpzxZBuCt3BDa3tff2ziUhmK4G+Uf6syU2abfxWZVYVz8DH+Vqmzen5iPdgMx/Kw==",
+			"mode": 420,
+			"size": 1902
+		}
+	}
+}

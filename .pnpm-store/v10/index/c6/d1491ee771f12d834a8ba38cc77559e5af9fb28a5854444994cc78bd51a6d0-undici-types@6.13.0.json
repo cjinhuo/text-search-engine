@@ -1,0 +1,247 @@
+{
+	"name": "undici-types",
+	"version": "6.13.0",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953434497,
+			"integrity": "sha512-pVFqd00dT/0PxmkbY6ZkYriv+B7siZq+pJWsROXJg7Jg5pV7nSZGTG3Dr92pvgHhKiTGQTCYxDyGpBQTgHNI7A==",
+			"mode": 420,
+			"size": 1090
+		},
+		"package.json": {
+			"checkedAt": 1772953434497,
+			"integrity": "sha512-q6k1ih67DQa98yQMiZ9DSvRTXuhy/9YxNzCoX3anUkQsZNS0iC54mRQ79C7xtpe0s8mydt0HNcwORoBzhMPBPg==",
+			"mode": 420,
+			"size": 1193
+		},
+		"README.md": {
+			"checkedAt": 1772953434498,
+			"integrity": "sha512-Ua0Cq3c+cPY2pRau2gBhOATHoUDPUVJqfXDxrv/nm3BJ21Lq1N410Xb67D9X0P3nf3w1Slujdb7t/vkfJjAQEg==",
+			"mode": 420,
+			"size": 455
+		},
+		"agent.d.ts": {
+			"checkedAt": 1772953434498,
+			"integrity": "sha512-8c6qAnNfSKW/5k++oYTR55l+roEofolI4PimEjucv4WP+6EBdtMESHBcCWDyaTjcRyraiJ96dLw1C7oxyDlzxg==",
+			"mode": 420,
+			"size": 1065
+		},
+		"api.d.ts": {
+			"checkedAt": 1772953434498,
+			"integrity": "sha512-CewyJFz1lbodFwowUm0x3lvpXA6W4iyvqofpqliNx9B3zzgcSNwgrUyoo9O5AcdvrP9Ka+BPqKavrRYbW8WiMw==",
+			"mode": 420,
+			"size": 1455
+		},
+		"balanced-pool.d.ts": {
+			"checkedAt": 1772953434499,
+			"integrity": "sha512-+LsCALjz4296lbxNRhYGTD/qmAoVjm4C77fg0qpOdZ5MjwjgcEsIDivXI1+pURPTu4+Vg0mvGR9ktZrwJWqIPg==",
+			"mode": 420,
+			"size": 961
+		},
+		"cache.d.ts": {
+			"checkedAt": 1772953434499,
+			"integrity": "sha512-g+8WZhBufA+IN+Qytgaj+QP+Oiml4I5EUEGlgib4y/pm9acyDkdNkXoe+Uvhfq3dUsxEm9K46CLydhnnKayMDA==",
+			"mode": 420,
+			"size": 1251
+		},
+		"client.d.ts": {
+			"checkedAt": 1772953434499,
+			"integrity": "sha512-XIX+4X+ZtVYouhdHlGxmjagHCWDvUuRKuBAW/wF5wCIwqdS60iWMVECoxD4O5XwyzHtHRFDQYOjU8vrcEVARcw==",
+			"mode": 420,
+			"size": 4964
+		},
+		"connector.d.ts": {
+			"checkedAt": 1772953434500,
+			"integrity": "sha512-swtwCwGJrrO/sUBeZFdJGY9hCN62Q47kfc+sg4DBfLkpoqaqBh3T32Dhyg2Gb6r48DtrzflWiKGy+hQ0NZnROQ==",
+			"mode": 420,
+			"size": 1029
+		},
+		"content-type.d.ts": {
+			"checkedAt": 1772953434500,
+			"integrity": "sha512-0QdEAAB9S2c80xA1nANZRgLjeKWSDZ/121CLg0/Yi2l5yj7gy+DCiPh/n3/ABKNxSEU+9XWbLLQ73csz/+Tulw==",
+			"mode": 420,
+			"size": 561
+		},
+		"cookies.d.ts": {
+			"checkedAt": 1772953434501,
+			"integrity": "sha512-7IPEWmdPmHQBJ5Zz3HWis+dA34ON1dPNv1JW5GX5VD4Gx5Zl7hKiGwLbcnyHfW9hWbDWvytTJMQXJWLs6p9z4A==",
+			"mode": 420,
+			"size": 635
+		},
+		"diagnostics-channel.d.ts": {
+			"checkedAt": 1772953434501,
+			"integrity": "sha512-Q9gROR+sflCp8R36CjS68nad+Ap8s0oUbC7HjDAprtUrFsco4P/LZD18SsACnoCfFRMixcfnFyRz0o/NoYB0qQ==",
+			"mode": 420,
+			"size": 1579
+		},
+		"dispatcher.d.ts": {
+			"checkedAt": 1772953434501,
+			"integrity": "sha512-twtqVqoI20AcJPClkb2pVBR/pQihJfF5ntN+2sNPm81KC1c79iKWCG6cj31DOB33TdKRKEbjZKJ300tdljJUtg==",
+			"mode": 420,
+			"size": 14156
+		},
+		"errors.d.ts": {
+			"checkedAt": 1772953434502,
+			"integrity": "sha512-K8ZwFK6p2pOrxSzMjI1Qc0jawMozzfJmLZt61fus4NGdHObZViOlrmT3IH18rwNwjAsKGEH06txuQYG/WIXuHg==",
+			"mode": 420,
+			"size": 3730
+		},
+		"eventsource.d.ts": {
+			"checkedAt": 1772953434502,
+			"integrity": "sha512-V4Hte3KH35P4eWj5uo8FXFfHtvOaKNhqcMdP+IR7YrhbZmgNVom0d/x3LKRpxbM5uMl8tbIca2pAGAdTGpM9Kw==",
+			"mode": 420,
+			"size": 1606
+		},
+		"fetch.d.ts": {
+			"checkedAt": 1772953434502,
+			"integrity": "sha512-uglyaafcpJNj38O+swuEVK11wV2Z5BTd5QxPjOEmsbEXdi8ii0XRsJ+paN2470gud1HXnjGy7FQH6I1UoYIAFg==",
+			"mode": 420,
+			"size": 5539
+		},
+		"file.d.ts": {
+			"checkedAt": 1772953434503,
+			"integrity": "sha512-K9l7f89iGcQy2VeGuDcuO0BMrGGr9NotKMm/qCjXufWXij9ojLH81oeWJxLLZ+Mg0HAgj7BOu9yvNph6LtFuWw==",
+			"mode": 420,
+			"size": 1707
+		},
+		"filereader.d.ts": {
+			"checkedAt": 1772953434503,
+			"integrity": "sha512-idlzr1j0ySNkfSrWsreKoH18GWQvhBRsXOS/coR4XwYlpX9UgHMtKI9whufE7QRwyZ9NldLbx4yhjVAz8hLyGA==",
+			"mode": 420,
+			"size": 1453
+		},
+		"formdata.d.ts": {
+			"checkedAt": 1772953434503,
+			"integrity": "sha512-r9v7wSCt4wc6BAn0eEtO2BWpi/wcmNYqEVjjolpp7X+tNnL/sW1eXDnFLHoFBsXthWvjbx6jAwB8FCfiV3Tb5Q==",
+			"mode": 420,
+			"size": 5012
+		},
+		"global-dispatcher.d.ts": {
+			"checkedAt": 1772953434504,
+			"integrity": "sha512-ZLbmJz7aVdS+PTcMQBCUYlut7lMP6V7SodwD7a7T1F/b8/D8X6BR7+ull4gEOQy5y3nFvLY4ApGT4atPVS6oSw==",
+			"mode": 420,
+			"size": 276
+		},
+		"global-origin.d.ts": {
+			"checkedAt": 1772953434504,
+			"integrity": "sha512-8fGoLU/ZCAadZdWxTjSlFCRaMA+fqQncEWAzcI4fhSmd1qVeJuXji0ASBKWAv8DsoIVDRewvnGy9A+FLdI0CCA==",
+			"mode": 420,
+			"size": 175
+		},
+		"handlers.d.ts": {
+			"checkedAt": 1772953434504,
+			"integrity": "sha512-4nPAuyDvR8xETHHmocs8cQb7a1s4WdSkdYudH2UDNIttkw+/PYMdu5nLDgLR9A0cJjwRsO8mfEnE0GKlIOLktQ==",
+			"mode": 420,
+			"size": 447
+		},
+		"header.d.ts": {
+			"checkedAt": 1772953434504,
+			"integrity": "sha512-ZndPriRc57uhMjH8NqHTg6h/ho/b2CmGVwQWU3di2cHfBXfwHmirJgcwE9rNLxXQ2lP6x1SlHZiudaxFwuyOsQ==",
+			"mode": 420,
+			"size": 133
+		},
+		"index.d.ts": {
+			"checkedAt": 1772953434505,
+			"integrity": "sha512-977ZDKAFlo4Sk6WhGsek/PIWRtqaaiX5LX1FT9tf+XPnIy+HLgGQalxiWc4cdJdsemoLexyFIF3g/T1t69OdAQ==",
+			"mode": 420,
+			"size": 3188
+		},
+		"interceptors.d.ts": {
+			"checkedAt": 1772953434505,
+			"integrity": "sha512-6Dl4EXB0cD008LeNXInlfYo8BOe1GudfrJk2JV5kc4WKsPJkI+0buaLdGMBPS5XKkA6Nn44ANEQAFc/x4e9Cng==",
+			"mode": 420,
+			"size": 215
+		},
+		"mock-agent.d.ts": {
+			"checkedAt": 1772953434505,
+			"integrity": "sha512-xMqppUybC2PCOOO6HWIaGUviCEp7OqbojbLG9HL9lkJq0Z2+Tzxnd19t30WsN5pxr/OS23EoDMPeDyQFXRtroA==",
+			"mode": 420,
+			"size": 2535
+		},
+		"mock-client.d.ts": {
+			"checkedAt": 1772953434506,
+			"integrity": "sha512-6FRiixkHn8dzYfp4TQPN7cFVpT37M8e4CYh2Uxo5BuuKVLCrD7dabaTToGH08AhtMI8STZiZLRz8uRatDKoEyw==",
+			"mode": 420,
+			"size": 1002
+		},
+		"mock-errors.d.ts": {
+			"checkedAt": 1772953434506,
+			"integrity": "sha512-CXfH7jgp6rn6bCgNwVfFWhmui3q5GyvfgE9DiOVp8M2ooTG/NVoFzclW9o1gLfePtdl84835y/U4hF1s07JMwg==",
+			"mode": 420,
+			"size": 338
+		},
+		"mock-interceptor.d.ts": {
+			"checkedAt": 1772953434506,
+			"integrity": "sha512-0LzArxsiLDn5S2oStFkaufxPBrFqhv6HrVKfEXRTxVhjAdDdQLh9hL96GIrs/FTn7ei0D7u9Bqwo+xO6Rusvvw==",
+			"mode": 420,
+			"size": 3892
+		},
+		"mock-pool.d.ts": {
+			"checkedAt": 1772953434507,
+			"integrity": "sha512-uw3Nm3tijvmynontqsiH6Tj9DXCfwtLShcO1ZxQOnpoFHmy/q2Mz+869Xju+6BaCTxUsdTRcWK20rViKXpQllw==",
+			"mode": 420,
+			"size": 974
+		},
+		"patch.d.ts": {
+			"checkedAt": 1772953434507,
+			"integrity": "sha512-1CqL2w+HhT9xPfy2wNC2yDe07Uc13q6SLyZTBSjns1C1OInoG2OgDSHHY4jHSAKDhl/Y39BTUqMijZgkDx8e8g==",
+			"mode": 420,
+			"size": 1678
+		},
+		"pool-stats.d.ts": {
+			"checkedAt": 1772953434507,
+			"integrity": "sha512-h9i2Eq29PJrc5hQfVet4jxMV4jxgRSFOdcxZYmy2VD0Ve7UexmrGrMah7Yxn46p9x3zFymL9rOtFp0k/lEDTGg==",
+			"mode": 420,
+			"size": 669
+		},
+		"pool.d.ts": {
+			"checkedAt": 1772953434507,
+			"integrity": "sha512-fJDOfBQagxWdTVeNJ0KU7azO33gQ8BKd2YDjVrsW1NpAUVcEN1iwt8+hG1R8GJdpcbRKcdToJmDfVr+mUw0x+A==",
+			"mode": 420,
+			"size": 1336
+		},
+		"proxy-agent.d.ts": {
+			"checkedAt": 1772953434508,
+			"integrity": "sha512-6Lm+LIsvTR0X3xdXvDsNm0iRc+DlZUFmXpgJWjIu20nFIyaMd1ieh6O9V5pNnKzsPDWLa4SviaP3CU0PIgy6Lw==",
+			"mode": 420,
+			"size": 780
+		},
+		"readable.d.ts": {
+			"checkedAt": 1772953434508,
+			"integrity": "sha512-OpJ0usTaUqpObvZ4FdPTiR1Q/Z2fG7mtfJoHoHk89Zav5MTfUuIUqIxMAXuvq3KQvKDXHPXbLfdNBH4ftuO2mw==",
+			"mode": 420,
+			"size": 1595
+		},
+		"retry-agent.d.ts": {
+			"checkedAt": 1772953434508,
+			"integrity": "sha512-wzFSRl9A4l/y4hQrUpfRduJq11Y5cNQGOui9aD3bFt6mYIfAp/WPJHd51oV8/csJwPJpuE7jiAypO5xUmPlo3w==",
+			"mode": 420,
+			"size": 349
+		},
+		"retry-handler.d.ts": {
+			"checkedAt": 1772953434509,
+			"integrity": "sha512-H6FgZC72QpZO8WS5pWdssdXTGVnB+1sLfZ2Kq+/mJANemKeDBvYJn7bHpgGfIHi9hbFyXaz6aHEt68rNECsI3g==",
+			"mode": 420,
+			"size": 2983
+		},
+		"util.d.ts": {
+			"checkedAt": 1772953434509,
+			"integrity": "sha512-nn1quetDwt7kDc0RR6oXfB076jqdESVVLzayHkUVo7OcgbcoF1j0IpNtmUt3NnBRPuCL8JCpj2JYTYfM12Ccmw==",
+			"mode": 420,
+			"size": 1106
+		},
+		"webidl.d.ts": {
+			"checkedAt": 1772953434509,
+			"integrity": "sha512-pVVLs+tJ6Rz6j6YFgeUvg23TjruudeausJKnqvYU4ovPGUYx9ooeNAp0URuLFGdA6neM5mjgIdzw9ntRe6vyGw==",
+			"mode": 420,
+			"size": 5732
+		},
+		"websocket.d.ts": {
+			"checkedAt": 1772953434509,
+			"integrity": "sha512-F+nOH8957o7qJr2gLtPEFxFS7QBgLhDGm3zP23hFgkx7945K/LIzvc3DS7SXVeDWbB+4hmq/b4ZHu+0TMtPuvA==",
+			"mode": 420,
+			"size": 3864
+		}
+	}
+}

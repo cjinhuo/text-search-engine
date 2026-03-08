@@ -1,0 +1,121 @@
+{
+	"name": "@babel/template",
+	"version": "7.25.0",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953431727,
+			"integrity": "sha512-KYRMN3MVTuiy5XkFDHd5PnQmHaQnt3z16nsBDePxZ9YNmq7IFlslpBBlR3UI+zvlbEemzowOYeKil9a0ZkOYxQ==",
+			"mode": 420,
+			"size": 1106
+		},
+		"README.md": {
+			"checkedAt": 1772953431727,
+			"integrity": "sha512-bNcCJ+Mumkpk/+xP/1oKXlycvVmeNAXDflTTBkv6BdCuakMTtxHdMCUy4bxgOjKxNQjexGqnocOhcKGYhOtNtA==",
+			"mode": 420,
+			"size": 444
+		},
+		"lib/builder.js": {
+			"checkedAt": 1772953431728,
+			"integrity": "sha512-+T43m18sy/N0G3upIJo6hXpzifgA/K39l7Qs0wEMh7B8fDkK6O5lewAemFBNiXbdt/YecqJRLzxRorzjRR5nIA==",
+			"mode": 420,
+			"size": 2467
+		},
+		"lib/builder.js.map": {
+			"checkedAt": 1772953431728,
+			"integrity": "sha512-2M5wLtA7u/CkuQCNkH0YDIW9PdwVUdt7fNGcgBJbM/SAun4RaWHdQ8DUhHX5z+oBfxs+2U9koTqWmuOTZluPKQ==",
+			"mode": 420,
+			"size": 7632
+		},
+		"lib/formatters.js": {
+			"checkedAt": 1772953431728,
+			"integrity": "sha512-KXKQn8jLw/lGBmv6nrSMEDgkc+fppnm3JtQKCWW0tb8VjJ3Qa+FNaUpjmv7MUC320hTfdshCNtox1D5DTmJHFw==",
+			"mode": 420,
+			"size": 1562
+		},
+		"lib/formatters.js.map": {
+			"checkedAt": 1772953431729,
+			"integrity": "sha512-JYe9/w4qYGHORy2kJ5rZ5VFGEi5mI2Y/imJgf1Hrqs2/N4jqAN63aAKaRnnVsRhTeBmfNk3TpthqHdoXPU/p2Q==",
+			"mode": 420,
+			"size": 3995
+		},
+		"lib/index.js": {
+			"checkedAt": 1772953431729,
+			"integrity": "sha512-M1OMIe5bsUlEr5bxN5c/pbqConZg4wkTvLn4WYkTVBrhOJU69P10uNXPMbG2SH7I2+U3gk96se+CZcT3r1NTaQ==",
+			"mode": 420,
+			"size": 879
+		},
+		"lib/index.js.map": {
+			"checkedAt": 1772953431729,
+			"integrity": "sha512-JvWJS/oSrAlQquccGbdhIQ+WRDde4PflzXrJllg9uXniFVO55APGDgQKjNghDA+q4Nl/3VR85YdYb6PfeafdsQ==",
+			"mode": 420,
+			"size": 1914
+		},
+		"lib/literal.js": {
+			"checkedAt": 1772953431729,
+			"integrity": "sha512-EV0bNbbNHmhflwdKKrZ+s1HekJeUBmV+pKzzDPFXEKllIGQV6JxMj8mP2oWOxCm3NPGDPYpKZmKCv+MvXZJY3Q==",
+			"mode": 420,
+			"size": 1957
+		},
+		"lib/literal.js.map": {
+			"checkedAt": 1772953431730,
+			"integrity": "sha512-zooJP3gyC80enSYYTXUtGB11xgZbg8rGtQXkGoo7JyuzXr3AN3QFbmL/YQYRaJ18aoV5vGtSGderUEk0S5LtcA==",
+			"mode": 420,
+			"size": 5465
+		},
+		"lib/options.js": {
+			"checkedAt": 1772953431730,
+			"integrity": "sha512-LN9desBQbDrgn7vWpgjkbz79/sCRvoBYFKwVfCYLK96PU500iB5Vo2IzP9XU6obdxDZZbwAp45Au8yFwjQYtEw==",
+			"mode": 420,
+			"size": 3098
+		},
+		"lib/options.js.map": {
+			"checkedAt": 1772953431730,
+			"integrity": "sha512-Q5xnJ5NLfe86N+0BrDXuzJRCH6+C5RmTJSe56Sx8uto4pGTzuXmRgX58/aLFGju9GAs3M5mIcscJHXuxUButxw==",
+			"mode": 420,
+			"size": 6972
+		},
+		"lib/parse.js": {
+			"checkedAt": 1772953431731,
+			"integrity": "sha512-B68kfU0xnlgKeRIoxwmChCJPHZbLQuQIFXgRKP6ZsdCKYgMyx443wyk0iAWzyFImsz2jagPNl4T8vi8wF+NKUQ==",
+			"mode": 420,
+			"size": 4484
+		},
+		"lib/parse.js.map": {
+			"checkedAt": 1772953431731,
+			"integrity": "sha512-askZk/Kg7XlOEKBdNx5zS9avMf4nBOYYc9tPFs/WxSWzcu2Y7a6aIy4SjtJgTj9bVZtYqMvIoXgg2BtnInGqvg==",
+			"mode": 420,
+			"size": 11324
+		},
+		"lib/populate.js": {
+			"checkedAt": 1772953431732,
+			"integrity": "sha512-TMTLj/BHTPxF2oB4/+PDKsBNhRZDpI+x/UzE0nAF87SMZcx/pMfjC19IGZYLoN05GvFA72HtpeBSIcT/H2xVSQ==",
+			"mode": 420,
+			"size": 4327
+		},
+		"lib/populate.js.map": {
+			"checkedAt": 1772953431732,
+			"integrity": "sha512-S59VVJIwCt0rC9zfZICh5a6+gF8L6Qf3TjuNcG3hRkzlMjormPvdf0kmYqJgnSBdE/tF2p42cxZ5YS+aNGy/cw==",
+			"mode": 420,
+			"size": 9812
+		},
+		"lib/string.js": {
+			"checkedAt": 1772953431733,
+			"integrity": "sha512-JKqzcM7NWZyIjCjxZU+KEYr5MIVIoGNxcd4EdojvOMQm/KlKRhRXVleymSe4z3b8XCIlDUxCD58YpL2KMmVhBw==",
+			"mode": 420,
+			"size": 607
+		},
+		"lib/string.js.map": {
+			"checkedAt": 1772953431733,
+			"integrity": "sha512-RlSmZPcyONHJzfdRzRkbtZVPVQALTwv6UQ5wglWEEqBr5ePrm1WEvN2/WgpMNVQNLhYGowAiX9BudvsaBlhazA==",
+			"mode": 420,
+			"size": 1540
+		},
+		"package.json": {
+			"checkedAt": 1772953431734,
+			"integrity": "sha512-S4d3vorLx4PLrjKsNXJuK4MsxWTK1jVh4vfp6uRie77083/TM6uW+plpz9VRJz9M93VgMpVYlKKC1EAE1YtAnw==",
+			"mode": 420,
+			"size": 771
+		}
+	}
+}

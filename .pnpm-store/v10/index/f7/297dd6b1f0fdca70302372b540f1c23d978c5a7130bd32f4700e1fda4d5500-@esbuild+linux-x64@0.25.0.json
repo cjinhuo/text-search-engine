@@ -1,0 +1,25 @@
+{
+	"name": "@esbuild/linux-x64",
+	"version": "0.25.0",
+	"requiresBuild": false,
+	"files": {
+		"bin/esbuild": {
+			"checkedAt": 1772953440548,
+			"integrity": "sha512-uqe61SfnAz0SMOYFUkl+j2CcRWEuUgFFJUf2RNl/kaoz4LStlgIORtndABNWr9Vo2R0j6aCNrcIleIV8iq5PFg==",
+			"mode": 493,
+			"size": 10244248
+		},
+		"package.json": {
+			"checkedAt": 1772953440548,
+			"integrity": "sha512-oW1KfbR9aBxEsBefnWyFL77jT1aKeq17N/C8zJfk4HPGttu5jg7Zr2n7kIKOlx8TYxfZbxGoO/bVcs2J0urDTQ==",
+			"mode": 420,
+			"size": 372
+		},
+		"README.md": {
+			"checkedAt": 1772953440549,
+			"integrity": "sha512-qNBiKmnPN19z/Z+/lCWlQUHNdW/dUvbWf5vFnL6D/NigWWw0HAKYXtACpBYUaA3TvTVK/gkK+Cus4aW8HbBtdQ==",
+			"mode": 420,
+			"size": 141
+		}
+	}
+}

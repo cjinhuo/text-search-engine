@@ -1,0 +1,37 @@
+{
+	"name": "@babel/code-frame",
+	"version": "7.24.7",
+	"requiresBuild": false,
+	"files": {
+		"LICENSE": {
+			"checkedAt": 1772953431353,
+			"integrity": "sha512-KYRMN3MVTuiy5XkFDHd5PnQmHaQnt3z16nsBDePxZ9YNmq7IFlslpBBlR3UI+zvlbEemzowOYeKil9a0ZkOYxQ==",
+			"mode": 420,
+			"size": 1106
+		},
+		"README.md": {
+			"checkedAt": 1772953431354,
+			"integrity": "sha512-7S0Ux5upB47lNoYM42Y6XY2YXX76IJGOd9GVJ0NjbCAGLVd0+Z4LtaEZpQOBPGmHxmoGmRLgrBIT4DlelSfoaw==",
+			"mode": 420,
+			"size": 334
+		},
+		"lib/index.js": {
+			"checkedAt": 1772953431355,
+			"integrity": "sha512-1iPkJM5ms+9yNlYi5gd9+zSobJlQakeSFPMBOtmDKRy8+mghQ4Py/oBXGXVnn1Ut+9l5DRtRspkNXZUp5LPTEw==",
+			"mode": 420,
+			"size": 6135
+		},
+		"lib/index.js.map": {
+			"checkedAt": 1772953431357,
+			"integrity": "sha512-7MPZ1ntB2EILfPyJgNlM8s9B5yNaKU1J2f7GoXrcP901SJ38tXU9EEpWEJcCJXwyMX8CBnqALIG3bYMU6Ogz5w==",
+			"mode": 420,
+			"size": 15653
+		},
+		"package.json": {
+			"checkedAt": 1772953431358,
+			"integrity": "sha512-wE/DsM+9UUJPOM8ycGEMZEFeT16QjJAF9vtcAfwm6wkfJbrwUjcdtHOQk9iOKeB/lAMG03qB4gkeTLIuAcZ2aQ==",
+			"mode": 420,
+			"size": 835
+		}
+	}
+}
