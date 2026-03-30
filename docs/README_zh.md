@@ -28,6 +28,13 @@
 
 你也可以访问[在线可视化演示](https://cjinhuo.github.io/text-search-engine/visual)来交互式地体验算法的工作过程。
 
+# 自然语言接入
+阅读接入文档 [SKILL](https://github.com/cjinhuo/text-search-engine/blob/master/.trae/skills/text-search-engine/SKILL.md)，或通过以下命令安装 skill：
+```bash
+npx skills add https://github.com/cjinhuo/text-search-engine --skill text-search-engine
+```
+安装完成后，请详细阅读 skill 文档，根据文档内容进行接入 text-search-engine 组件或方法。
+
 # 安装
 ```bash
 npm i text-search-engine

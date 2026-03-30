@@ -1,7 +1,8 @@
----
+***
+
 name: git-auto-commit
 description: Git 自动提交工具。当用户需要提交代码变更、commit 更改或者完成任务后需要提交时，必须调用此 skill 自动生成符合规范的 commit message 并执行提交，默认推送到远端。
----
+-------------------------------------------------------------------------------------------------------------
 
 # Git 自动提交规范
 
@@ -32,12 +33,11 @@ description: Git 自动提交工具。当用户需要提交代码变更、commit
 
 ### 规范来源优先级
 
-1. **优先读取项目根目录下的 `.commitlintrc.xx` 配置文件**
+1. **优先读取项目根目录下的** **`.commitlintrc.xx`** **配置文件**
    - 如果存在该配置文件，严格遵循其中定义的规范
    - 读取可用的 commit type 列表及对应的 emoji
    - 读取 scope 的允许值及其他提交规则
-
-2. **如果没有 `.commitlintrc.xx` 配置文件**
+2. **如果没有** **`.commitlintrc.xx`** **配置文件**
    - 参考 [commit-message-convention.md](./commit-message-convention.md) 中的默认规范
    - 使用标准的 conventional commits 格式
 
@@ -52,3 +52,4 @@ description: Git 自动提交工具。当用户需要提交代码变更、commit
 1. 用户要求提交代码
 2. 任务完成后需要保存变更
 3. 需要生成规范的 commit message
+

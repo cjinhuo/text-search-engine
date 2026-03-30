@@ -1,10 +1,10 @@
 {
-	"version": 1,
-	"skills": {
-		"git-auto-commit": {
-			"source": "cjinhuo/blazwitcher",
-			"sourceType": "github",
-			"computedHash": "18806ffe6affdd4d760ab91792e92494f0573d12d05948fba95449667ddefca7"
-		}
-	}
+  "version": 1,
+  "skills": {
+    "git-auto-commit": {
+      "source": "cjinhuo/blazwitcher",
+      "sourceType": "github",
+      "computedHash": "18806ffe6affdd4d760ab91792e92494f0573d12d05948fba95449667ddefca7"
+    }
+  }
 }

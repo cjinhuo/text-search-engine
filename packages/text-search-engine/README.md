@@ -25,6 +25,13 @@ You can also visit the [online visualization demo](https://cjinhuo.github.io/tex
 
 
 
+# Natural Language Integration
+Read the integration documentation [SKILL](https://github.com/cjinhuo/text-search-engine/blob/master/.trae/skills/text-search-engine/SKILL.md), or install the skill by running:
+```bash
+npx skills add https://github.com/cjinhuo/text-search-engine --skill text-search-engine
+```
+After installation, read the skill documentation carefully and follow the instructions to integrate text-search-engine components or methods.
+
 # Installation
 ```bash
 npm i text-search-engine
