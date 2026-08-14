@@ -24,6 +24,19 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	const startBoundary = boundary[1][0]
 	const endBoundary = boundary[1][1]
 
+	// A single target letter always scores 1, so the first valid word or pinyin initial is optimal.
+	if (targetLength === 1) {
+		for (let i = 0; i < pinyinLength; i++) {
+			const pinyinIndex = i + 1
+			const isNewWord = i === boundary[pinyinIndex][1] - endBoundary
+			if (pinyinString[i] === target && isNewWord) {
+				const originalStringIndex = boundary[pinyinIndex][0] - startBoundary + startIndex
+				return [[originalStringIndex, originalStringIndex]] as Matrix
+			}
+		}
+		return undefined
+	}
+
 	// 输入字符与还原出来的拼音及英文匹配位置，便于直接从首个匹配位置开始遍历：
 	// source：你ni好hao target: h => 命中'好h'，下标跳过'你ni'
 	const matchLetterPositions: number[] = Array(targetLength).fill(-1)
@@ -39,6 +52,20 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	// it would be invalid if the input character is smaller than the matched character
 	if (targetMatchLetterCount < targetLength) return undefined
 
+	// Find the latest position of every target letter that still leaves enough source for the remaining suffix.
+	// DP row i only needs to reach the predecessor of latestMatchLetterPositions[i + 1].
+	const latestMatchLetterPositions: number[] = Array(targetLength).fill(-1)
+	let latestTargetIndex = targetLength - 1
+	for (let i = pinyinLength - 1; i >= 0 && latestTargetIndex >= 0; i--) {
+		if (pinyinString[i] === target[latestTargetIndex]) {
+			latestMatchLetterPositions[latestTargetIndex--] = i
+		}
+	}
+
+	// 1-based index used by the DP table. No row can contribute after the final target letter's latest position.
+	let finalDpIndex = latestMatchLetterPositions[targetLength - 1] + 1
+	const dpTableLength = finalDpIndex + 1
+
 	const defaultDpTableValue = [0, 0, -1, -1]
 
 	/**
@@ -49,11 +76,11 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 	// x你 => x你ni target = ni
 	// n => [1, 1, xx, xx] i => [1, 2, xx, xx]
 	// dpTable：[匹配字符数（包括中文）, 匹配字母数（包括拼音和英文）, 边界开始, 边界结束] 字符包括中文，字母仅包括英文
-	const dpTable = Array.from({ length: pinyinLength + 1 }, () => defaultDpTableValue)
+	const dpTable = Array.from({ length: dpTableLength }, () => defaultDpTableValue)
 	// 每个下标的得分，每一轮都会更新
-	const dpScores: number[] = Array(pinyinLength + 1).fill(0)
+	const dpScores: number[] = Array(dpTableLength).fill(0)
 	// dpMatchPath: [start：匹配开始的原文字符下标, end：匹配结束的原文字符下标, matchedLetters：匹配的字母个数]
-	const dpMatchPath: [number, number, number][][] = Array.from({ length: pinyinLength + 1 }, () => Array(targetLength))
+	const dpMatchPath: [number, number, number][][] = Array.from({ length: dpTableLength }, () => Array(targetLength))
 
 	// 遍历次数统计
 
@@ -63,6 +90,10 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 		// we need to check for null. Therefore, index uniformly start from 1.
 		// 在
 		let matchedPinyinIndex = matchLetterPositions[matchIndex] + 1
+		const rowEndIndex =
+			matchIndex === targetLength - 1
+				? latestMatchLetterPositions[matchIndex] + 1
+				: latestMatchLetterPositions[matchIndex + 1]
 
 		debugFn(() => {
 			console.log('outer for letter:', pinyinString[matchedPinyinIndex - 1], 'matchedPinyinIndex', matchedPinyinIndex)
@@ -81,7 +112,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 
 		// 标记是否找到当前字符的有效匹配
 		let foundValidMatchForCurrentChar = false
-		for (; matchedPinyinIndex <= pinyinLength; matchedPinyinIndex++) {
+		for (; matchedPinyinIndex <= rowEndIndex; matchedPinyinIndex++) {
 			debugFn(() => {
 				totalLoopCount++
 				console.log('inner for letter:', pinyinString[matchedPinyinIndex - 1])
@@ -141,6 +172,12 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 					// 当前字符遍历一遍，如果都没有进入当前 if 分支说明没有匹配到，在外层即可 return
 					// issue: https://github.com/cjinhuo/text-search-engine/issues/21
 					foundValidMatchForCurrentChar = true
+					// The maximum score for N letters is 1 + 3 + ... + (2N - 1) = N².
+					// Later matches cannot improve it, and equal scores keep the earlier path.
+					if (matchIndex === targetLength - 1 && computedScore === targetLength * targetLength) {
+						finalDpIndex = matchedPinyinIndex
+						break
+					}
 					continue
 				}
 			}
@@ -170,10 +207,10 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 		console.log(`total loop count: ${totalLoopCount}`)
 	})
 
-	if (dpMatchPath[pinyinLength][targetLength - 1] === undefined) return undefined
+	if (dpMatchPath[finalDpIndex][targetLength - 1] === undefined) return undefined
 	const hitIndices: Matrix = []
 	// 从后往前遍历 dpMatchPath，记录未匹配拼音字符的下标
-	let backtrackPinyinIndex = pinyinLength
+	let backtrackPinyinIndex = finalDpIndex
 	// 剩余待匹配的 target 字符下标（数量）
 	let remainingTargetIndex = targetLength - 1
 
@@ -207,6 +244,14 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
  * @param sentence the target sentence
  */
 export function searchSentenceByBoundaryMapping(boundaryMapping: SourceMappingData, sentence: string) {
+	return searchSentenceByBoundaryMappingInternal(boundaryMapping, sentence, true)
+}
+
+function searchSentenceByBoundaryMappingInternal(
+	boundaryMapping: SourceMappingData,
+	sentence: string,
+	shouldSearchWithIndexOf: boolean
+) {
 	const wordHitRangesMapping: Record<number, Matrix> = {}
 	if (!sentence) {
 		return {
@@ -214,12 +259,14 @@ export function searchSentenceByBoundaryMapping(boundaryMapping: SourceMappingDa
 			wordHitRangesMapping,
 		}
 	}
-	const hitRangesByIndexOf = searchWithIndexOf(boundaryMapping.originalString, sentence)
-	if (hitRangesByIndexOf)
-		return {
-			hitRanges: hitRangesByIndexOf,
-			wordHitRangesMapping,
-		}
+	if (shouldSearchWithIndexOf) {
+		const hitRangesByIndexOf = searchWithIndexOf(boundaryMapping.originalString, sentence)
+		if (hitRangesByIndexOf)
+			return {
+				hitRanges: hitRangesByIndexOf,
+				wordHitRangesMapping,
+			}
+	}
 	// if target include space characters, we should split it first and then iterate it one by one.
 	const words = sentence.trim().split(/\s+/)
 	const hitRanges: Matrix = []
@@ -272,7 +319,11 @@ export function searchEntry(source: string, target: string, getBoundaryMapping: 
 			wordHitRangesMapping: {},
 		}
 	}
-	const { hitRanges, wordHitRangesMapping } = searchSentenceByBoundaryMapping(getBoundaryMapping(source), target)
+	const { hitRanges, wordHitRangesMapping } = searchSentenceByBoundaryMappingInternal(
+		getBoundaryMapping(source),
+		target,
+		false
+	)
 	return {
 		rawHitRanges: hitRanges,
 		wordHitRangesMapping,

@@ -1,6 +1,6 @@
 import { extractBoundaryMapping } from '../boundary'
 import { search } from '../exports'
-import { searchByBoundaryMapping, searchWithIndexOf } from '../search'
+import { searchByBoundaryMapping, searchSentenceByBoundaryMapping, searchWithIndexOf } from '../search'
 
 describe('search', () => {
 	test('searchByBoundaryMapping should work', () => {
@@ -9,6 +9,85 @@ describe('search', () => {
 		const mappingData = extractBoundaryMapping(source)
 		const range = searchByBoundaryMapping(mappingData, target, 0, source.length)
 		expect(range).toEqual([[0, 1]])
+	})
+
+	test('single-letter search should return the first valid character or pinyin initial', () => {
+		const source = 'zz 的行 xx'
+		const mappingData = extractBoundaryMapping(source, {
+			的: ['de', 'di'],
+			行: ['xing', 'hang'],
+		})
+
+		expect(searchByBoundaryMapping(mappingData, 'd', 3, 5)).toEqual([[3, 3]])
+		expect(searchByBoundaryMapping(mappingData, 'h', 3, 5)).toEqual([[4, 4]])
+		// 'i' only appears inside pinyin and is not a valid first-letter match.
+		expect(searchByBoundaryMapping(mappingData, 'i', 3, 5)).toBeUndefined()
+	})
+
+	test('bounded DP search should preserve long-tail and repeated-character results', () => {
+		expect(search(`a_b_c_d_e_f${'x'.repeat(1_000)}`, 'abcdef')).toEqual([
+			[0, 0],
+			[2, 2],
+			[4, 4],
+			[6, 6],
+			[8, 8],
+			[10, 10],
+		])
+		expect(search('abababab', 'aaaa')).toEqual([
+			[0, 0],
+			[2, 2],
+			[4, 4],
+			[6, 6],
+		])
+		expect(search(`zxhxo zhx${'q'.repeat(1_000)}`, 'zho')).toEqual([
+			[0, 0],
+			[2, 2],
+			[4, 4],
+		])
+	})
+
+	test('bounded DP search should preserve multi-word and partial-range results', () => {
+		const source = `zxhxo zhx 监控${'q'.repeat(1_000)}`
+		const mappingData = extractBoundaryMapping(source, {
+			监: ['jian'],
+			控: ['kong'],
+		})
+
+		expect(searchByBoundaryMapping(mappingData, 'zho', 0, 10)).toEqual([
+			[0, 0],
+			[2, 2],
+			[4, 4],
+		])
+		expect(searchSentenceByBoundaryMapping(mappingData, 'zho jk')).toEqual({
+			hitRanges: [
+				[0, 0],
+				[2, 2],
+				[4, 4],
+				[10, 11],
+			],
+			wordHitRangesMapping: {
+				0: [
+					[0, 0],
+					[2, 2],
+					[4, 4],
+				],
+				1: [[10, 11]],
+			},
+		})
+	})
+
+	test('fuzzy fallback should only check indexOf once', () => {
+		const indexOfSpy = jest.spyOn(String.prototype, 'indexOf')
+		indexOfSpy.mockClear()
+		const result = search('a_b', 'ab')
+		const indexOfCallCount = indexOfSpy.mock.calls.length
+		indexOfSpy.mockRestore()
+
+		expect(result).toEqual([
+			[0, 0],
+			[2, 2],
+		])
+		expect(indexOfCallCount).toBe(1)
 	})
 
 	test('search should work with pure latin', () => {
