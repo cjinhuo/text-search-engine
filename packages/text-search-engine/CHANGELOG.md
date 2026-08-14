@@ -1,5 +1,14 @@
 # text-search-engine
 
+## 1.5.3
+
+### Patch Changes
+
+- perf: reduce search DP traversals with suffix-aware pruning @cjinhuo · 2026-08-14 · [#823e4da5](https://github.com/cjinhuo/text-search-engine/commit/823e4da5219d36bb588677d5381ee11e7c5c5f06)
+- perf: 通过后缀可行边界剪枝减少搜索动态规划遍历 @cjinhuo · 2026-08-14 · [#823e4da5](https://github.com/cjinhuo/text-search-engine/commit/823e4da5219d36bb588677d5381ee11e7c5c5f06)
+- chore: optimize isStrictnessSatisfied and refine unit test @cjinhuo · 2025-08-07 · [#96cbfa14](https://github.com/cjinhuo/text-search-engine/commit/96cbfa145916bc2b4074d0169edec337de23ccaf)
+- chore: 优化 isStrictnessSatisfied 和补充单测 @cjinhuo · 2025-08-07 · [#96cbfa14](https://github.com/cjinhuo/text-search-engine/commit/96cbfa145916bc2b4074d0169edec337de23ccaf)
+
 ## 1.5.2
 
 ### Patch Changes
