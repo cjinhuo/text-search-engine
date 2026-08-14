@@ -5,3 +5,6 @@ packages:
   - 'app/*'
   - 'e2e'
   - 'e2e/demos/*'
+allowBuilds:
+  esbuild: true
+  nx: true

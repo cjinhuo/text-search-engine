@@ -12,7 +12,7 @@
 		"text-search-engine:build": "pnpm --filter text-search-engine build",
 		"clean": "shx rm -rf packages/**/*.tsbuildinfo && shx rm -rf ./{packages,app}/*/{esm,dist}",
 		"clean:node_module": "rm -rf ./node_modules && rm -rf ./{packages,app,e2e}/**/node_modules",
-		"postinstall": "husky install",
+		"postinstall": "husky",
 		"preinstall": "npx only-allow pnpm"
 	},
 	"engines": {
