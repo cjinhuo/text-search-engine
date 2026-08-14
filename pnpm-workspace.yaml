@@ -8,3 +8,5 @@ packages:
 allowBuilds:
   esbuild: true
   nx: true
+minimumReleaseAgeExclude:
+  - 'changesets-toolkit@0.1.0-beta.0 || 0.1.0'
