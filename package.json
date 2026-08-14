@@ -16,8 +16,8 @@
 		"preinstall": "npx only-allow pnpm"
 	},
 	"engines": {
-		"node": ">=18.18.0",
-		"pnpm": ">=8"
+		"node": "^22.11 || ^24 || >=26",
+		"pnpm": ">=11"
 	},
 	"workspaces": [
 		"packages/*",
@@ -28,7 +28,7 @@
 	"author": "cjinhuo",
 	"devDependencies": {
 		"@biomejs/biome": "^2.1.2",
-		"@changesets/cli": "^2.27.7",
+		"@changesets/cli": "^3.0.0",
 		"@commitlint/config-conventional": "^19.2.2",
 		"@mono/tsconfig": "workspace:^",
 		"@rollup/plugin-alias": "^5.1.0",
@@ -42,7 +42,7 @@
 		"@types/debug": "^4.1.12",
 		"@types/jest": "^29.5.12",
 		"@types/node": "^22.1.0",
-		"changesets-toolkit": "^0.0.3",
+		"changesets-toolkit": "0.1.0-beta.0",
 		"clipanion": "4.0.0-rc.3",
 		"consola": "^3.2.3",
 		"czg": "^1.12.0",

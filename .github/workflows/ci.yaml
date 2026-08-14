@@ -1,4 +1,5 @@
 name: Checking CI
+
 on:
   push:
     branches:
@@ -6,21 +7,22 @@ on:
   pull_request:
     branches:
       - master
+
 jobs:
   check:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '18.x'
+          node-version: 22.x
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4.0.0
+        uses: pnpm/action-setup@v4
         with:
-          version: 9
-      - name: Run Pnpm
-        run: pnpm install --no-frozen-lockfile
+          version: 11
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
       - name: Build
         run: pnpm build
       - name: Run tests

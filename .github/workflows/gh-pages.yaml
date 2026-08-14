@@ -3,15 +3,21 @@ name: github pages
 on:
   push:
     branches:
-      - master # default branch
+      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: npm install pnpm -g
-      - run: pnpm install --no-frozen-lockfile
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - run: pnpm install --frozen-lockfile
       - run: pnpm --filter online-demo run build
       - name: Deploy dist
         uses: peaceiris/actions-gh-pages@v3
