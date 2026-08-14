@@ -42,7 +42,7 @@
 		"@types/debug": "^4.1.12",
 		"@types/jest": "^29.5.12",
 		"@types/node": "^22.1.0",
-		"changesets-toolkit": "0.1.0-beta.0",
+		"changesets-toolkit": "^0.1.0",
 		"clipanion": "4.0.0-rc.3",
 		"consola": "^3.2.3",
 		"czg": "^1.12.0",
