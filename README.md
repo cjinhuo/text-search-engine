@@ -158,7 +158,7 @@ Feel free to join the fun and send a PR!
 
 [![Contributors](https://contrib.rocks/image?repo=cjinhuo/text-search-engine)](https://github.com/cjinhuo/text-search-engine/graphs/contributors)
 
-[![Star History Chart](https://api.star-history.com/svg?repos=cjinhuo/text-search-engine&type=Date)](https://api.star-history.com/svg?repos=cjinhuo/text-search-engine&type=Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=cjinhuo/text-search-engine&type=date)](https://star-history.dera.page/#cjinhuo/text-search-engine&type=date)
 
 
 
