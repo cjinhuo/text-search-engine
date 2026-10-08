@@ -44,6 +44,57 @@ npm i text-search-engine
 
 
 # 使用
+## 批量搜索与搜索器复用
+
+单次查询使用 `searchItems(items, query, options?)`；输入不断变化时，创建并复用
+`createSearcher(items, options?)` 返回的搜索器：
+
+```ts
+import { createSearcher, searchItems } from 'text-search-engine'
+
+searchItems(['React', '监控平台'], 'jk')
+// [{ item: '监控平台', index: 1, text: '监控平台', hitRanges: [[0, 1]] }]
+
+const pages = [{ title: 'React 监控平台', host: 'github.com' }]
+const searcher = createSearcher(pages, {
+  getFields: page => ({ title: page.title, host: page.host }),
+}) // 自动推导 Searcher<Page, 'title' | 'host'>，无需手动写泛型
+
+const [result] = searcher.search('jk github')
+result.item                      // 原始条目引用
+result.index                     // 输入快照中的下标
+result.text                      // 'React 监控平台github.com'
+result.hitRanges                 // 拼接文本中的整体范围
+result.fieldHitRanges.title      // [[6, 7]]
+result.fieldHitRanges.host       // [[0, 5]]
+searcher.search('react')          // 继续复用同一份快照和拼音映射
+```
+
+字符串数组无需 getter；对象需要提供 `getText(item, index)` 或
+`getFields(item, index)`，两者互斥。前者提取单个字符串，后者返回具名字符串字段。
+字段名、原条目类型及可选 `sort(a, b)` 的参数类型均自动推导，支持只读数组。
+字符串和 `getText` 的结果没有 `fieldHitRanges`。
+
+多字段按对象可枚举属性顺序直接拼接，不加分隔符；一次查询可以跨字段，单词也可跨越字段边界。
+范围采用闭区间 `[start, end]`，单位为 UTF-16 下标。字段范围相对于 getter 返回的字符串，
+未命中的字段为 `[]`。默认保持输入顺序和重复项；自定义排序相等时保留输入顺序。
+支持原有四项搜索选项，与 `search()` 一样在合并空格前检查严格度。
+
+空查询、全空白查询或无匹配均返回 `[]`；空输入展示原列表由界面处理。
+搜索器创建时保存文本和配置快照，首次需要模糊搜索时构建拼音映射，后续查询复用。
+列表、被搜索文本或配置改变后应重新创建搜索器。每次查询的结果及高亮数组独立，
+原始条目保留引用。多次独立调用 `searchItems()` 不共享缓存。
+
+```tsx
+const searcher = useMemo(() => createSearcher(items, {
+  getFields: item => ({ title: item.title, host: item.host }),
+  isCharConsecutive: consecutive,
+}), [items, consecutive])
+const results = useMemo(() => searcher.search(query), [searcher, query])
+```
+
+SDK 开发工具链使用 TypeScript 7，发布声明支持 TypeScript 5.5 及以上；消费者无需同步升级。
+
 ## search
 ### 纯英文搜索
 ```javascript
@@ -118,7 +169,7 @@ console.log(highlightMatches('Node.js 最强监控平台 V9', 'nodev9'))
 | 选项名称                | 默认值      | 描述 & 例子                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | ----------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `mergeSpaces`           | `true`      | 是否合并匹配项之间的空格。当设置为 true 时，会将匹配结果中间的空格合并为连续的索引范围。<br /><br />`search('chrome 应用商店', 'meyinyon',{ mergeSpaces: false })` 返回 `[[4, 5], [7, 8]]`<br/><br/>`search('chrome 应用商店', 'meyinyon', { mergeSpaces: true })` 返回 `[[4, 8]]`                                                                                                                                                                       |
-| `strictnessCoefficient` | `undefined` | 严格系数，用于控制匹配的严格程度。当设置为数值时，如果匹配的字符数小于等于 `Math.ceil(查询长度 * 系数)`，则返回结果，否则返回 undefined。<br /><br />`search('Node.js 最强监控平台 V8', 'nozjk')` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` 返回 `undefined` |
+| `strictnessCoefficient` | `undefined` | 严格系数，用于控制匹配的严格程度。当设置为数值时，如果合并空格前的命中范围段数小于等于 `Math.ceil(查询长度 * 系数)`，则返回结果，否则返回 undefined。<br /><br />`search('Node.js 最强监控平台 V8', 'nozjk')` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` 返回 `undefined` |
 | `isCharConsecutive`     | `false`     | 控制匹配的字符是否需要在源字符串中连续。当设置为 true 时，要求匹配的字符在源字符串中连续（中文和英文不需要连续）。<br /><br />`search('Chinese@中国 People-人', 'chie')` 返回 `[[0, 2], [4, 4]]`<br/>`search('Chinese@中国 People-人', 'chie', { isCharConsecutive: true })` 返回 `undefined`<br/>`search('Chinese@中国 People-人', '中ple', { isCharConsecutive: true })` 返回 `[[8, 8], [14, 16]]`                                                     |
 | `strictCase`            | `false`     | 控制大小写敏感匹配。当设置为 true 时，搜索将匹配确切的大小写。当设置为 false 时，搜索将不区分大小写。<br /><br />`search('Hello World', 'hello')` 返回 `[[0, 4]]`<br/>`search('Hello World', 'hello', { strictCase: true })` 返回 `undefined`<br/>`search('Hello World', 'hello', { strictCase: false })` 返回 `[[0, 4]]`                                                                                                                                |
 

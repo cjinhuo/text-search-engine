@@ -25,5 +25,12 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build
         run: pnpm build
+      - name: Type check
+        run: pnpm typecheck
       - name: Run tests
         run: pnpm test
+      - name: Verify published package
+        run: |
+          pnpm --filter text-search-engine pack --pack-destination /tmp/text-search-engine-package
+          cd packages/text-search-engine
+          node scripts/verify-package.mjs /tmp/text-search-engine-package/text-search-engine-*.tgz ../../node_modules/.bin/tsc

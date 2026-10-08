@@ -53,7 +53,7 @@ search('Node.js 最强监控平台 V9', 'jk node')   // [[10, 11], [0, 3]] - 可
 | 选项                    | 默认值      | 说明                                                                                |
 | ----------------------- | ----------- | ----------------------------------------------------------------------------------- |
 | `mergeSpaces`           | `true`      | 将匹配结果中的空格合并为连续范围                                                    |
-| `strictnessCoefficient` | `undefined` | 严格系数（0-1），匹配字符数 ≤ `ceil(query.length * coefficient)` 时返回 `undefined` |
+| `strictnessCoefficient` | `undefined` | 严格系数（0-1），匹配范围段数超过 `ceil(query.length * coefficient)` 时返回 `undefined`，在合并空格前检查 |
 | `isCharConsecutive`     | `false`     | 要求匹配的字符必须连续                                                              |
 | `strictCase`            | `false`     | 区分大小写匹配                                                                      |
 
@@ -118,28 +118,41 @@ function SearchResult() {
 
 ## 常见集成模式
 
-### 1. 带高亮的搜索列表
+### 1. 批量与多字段搜索
 
-```jsx
-import { search } from 'text-search-engine'
+单次查询使用 `searchItems(items, query, options?)`；输入持续变化时，使用
+`createSearcher(items, options?)` 并复用 `.search(query)`。
+
+```tsx
+import { useMemo } from 'react'
+import { createSearcher, searchItems } from 'text-search-engine'
 import { HighlightWithRanges } from 'text-search-engine/react'
 
-function SearchList({ items, query }) {
-  const results = items
-    .map(item => ({ item, ranges: search(item.name, query) }))
-    .filter(({ ranges }) => ranges !== undefined)
+searchItems(['React', '监控平台'], 'jk')
 
-  return (
-    <ul>
-      {results.map(({ item, ranges }) => (
-        <li key={item.id}>
-          <HighlightWithRanges source={item.name} hitRanges={ranges} />
-        </li>
-      ))}
-    </ul>
-  )
+function SearchList({ items, query }) {
+  const searcher = useMemo(() => createSearcher(items, {
+    getFields: item => ({ title: item.title, host: item.host }),
+  }), [items])
+  const results = searcher.search(query)
+  return results.map(({ item, index, fieldHitRanges }) => (
+    <div key={index}>
+      <HighlightWithRanges source={item.title} hitRanges={fieldHitRanges.title} />
+      <HighlightWithRanges source={item.host} hitRanges={fieldHitRanges.host} />
+    </div>
+  ))
 }
 ```
+
+- 字符串数组无需 getter；对象必须提供互斥的 `getText` 或 `getFields`，字段值必须是字符串。
+- 自动推导条目类型和字段名；多字段结果包含 `fieldHitRanges`，单字段结果没有该属性。
+- 多字段按可枚举属性顺序无分隔符拼接，可跨字段组合查询；字段范围相对于 getter 返回值。
+- 返回 `{ item, index, text, hitRanges }`，多字段增加所有字段的范围，未命中字段为 `[]`。
+- 默认保持顺序和重复项；可选 `sort(a, b)`，比较相等时保持输入顺序。
+- 空查询和无匹配返回 `[]`；界面自行在空输入时展示原始列表。
+- 搜索器保存文本/配置快照，首次模糊匹配时构建映射。数据、文本或配置变化后重建；React 使用新数组引用。
+- 每次查询的范围数组独立；`searchItems` 的独立调用不共享缓存。消费者支持 TypeScript 5.5+。
+- 原有搜索选项均适用。需要在合并空格后检查严格度的消费者，应在结果上自行调用 `isStrictnessSatisfied`。
 
 ### 2. 复用 BoundaryData 进行多次搜索
 

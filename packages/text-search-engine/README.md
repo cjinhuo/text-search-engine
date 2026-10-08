@@ -40,6 +40,63 @@ npm i text-search-engine
 Supports both `Node.js` and `Web` environments.
 
 # Usage
+## Bulk search and reusable searchers
+
+Use `searchItems(items, query, options?)` for one query, or keep a
+`createSearcher(items, options?)` instance for repeated input:
+
+```ts
+import { createSearcher, searchItems } from 'text-search-engine'
+
+searchItems(['React', '监控平台'], 'jk')
+// [{ item: '监控平台', index: 1, text: '监控平台', hitRanges: [[0, 1]] }]
+
+const pages = [{ title: 'React 监控平台', host: 'github.com' }]
+const searcher = createSearcher(pages, {
+  getFields: page => ({ title: page.title, host: page.host }),
+}) // Searcher<{ title: string; host: string }, 'title' | 'host'>
+
+const [result] = searcher.search('jk github')
+result.item                       // 原始条目引用
+result.index                      // 输入快照中的下标
+result.text                       // 'React 监控平台github.com'
+result.hitRanges                  // 拼接文本中的整体范围
+result.fieldHitRanges.title       // [[6, 7]]
+result.fieldHitRanges.host        // [[0, 5]]
+searcher.search('react')           // 复用同一份快照和拼音映射
+```
+
+String arrays need no getter. Objects require either `getText(item, index)` for
+one string or `getFields(item, index)` for named string fields; these getters are
+mutually exclusive. Types are inferred from readonly arrays and field names,
+including in the optional `sort(a, b)` callback. String and `getText` results do
+not contain `fieldHitRanges`.
+
+Fields are concatenated in enumerable property order without a separator, so
+one query can span fields or even a field boundary. All ranges use inclusive
+`[start, end]` UTF-16 indices; field ranges are local to the exact strings returned
+by the getter. Unmatched fields have `[]`. Defaults preserve input order and
+duplicate entries; a custom comparator preserves input order on ties. The four
+existing search options also apply, with strictness checked before merging spaces.
+
+Blank queries and no matches return `[]`; render the original list separately for
+an empty input. Searchers snapshot text and options at creation, lazily prepare
+Pinyin mappings on fuzzy fallback, and reuse those mappings for subsequent
+queries. Recreate a searcher when the list, searchable text or options change.
+Each call returns new result/range arrays and keeps original item references.
+Separate `searchItems` calls do not share a cache.
+
+```tsx
+const searcher = useMemo(() => createSearcher(items, {
+  getFields: item => ({ title: item.title, host: item.host }),
+  isCharConsecutive: consecutive,
+}), [items, consecutive])
+const results = useMemo(() => searcher.search(query), [searcher, query])
+```
+
+The published declarations support TypeScript 5.5 and newer. The SDK itself is
+built and checked with TypeScript 7; consumers do not need to upgrade their compiler.
+
 ## search
 ### Pure English Search
 ```javascript
@@ -48,7 +105,7 @@ import { search } from 'text-search-engine'
 const source = 'nonode'
 
 search(source, 'no') //[[0, 1]]
-// Matches 'no', continuous characters have higher weight
+// 命中 'no'，连续字符具有更高权重
 search(source, 'nod') // [[2, 4]]
 search(source, 'noe') // [[0, 1], [5, 5]]
 search(source, 'oo') // [[1, 1],[3, 3]]
@@ -74,9 +131,9 @@ search('Node.js 最强监控平台 V9', 'nodejk') //[[0, 3],[10, 11]]
 
 const source_2 = 'a_nd你你的就是我的'
 search(source_2, 'nd') //[[2, 3]]
-// Matches '你你的'
+// 命中 '你你的'
 search(source_2, 'nnd') //[[4, 6]]
-// Matches 'a_'n'd你你的就'是我的'
+// 命中 'a_'n'd你你的就'是我的'
 search(source_2, 'nshwode') //[[2, 2],[8, 10]]
 ```
 `search('Node.js 最强监控平台 V9', 'nodejk')` Match result: <mark>Node</mark>.js 最强<mark>监控</mark>平台 V9
@@ -96,7 +153,7 @@ search(source_1, 'jk node') // [[10, 11],[0, 3]]
 ```javascript
 const source_1 = 'zxhxo zhx'
 search(source_1, 'zh') //[[6, 7]])
-// Even though the weight of 'zh' is higher, but the next term 'o' is not matched, so hit the previous one
+// 虽然 'zh' 的权重更高，但后续字符 'o' 无法匹配，因此命中前面的候选项
 search(source_1, 'zho') //[[0, 0],[2, 2],[4, 4]])
 ```
 
@@ -113,7 +170,7 @@ The console will output: <mark>Node</mark>.js 最强监控平台 <mark>V9</mark>
 | Option Name             | Default Value | Description & Example                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | ----------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `mergeSpaces`           | `true`        | Whether to merge spaces between matched items. When set to true, it will merge spaces in the middle of matched results into consecutive index ranges.<br /><br />`search('chrome 应用商店', 'meyinyon',{ mergeSpaces: false })` returns `[[4, 5], [7, 8]]`<br/><br/>`search('chrome 应用商店', 'meyinyon', { mergeSpaces: true })` returns `[[4, 8]]`                                                                                                                                                                                                                              |
-| `strictnessCoefficient` | `undefined`   | Strictness coefficient to control the strictness of matching. When a numeric value is set, if the number of matched characters is less than or equal to `Math.ceil(query length * coefficient)`, it returns the result, otherwise returns undefined.<br /><br />`search('Node.js 最强监控平台 V8', 'nozjk')` returns `[[0, 1], [8, 8], [10, 11]]`<br/><br />`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` returns `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` returns `undefined` |
+| `strictnessCoefficient` | `undefined`   | Strictness coefficient to control the strictness of matching. When a numeric value is set, if the number of raw match ranges (before merging spaces) is less than or equal to `Math.ceil(query length * coefficient)`, it returns the result, otherwise returns undefined.<br /><br />`search('Node.js 最强监控平台 V8', 'nozjk')` returns `[[0, 1], [8, 8], [10, 11]]`<br/><br />`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` returns `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` returns `undefined` |
 | `isCharConsecutive`     | `false`       | Controls whether matched characters need to be consecutive in the source string. When set to true, it requires matched characters to be consecutive in the source string (Chinese and English do not need to be consecutive).<br /><br />`search('Chinese@中国 People-人', 'chie')` returns `[[0, 2], [4, 4]]`<br/>`search('Chinese@中国 People-人', 'chie', { isCharConsecutive: true })` returns `undefined`<br/>`search('Chinese@中国 People-人', '中ple', { isCharConsecutive: true })` returns `[[8, 8], [14, 16]]`                                                           |
 | `strictCase`            | `false`       | Controls case-sensitive matching. When set to true, the search will match exact case. When set to false, the search will be case-insensitive.<br /><br />`search('Hello World', 'hello')` returns `[[0, 4]]`<br/>`search('Hello World', 'hello', { strictCase: true })` returns `undefined`<br/>`search('Hello World', 'hello', { strictCase: false })` returns `[[0, 4]]`                                                                                                                                                                                                         |
 
