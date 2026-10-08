@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "nx build text-search-engine && vite",
-		"build": "nx build text-search-engine && pnpm typecheck && vite build",
+		"build": "nx build text-search-engine && pnpm typecheck && vite build && shx cp dist/index.html dist/404.html",
 		"preview": "vite preview",
 		"typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json"
 	},

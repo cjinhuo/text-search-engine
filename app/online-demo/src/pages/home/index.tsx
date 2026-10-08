@@ -1,6 +1,6 @@
 import { Container, CssBaseline, Grid2 as Grid } from '@mui/material'
 import * as TextSearchEngine from 'text-search-engine'
-import MultiFieldSearch from '../../components/demos/multi-field-search'
+import MultiFieldEntry from '../../components/demos/multi-field-entry'
 import ListSearch from '../../components/ListSearch'
 import ShowTip from '../../components/showTip'
 
@@ -14,8 +14,8 @@ export default function Home() {
 				<Container sx={{ mt: 4, mb: 4, flex: 1, maxWidth: '80vw!important', width: '100%' }}>
 					<Grid container spacing={3}>
 						<Grid size={{ xs: 24, md: 12 }}>
+							<MultiFieldEntry />
 							<ListSearch />
-							<MultiFieldSearch />
 						</Grid>
 					</Grid>
 				</Container>

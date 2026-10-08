@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 import BaseLayout from '../components/base-layout/base-layout'
 import Home from '../pages/home'
+import MultiFieldPage from '../pages/multi-field'
 import Visual from '../pages/visual'
 
 const router = createBrowserRouter([
@@ -11,6 +12,10 @@ const router = createBrowserRouter([
 			{
 				path: '/text-search-engine',
 				element: <Home />,
+			},
+			{
+				path: '/text-search-engine/multi-field',
+				element: <MultiFieldPage />,
 			},
 			{
 				path: '/text-search-engine/visual',

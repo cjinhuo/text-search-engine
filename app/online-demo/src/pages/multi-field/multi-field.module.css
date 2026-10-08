@@ -1,0 +1,465 @@
+.page {
+	--mf-text: var(--color-neutral-2);
+	--mf-muted: var(--color-neutral-5);
+	--mf-surface: var(--color-neutral-10);
+	--mf-border: var(--color-neutral-8);
+	--mf-accent: #16795b;
+	max-width: 1220px;
+	margin: 8px auto 24px;
+	color: var(--mf-text);
+	font-family: "Roboto", system-ui, sans-serif;
+	line-height: 1.5;
+}
+.page button,
+.page input {
+	font: inherit;
+}
+.page button,
+.page a {
+	-webkit-tap-highlight-color: transparent;
+}
+.page button {
+	cursor: pointer;
+}
+.page button:focus-visible,
+.page a:focus-visible,
+.page section:focus-visible {
+	outline: 3px solid #52ac8e;
+	outline-offset: 4px;
+}
+.backLink {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 13px;
+	text-decoration: none;
+}
+.backLink {
+	color: var(--mf-muted);
+}
+.hero {
+	display: block;
+	margin: 16px 0 18px;
+}
+.eyebrow {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--mf-accent);
+	font-size: 12px;
+	letter-spacing: 1.6px;
+	font-weight: 700;
+}
+.hero h1 {
+	font-size: clamp(28px, 3vw, 36px);
+	font-weight: 700;
+	line-height: 1.25;
+	letter-spacing: -1px;
+	margin: 8px 0;
+}
+.hero p {
+	color: var(--mf-muted);
+	font-size: 14px;
+	margin: 0;
+}
+.features {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+	margin-top: 10px;
+	font-size: 12px;
+}
+.features span {
+	border: 1px solid var(--mf-border);
+	border-radius: 6px;
+	padding: 3px 8px;
+}
+.page code {
+	font-family: "SFMono-Regular", Consolas, monospace;
+	font-size: 0.9em;
+}
+.searchPanel {
+	background: var(--mf-surface);
+	border: 1px solid var(--mf-border);
+	border-radius: 12px;
+	padding: 16px;
+	box-shadow: 0 8px 24px #00000004;
+}
+.inputLabel {
+	display: block;
+	font-size: 13px;
+	font-weight: 600;
+	margin-bottom: 6px;
+}
+.inputWrap {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	border: 1px solid #8ebda9;
+	border-radius: 10px;
+	padding: 8px 12px;
+	color: var(--mf-accent);
+	background: var(--color-neutral-9);
+}
+.inputWrap:focus-within {
+	box-shadow: 0 0 0 3px #16795b18;
+	border-color: var(--mf-accent);
+}
+.inputWrap input {
+	flex: 1;
+	min-width: 0;
+	outline: none;
+	border: none;
+	background: transparent;
+	color: var(--mf-text);
+	font-size: 18px;
+}
+.inputWrap input::-webkit-search-cancel-button {
+	display: none;
+}
+.inputWrap button {
+	display: flex;
+	background: none;
+	color: var(--mf-muted);
+	border: none;
+	padding: 5px;
+	border-radius: 4px;
+}
+.examples {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 10px 0 12px;
+	font-size: 12px;
+	color: var(--mf-muted);
+}
+.examples > span {
+	margin-right: 4px;
+}
+.examples button {
+	display: inline-flex;
+	gap: 7px;
+	align-items: center;
+	padding: 5px 9px;
+	border-radius: 6px;
+	border: 1px solid var(--mf-border);
+	color: var(--mf-text);
+	background: transparent;
+	font-size: 12px;
+}
+.examples button span {
+	color: var(--mf-muted);
+	font-size: 11px;
+}
+.examples button:hover,
+.examples .activeExample {
+	border-color: #8ebda9;
+	background: #16795b09;
+}
+.scope {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+	padding-top: 10px;
+	border-top: 1px solid var(--mf-border);
+	font-size: 12px;
+	color: var(--mf-muted);
+}
+.fieldButtons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 7px;
+}
+.fieldButtons button {
+	display: flex;
+	align-items: center;
+	gap: 3px;
+	border-radius: 20px;
+	padding: 4px 11px;
+	border: 1px solid var(--mf-border);
+	background: transparent;
+	color: var(--mf-muted);
+	font-size: 12px;
+}
+.fieldButtons button[aria-pressed="true"] {
+	color: var(--mf-accent);
+	border-color: #8ebda9;
+	background: #16795b08;
+}
+.resetFields {
+	margin-left: auto;
+	background: none;
+	border: none;
+	color: var(--mf-accent);
+	font-size: 12px;
+}
+.searchNote {
+	color: var(--mf-muted);
+	font-size: 11px;
+	margin: 8px 0 0;
+}
+.resultsHeading {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	justify-content: space-between;
+	margin: 16px 0 10px;
+}
+.resultsHeading h2 {
+	font-size: 16px;
+	font-weight: 600;
+	margin: 0;
+}
+.resultsHeading h2 span {
+	margin-left: 8px;
+	font-size: 12px;
+	color: var(--mf-muted);
+	font-weight: 400;
+}
+.resultsHeading > output {
+	font-size: 12px;
+	color: var(--mf-muted);
+}
+.resultLayout {
+	display: grid;
+	grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+	gap: 14px;
+	align-items: start;
+}
+.resourceList {
+	display: grid;
+	gap: 10px;
+}
+.resourceCard {
+	border: 1px solid var(--mf-border);
+	border-radius: 10px;
+	background: var(--mf-surface);
+	padding: 16px;
+	overflow-wrap: anywhere;
+}
+.inspectedCard {
+	border-color: #8ebda9;
+}
+.cardTop {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+.kind {
+	font-size: 11px;
+	color: var(--mf-muted);
+	padding: 2px 8px;
+	border-radius: 4px;
+	background: var(--color-neutral-9);
+}
+.cardId {
+	font-family: monospace;
+	font-size: 11px;
+	color: var(--mf-muted);
+}
+.resourceCard h3 {
+	font-size: 18px;
+	font-weight: 600;
+	margin: 8px 0 6px;
+}
+.description {
+	font-size: 13px;
+	color: var(--mf-muted);
+	margin: 0 0 10px;
+}
+.fieldRows {
+	display: grid;
+	gap: 5px;
+	font-size: 13px;
+	margin: 0;
+}
+.fieldRows > div {
+	display: grid;
+	grid-template-columns: 48px minmax(0, 1fr);
+	gap: 6px;
+}
+.fieldRows dt {
+	color: var(--mf-muted);
+	font-size: 12px;
+}
+.fieldRows dd {
+	margin: 0;
+}
+.cardBottom {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding-top: 10px;
+	margin-top: 12px;
+	border-top: 1px solid var(--mf-border);
+}
+.matchBadges {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+.matchBadges span {
+	color: var(--mf-accent);
+	font-size: 11px;
+}
+.matchBadges span + span::before {
+	content: "·";
+	margin-right: 6px;
+	color: var(--mf-muted);
+}
+.matchBadges .neutralBadge {
+	color: var(--mf-muted);
+}
+.cardBottom button {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	flex-shrink: 0;
+	background: none;
+	border: none;
+	color: var(--mf-accent);
+	font-size: 12px;
+	padding: 0;
+}
+.inspector {
+	background: var(--mf-surface);
+	border: 1px solid var(--mf-border);
+	border-radius: 10px;
+	padding: 16px;
+	position: sticky;
+	top: 10px;
+}
+.inspectorHeading {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.inspectorHeading h2 {
+	margin: 0;
+	font-size: 15px;
+	font-weight: 600;
+}
+.inspector > p {
+	font-size: 12px;
+	color: var(--mf-muted);
+	margin: 6px 0 10px;
+}
+.inspectionTabs {
+	padding: 0;
+	margin-left: 0;
+	margin-right: 0;
+	min-width: 0;
+	border: none;
+	display: flex;
+	gap: 14px;
+	margin-top: 12px;
+	border-bottom: 1px solid var(--mf-border);
+}
+.inspectionTabs button {
+	padding: 0 0 6px;
+	color: var(--mf-muted);
+	border: none;
+	background: none;
+	border-bottom: 2px solid transparent;
+	font-size: 12px;
+}
+.inspectionTabs button[aria-pressed="true"] {
+	color: var(--mf-accent);
+	border-color: var(--mf-accent);
+}
+.json {
+	margin: 10px 0 0;
+	font-size: 11px;
+	line-height: 1.6;
+	background: var(--color-neutral-9);
+	border-radius: 8px;
+	padding: 10px;
+	tab-size: 2;
+}
+.json pre {
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+.inspector .inspectionNote {
+	font-size: 11px;
+	margin: 8px 0 0;
+}
+.emptyState {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 40px 16px;
+	border: 1px dashed var(--mf-border);
+	border-radius: 12px;
+	color: var(--mf-muted);
+}
+.emptyState h3 {
+	color: var(--mf-text);
+	font-size: 18px;
+	margin: 14px 0 4px;
+}
+.emptyState p {
+	margin: 0 0 16px;
+	font-size: 13px;
+}
+.emptyState button {
+	border: 1px solid var(--mf-border);
+	border-radius: 6px;
+	background: var(--mf-surface);
+	color: var(--mf-accent);
+	padding: 6px 14px;
+	font-size: 13px;
+}
+@media (max-width: 900px) {
+	.resultLayout {
+		grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+	}
+}
+@media (max-width: 680px) {
+	.page {
+		margin-top: 8px;
+	}
+	.resultLayout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+	.hero {
+		margin: 12px 0 16px;
+	}
+	.hero h1 {
+		font-size: 28px;
+	}
+	.searchPanel,
+	.resourceCard,
+	.inspector {
+		padding: 14px;
+	}
+	.examples button {
+		flex-wrap: wrap;
+	}
+	.inputWrap {
+		padding: 8px 10px;
+	}
+	.inputWrap input {
+		font-size: 17px;
+	}
+	.scope {
+		gap: 10px;
+	}
+	.resetFields {
+		margin-left: 0;
+	}
+	.inspector {
+		position: static;
+	}
+}
+
+.json pre {
+	margin: 0;
+	font-size: inherit;
+}
