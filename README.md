@@ -59,13 +59,13 @@ const searcher = createSearcher(pages, {
 }) // Searcher<{ title: string; host: string }, 'title' | 'host'>
 
 const [result] = searcher.search('jk github')
-result.item                       // 原始条目引用
-result.index                      // 输入快照中的下标
+result.item                       // original item reference
+result.index                      // position in the input snapshot
 result.text                       // 'React 监控平台github.com'
-result.hitRanges                  // 拼接文本中的整体范围
+result.hitRanges                  // ranges in the combined text
 result.fieldHitRanges.title       // [[6, 7]]
 result.fieldHitRanges.host        // [[0, 5]]
-searcher.search('react')           // 复用同一份快照和拼音映射
+searcher.search('react')           // reuse the same snapshot and Pinyin mappings
 ```
 
 String arrays need no getter. Objects require either `getText(item, index)` for
@@ -107,7 +107,7 @@ import { search } from 'text-search-engine'
 const source = 'nonode'
 
 search(source, 'no') //[[0, 1]]
-// 命中 'no'，连续字符具有更高权重
+// Matches 'no'; consecutive characters have higher weight
 search(source, 'nod') // [[2, 4]]
 search(source, 'noe') // [[0, 1], [5, 5]]
 search(source, 'oo') // [[1, 1],[3, 3]]
@@ -133,9 +133,9 @@ search('Node.js 最强监控平台 V9', 'nodejk') //[[0, 3],[10, 11]]
 
 const source_2 = 'a_nd你你的就是我的'
 search(source_2, 'nd') //[[2, 3]]
-// 命中 '你你的'
+// Matches '你你的'
 search(source_2, 'nnd') //[[4, 6]]
-// 命中 'a_'n'd你你的就'是我的'
+// Matches 'a_'n'd你你的就'是我的'
 search(source_2, 'nshwode') //[[2, 2],[8, 10]]
 ```
 `search('Node.js 最强监控平台 V9', 'nodejk')` Match result: <mark>Node</mark>.js 最强<mark>监控</mark>平台 V9
@@ -155,7 +155,7 @@ search(source_1, 'jk node') // [[10, 11],[0, 3]]
 ```javascript
 const source_1 = 'zxhxo zhx'
 search(source_1, 'zh') //[[6, 7]])
-// 虽然 'zh' 的权重更高，但后续字符 'o' 无法匹配，因此命中前面的候选项
+// Although 'zh' has a higher weight, the following 'o' does not match, so the earlier candidate is selected
 search(source_1, 'zho') //[[0, 0],[2, 2],[4, 4]])
 ```
 
