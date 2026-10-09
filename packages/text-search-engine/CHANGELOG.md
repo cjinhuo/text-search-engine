@@ -1,5 +1,14 @@
 # text-search-engine
 
+## 1.6.0
+
+### Minor Changes
+
+- feat: add reusable bulk search with inferred multi-field highlights @cjinhuo · 2026-10-09 · [#5e2213f4](https://github.com/cjinhuo/text-search-engine/commit/5e2213f4e9347a0ba01aa01f6c867123a3fc56d4)
+- feat: 新增可复用的批量搜索及自动推导的多字段高亮 @cjinhuo · 2026-10-09 · [#5e2213f4](https://github.com/cjinhuo/text-search-engine/commit/5e2213f4e9347a0ba01aa01f6c867123a3fc56d4)
+- build: migrate the SDK and demo to TypeScript 7 with native declarations @cjinhuo · 2026-10-09 · [#5e2213f4](https://github.com/cjinhuo/text-search-engine/commit/5e2213f4e9347a0ba01aa01f6c867123a3fc56d4)
+- build: 将 SDK 和演示迁移至 TypeScript 7 并使用原生声明生成 @cjinhuo · 2026-10-09 · [#5e2213f4](https://github.com/cjinhuo/text-search-engine/commit/5e2213f4e9347a0ba01aa01f6c867123a3fc56d4)
+
 ## 1.5.3
 
 ### Patch Changes
