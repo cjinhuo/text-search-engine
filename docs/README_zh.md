@@ -28,12 +28,17 @@
 
 你也可以访问[在线可视化演示](https://cjinhuo.github.io/text-search-engine/visual)来交互式地体验算法的工作过程。
 
-# 自然语言接入
-阅读接入文档 [SKILL](https://github.com/cjinhuo/text-search-engine/blob/master/.agents/skills/text-search-engine/SKILL.md)，或通过以下命令安装 skill：
+# Agent 接入
+
+通过 [Agent Skill](https://github.com/cjinhuo/text-search-engine/blob/master/.agents/skills/text-search-engine/SKILL.md)，让编程 Agent 在项目中接入 text-search-engine，实现中英文模糊搜索、拼音匹配和匹配高亮。安装命令：
+
 ```bash
 npx skills add https://github.com/cjinhuo/text-search-engine --skill text-search-engine
 ```
-安装完成后，请详细阅读 skill 文档，根据文档内容进行接入 text-search-engine 组件或方法。
+
+安装后，让 Agent 使用该 Skill 完成接入，例如：
+
+> 使用 text-search-engine，为列表添加支持拼音的搜索和匹配高亮。
 
 # 安装
 ```bash

@@ -25,12 +25,17 @@ You can also visit the [online visualization demo](https://cjinhuo.github.io/tex
 
 
 
-# Natural Language Integration
-Read the integration documentation [SKILL](https://github.com/cjinhuo/text-search-engine/blob/master/.agents/skills/text-search-engine/SKILL.md), or install the skill by running:
+# Agent Integration
+
+Use the [Agent Skill](https://github.com/cjinhuo/text-search-engine/blob/master/.agents/skills/text-search-engine/SKILL.md) to help your coding agent integrate text-search-engine into your project, including Chinese/English fuzzy search, Pinyin matching, and highlighting. Install it with:
+
 ```bash
 npx skills add https://github.com/cjinhuo/text-search-engine --skill text-search-engine
 ```
-After installation, read the skill documentation carefully and follow the instructions to integrate text-search-engine components or methods.
+
+After installation, ask your agent to use the skill. For example:
+
+> Use text-search-engine to add Pinyin search and match highlighting to my list.
 
 # Installation
 ```bash
