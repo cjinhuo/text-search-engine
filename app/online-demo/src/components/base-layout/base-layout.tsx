@@ -5,6 +5,7 @@ import '@fontsource/roboto/700.css'
 import './base-layout.css'
 
 import styled from '@emotion/styled'
+import { CssBaseline } from '@mui/material'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Footer from '../footer'
@@ -16,6 +17,7 @@ const ContentContainer = styled.div`
 function BaseLayout() {
 	return (
 		<>
+			<CssBaseline />
 			<Header />
 			<ContentContainer className='w-full grow'>
 				<Outlet />
