@@ -2,7 +2,7 @@ import Logo from './logo'
 
 export default function HeaderLeft() {
 	return (
-		<div className='h-full flex justify-start'>
+		<div className='flex justify-start'>
 			<Logo />
 		</div>
 	)

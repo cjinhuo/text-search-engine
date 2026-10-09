@@ -8,14 +8,16 @@ export default function Logo() {
 		navigate('/text-search-engine')
 	}
 	return (
-		<button type='button' onClick={handleClick} className='h-full flex cursor-pointer bg-transparent border-0'>
+		<button type='button' onClick={handleClick} className='flex items-center cursor-pointer bg-transparent border-0'>
 			<IconPark
 				class='text-skin-neutral-2 relative'
 				style={{ bottom: '2px' }}
 				name={IconParkNames['text-search']}
 				size='2.5rem'
 			/>
-			<div className='text-skin-neutral-3 font-medium text-3xl'>Text Search Engine</div>
+			<div className='text-skin-neutral-3 font-medium' style={{ fontSize: 'clamp(1.1rem, 3vw, 1.875rem)' }}>
+				Text Search Engine
+			</div>
 		</button>
 	)
 }

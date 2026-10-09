@@ -29,7 +29,7 @@
 你也可以访问[在线可视化演示](https://cjinhuo.github.io/text-search-engine/visual)来交互式地体验算法的工作过程。
 
 # 自然语言接入
-阅读接入文档 [SKILL](https://github.com/cjinhuo/text-search-engine/blob/master/.trae/skills/text-search-engine/SKILL.md)，或通过以下命令安装 skill：
+阅读接入文档 [SKILL](https://github.com/cjinhuo/text-search-engine/blob/master/.agents/skills/text-search-engine/SKILL.md)，或通过以下命令安装 skill：
 ```bash
 npx skills add https://github.com/cjinhuo/text-search-engine --skill text-search-engine
 ```
@@ -44,6 +44,135 @@ npm i text-search-engine
 
 
 # 使用
+## 批量搜索与搜索器复用
+
+`searchItems` 和 `createSearcher` 需要 `text-search-engine` 1.6.0 或更新版本。
+开发 SDK 时，可以使用下方 yalc 本地构建流程联调。
+
+单次查询使用 `searchItems(items, query, options?)`；输入不断变化时，创建并复用
+`createSearcher(items, options?)` 返回的搜索器：
+
+```ts
+import { createSearcher, searchItems } from 'text-search-engine'
+
+searchItems(['React', '监控平台'], 'jk')
+// [{ item: '监控平台', index: 1, text: '监控平台', hitRanges: [[0, 1]] }]
+
+const pages = [{ title: 'React 监控平台', host: 'github.com' }]
+const searcher = createSearcher(pages, {
+  getFields: page => ({ title: page.title, host: page.host }),
+  sort: (a, b) => Number(b.fieldHitRanges.title.length > 0)
+    - Number(a.fieldHitRanges.title.length > 0),
+}) // 自动推导条目类型及 'title' | 'host'，无需手动写泛型
+
+const [result] = searcher.search('jk github')
+result.item                      // 原始条目引用
+result.index                     // 输入快照中的下标
+result.text                      // 'React 监控平台github.com'
+result.hitRanges                 // 拼接文本中的整体范围
+result.fieldHitRanges.title      // [[6, 7]]
+result.fieldHitRanges.host       // [[0, 5]]
+searcher.search('react')          // 继续复用同一份快照和拼音映射
+
+const titles = createSearcher(pages, { getText: page => page.title })
+titles.search('jk')[0].hitRanges  // [[6, 7]]；没有 fieldHitRanges 属性
+```
+
+字符串数组无需 getter；对象需要提供 `getText(item, index)` 或
+`getFields(item, index)`，两者互斥。前者提取单个字符串，后者返回具名字符串字段。
+字段名、原条目类型及可选 `sort(a, b)` 的参数类型均自动推导，支持只读数组。
+字符串和 `getText` 的结果没有 `fieldHitRanges`。字段值必须是字符串：
+数组先用 `join()` 转换，嵌套属性在 getter 中直接访问。
+
+多字段按对象可枚举属性顺序直接拼接，不加分隔符；一次查询可以跨字段，单词也可跨越字段边界。
+范围采用闭区间 `[start, end]`，单位为 UTF-16 下标。字段范围相对于 getter 返回的字符串，
+未命中的字段为 `[]`。默认保持输入顺序和重复项；自定义排序相等时保留输入顺序。
+支持原有四项搜索选项，与 `search()` 一样在合并空格前检查严格度。
+
+空查询、全空白查询或无匹配均返回 `[]`；空输入展示原列表由界面处理。
+搜索器创建时保存文本和配置快照，首次需要模糊搜索时构建拼音映射，后续查询复用。
+列表、被搜索文本或配置改变后应重新创建搜索器。每次查询的结果及高亮数组独立，
+原始条目保留引用。多次独立调用 `searchItems()` 不共享缓存。
+
+### React：嵌套属性和标签数组
+
+下面是保留字段推导、支持空输入的完整示例。搜索和高亮使用相同的转换后字符串，保证字段坐标一致。
+修改条目时使用新的输入数组引用；查询变化仅调用 `.search()`，列表或配置变化才重建搜索器。
+
+```tsx
+import { useMemo } from 'react'
+import { createSearcher } from 'text-search-engine'
+import { HighlightWithRanges } from 'text-search-engine/react'
+
+interface Resource {
+  id: string
+  title: string
+  tags: readonly string[]
+  metadata: { host: string }
+}
+
+const getFields = (item: Resource) => ({
+  title: item.title,
+  tags: item.tags.join(' · '),
+  host: item.metadata.host,
+})
+
+export function ResourceList({ items, query, consecutive = false }: {
+  items: readonly Resource[]
+  query: string
+  consecutive?: boolean
+}) {
+  const searcher = useMemo(() => createSearcher(items, {
+    getFields,
+    isCharConsecutive: consecutive,
+  }), [items, consecutive])
+  const results = useMemo(() => query.trim()
+    ? searcher.search(query)
+    : items.map(item => ({
+        item,
+        fieldHitRanges: { title: [], tags: [], host: [] },
+      })), [items, query, searcher])
+
+  return <div>{results.map(({ item, fieldHitRanges }) => {
+    const fields = getFields(item)
+    return <article key={item.id}>
+      <HighlightWithRanges source={fields.title} hitRanges={fieldHitRanges.title} />
+      <HighlightWithRanges source={fields.tags} hitRanges={fieldHitRanges.tags} />
+      <HighlightWithRanges source={fields.host} hitRanges={fieldHitRanges.host} />
+    </article>
+  })}</div>
+}
+```
+
+SDK 开发工具链使用 TypeScript 7，声明支持 TypeScript 5.5 及以上；消费者无需同步升级。
+
+### 从底层搜索 API 迁移
+
+原有业务如果在**合并空格后**检查严格度，不要直接给搜索器设置 `strictnessCoefficient`。
+应在返回结果上调用 `isStrictnessSatisfied(coefficient, query, result.hitRanges)`，
+否则检查顺序改变可能导致漏匹配。getter 使用 `title.trim()` 时，给原始标题高亮前需要
+将标题字段的范围加回前导空白偏移。
+
+### 使用 yalc 本地联调
+
+```sh
+npm install --global yalc
+
+# 在 text-search-engine 仓库中执行：
+pnpm --filter text-search-engine build
+cd packages/text-search-engine
+yalc publish --sig
+
+# 在消费者的 package.json 所在目录执行：
+yalc add text-search-engine
+pnpm install
+```
+
+SDK 修改后重新构建并执行 `yalc publish --sig`，然后在消费者中执行
+`yalc update text-search-engine` 和 `pnpm install`。此时依赖指向
+`file:.yalc/text-search-engine`；`.yalc/` 和 `yalc.lock` 是本地联调文件。
+恢复 npm 依赖时，先执行 `yalc remove text-search-engine`，再安装包含新 API 的正式版本。
+
 ## search
 ### 纯英文搜索
 ```javascript
@@ -118,7 +247,7 @@ console.log(highlightMatches('Node.js 最强监控平台 V9', 'nodev9'))
 | 选项名称                | 默认值      | 描述 & 例子                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | ----------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `mergeSpaces`           | `true`      | 是否合并匹配项之间的空格。当设置为 true 时，会将匹配结果中间的空格合并为连续的索引范围。<br /><br />`search('chrome 应用商店', 'meyinyon',{ mergeSpaces: false })` 返回 `[[4, 5], [7, 8]]`<br/><br/>`search('chrome 应用商店', 'meyinyon', { mergeSpaces: true })` 返回 `[[4, 8]]`                                                                                                                                                                       |
-| `strictnessCoefficient` | `undefined` | 严格系数，用于控制匹配的严格程度。当设置为数值时，如果匹配的字符数小于等于 `Math.ceil(查询长度 * 系数)`，则返回结果，否则返回 undefined。<br /><br />`search('Node.js 最强监控平台 V8', 'nozjk')` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` 返回 `undefined` |
+| `strictnessCoefficient` | `undefined` | 严格系数，用于控制匹配的严格程度。当设置为数值时，如果合并空格前的命中范围段数小于等于 `Math.ceil(查询长度 * 系数)`，则返回结果，否则返回 undefined。<br /><br />`search('Node.js 最强监控平台 V8', 'nozjk')` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` 返回 `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` 返回 `undefined` |
 | `isCharConsecutive`     | `false`     | 控制匹配的字符是否需要在源字符串中连续。当设置为 true 时，要求匹配的字符在源字符串中连续（中文和英文不需要连续）。<br /><br />`search('Chinese@中国 People-人', 'chie')` 返回 `[[0, 2], [4, 4]]`<br/>`search('Chinese@中国 People-人', 'chie', { isCharConsecutive: true })` 返回 `undefined`<br/>`search('Chinese@中国 People-人', '中ple', { isCharConsecutive: true })` 返回 `[[8, 8], [14, 16]]`                                                     |
 | `strictCase`            | `false`     | 控制大小写敏感匹配。当设置为 true 时，搜索将匹配确切的大小写。当设置为 false 时，搜索将不区分大小写。<br /><br />`search('Hello World', 'hello')` 返回 `[[0, 4]]`<br/>`search('Hello World', 'hello', { strictCase: true })` 返回 `undefined`<br/>`search('Hello World', 'hello', { strictCase: false })` 返回 `[[0, 4]]`                                                                                                                                |
 

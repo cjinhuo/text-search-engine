@@ -15,6 +15,9 @@ npm i text-search-engine
 
 同时支持 `Node.js` 和 `Web` 环境。
 
+新 API `searchItems` 和 `createSearcher` 需要 `text-search-engine` 1.6.0 或更新版本。
+开发 SDK 时，按照 README 的 yalc 本地联调流程使用构建产物。
+
 ## 核心 API
 
 ### 1. `search(source, query, options?)` - 主搜索函数
@@ -53,7 +56,7 @@ search('Node.js 最强监控平台 V9', 'jk node')   // [[10, 11], [0, 3]] - 可
 | 选项                    | 默认值      | 说明                                                                                |
 | ----------------------- | ----------- | ----------------------------------------------------------------------------------- |
 | `mergeSpaces`           | `true`      | 将匹配结果中的空格合并为连续范围                                                    |
-| `strictnessCoefficient` | `undefined` | 严格系数（0-1），匹配字符数 ≤ `ceil(query.length * coefficient)` 时返回 `undefined` |
+| `strictnessCoefficient` | `undefined` | 严格系数（0-1），匹配范围段数超过 `ceil(query.length * coefficient)` 时返回 `undefined`，在合并空格前检查 |
 | `isCharConsecutive`     | `false`     | 要求匹配的字符必须连续                                                              |
 | `strictCase`            | `false`     | 区分大小写匹配                                                                      |
 
@@ -118,28 +121,67 @@ function SearchResult() {
 
 ## 常见集成模式
 
-### 1. 带高亮的搜索列表
+### 1. 批量与多字段搜索
 
-```jsx
-import { search } from 'text-search-engine'
+单次查询使用 `searchItems(items, query, options?)`；输入持续变化时，使用
+`createSearcher(items, options?)` 并复用 `.search(query)`。
+
+```tsx
+import { useMemo } from 'react'
+import { createSearcher } from 'text-search-engine'
 import { HighlightWithRanges } from 'text-search-engine/react'
 
-function SearchList({ items, query }) {
-  const results = items
-    .map(item => ({ item, ranges: search(item.name, query) }))
-    .filter(({ ranges }) => ranges !== undefined)
+interface Resource {
+  id: string
+  title: string
+  tags: readonly string[]
+  metadata: { host: string }
+}
 
-  return (
-    <ul>
-      {results.map(({ item, ranges }) => (
-        <li key={item.id}>
-          <HighlightWithRanges source={item.name} hitRanges={ranges} />
-        </li>
-      ))}
-    </ul>
-  )
+const getFields = (item: Resource) => ({
+  title: item.title,
+  tags: item.tags.join(' · '),
+  host: item.metadata.host,
+})
+
+export function ResourceList({ items, query, consecutive = false }: {
+  items: readonly Resource[]
+  query: string
+  consecutive?: boolean
+}) {
+  const searcher = useMemo(() => createSearcher(items, {
+    getFields,
+    isCharConsecutive: consecutive,
+  }), [items, consecutive])
+  const results = useMemo(() => query.trim()
+    ? searcher.search(query)
+    : items.map(item => ({
+        item,
+        fieldHitRanges: { title: [], tags: [], host: [] },
+      })), [items, query, searcher])
+
+  return <div>{results.map(({ item, fieldHitRanges }) => {
+    const fields = getFields(item)
+    return <article key={item.id}>
+      <HighlightWithRanges source={fields.title} hitRanges={fieldHitRanges.title} />
+      <HighlightWithRanges source={fields.tags} hitRanges={fieldHitRanges.tags} />
+      <HighlightWithRanges source={fields.host} hitRanges={fieldHitRanges.host} />
+    </article>
+  })}</div>
 }
 ```
+
+- 字符串数组无需 getter；对象必须提供互斥的 `getText` 或 `getFields`，字段值必须是字符串。
+- 自动推导条目类型和字段名；多字段结果包含 `fieldHitRanges`，单字段结果没有该属性。
+- 多字段按可枚举属性顺序无分隔符拼接，可跨字段组合查询；字段范围相对于 getter 返回值。
+- 返回 `{ item, index, text, hitRanges }`，多字段增加所有字段的范围，未命中字段为 `[]`。
+- 默认保持顺序和重复项；可选 `sort(a, b)`，比较相等时保持输入顺序。
+- 空查询和无匹配返回 `[]`；界面自行在空输入时展示原始列表。
+- 搜索器保存文本/配置快照，首次模糊匹配时构建映射。数据、文本或配置变化后重建；React 使用新数组引用。
+- 每次查询的范围数组独立；`searchItems` 的独立调用不共享缓存。消费者支持 TypeScript 5.5+。
+- 原有搜索选项均适用。需要在合并空格后检查严格度的消费者，不要给搜索器设置 `strictnessCoefficient`；应在结果上自行调用 `isStrictnessSatisfied(coefficient, query, result.hitRanges)`。
+- getter 使用 `trim()` 时，高亮原始标题前需加回前导空白偏移。数组字段的搜索和展示必须使用同一个 `join()` 结果。
+- 从原有批量循环迁移时，保留业务排序、去重、数量限制和空输入处理；按输入列表、筛选范围和选项缓存搜索器，不要在每次查询时创建实例。
 
 ### 2. 复用 BoundaryData 进行多次搜索
 

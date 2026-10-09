@@ -3,13 +3,11 @@
 		"jsx": "react-jsx",
 		"allowUnreachableCode": false, // throw error when has unreachable code
 		"allowUnusedLabels": false, // throw error reporting for unused labels.
-		"alwaysStrict": false, // will add 'use strict' in the beginning of the file
 		"strictNullChecks": true,
-		"baseUrl": ".",
 		"preserveConstEnums": false, // default value is true.even not import also generate code when use const enum
 		"isolatedModules": false,
 		"experimentalDecorators": true,
-		"moduleResolution": "Node",
+		"moduleResolution": "bundler",
 		"esModuleInterop": true,
 		"resolveJsonModule": true,
 		"pretty": true,
@@ -19,9 +17,6 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true, // Ensure that casing is correct in imports.
-		"paths": {
-			"@/test/*": ["test/*"]
-		},
 		"types": ["node", "jest"],
 		// "typeRoots": [
 		//   "node_modules/@types"

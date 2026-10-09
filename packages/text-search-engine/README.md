@@ -26,7 +26,7 @@ You can also visit the [online visualization demo](https://cjinhuo.github.io/tex
 
 
 # Natural Language Integration
-Read the integration documentation [SKILL](https://github.com/cjinhuo/text-search-engine/blob/master/.trae/skills/text-search-engine/SKILL.md), or install the skill by running:
+Read the integration documentation [SKILL](https://github.com/cjinhuo/text-search-engine/blob/master/.agents/skills/text-search-engine/SKILL.md), or install the skill by running:
 ```bash
 npx skills add https://github.com/cjinhuo/text-search-engine --skill text-search-engine
 ```
@@ -40,6 +40,146 @@ npm i text-search-engine
 Supports both `Node.js` and `Web` environments.
 
 # Usage
+## Bulk search and reusable searchers
+
+`searchItems` and `createSearcher` require `text-search-engine` 1.6.0 or newer.
+For SDK development, use the local build workflow below.
+
+Use `searchItems(items, query, options?)` for one query, or keep a
+`createSearcher(items, options?)` instance for repeated input:
+
+```ts
+import { createSearcher, searchItems } from 'text-search-engine'
+
+searchItems(['React', '监控平台'], 'jk')
+// [{ item: '监控平台', index: 1, text: '监控平台', hitRanges: [[0, 1]] }]
+
+const pages = [{ title: 'React 监控平台', host: 'github.com' }]
+const searcher = createSearcher(pages, {
+  getFields: page => ({ title: page.title, host: page.host }),
+  sort: (a, b) => Number(b.fieldHitRanges.title.length > 0)
+    - Number(a.fieldHitRanges.title.length > 0),
+}) // Searcher<{ title: string; host: string }, 'title' | 'host'>
+
+const [result] = searcher.search('jk github')
+result.item                       // original item reference
+result.index                      // position in the input snapshot
+result.text                       // 'React 监控平台github.com'
+result.hitRanges                  // ranges in the combined text
+result.fieldHitRanges.title       // [[6, 7]]
+result.fieldHitRanges.host        // [[0, 5]]
+searcher.search('react')           // reuse the same snapshot and Pinyin mappings
+
+const titles = createSearcher(pages, { getText: page => page.title })
+titles.search('jk')[0].hitRanges   // [[6, 7]]; no fieldHitRanges property
+```
+
+String arrays need no getter. Objects require either `getText(item, index)` for
+one string or `getFields(item, index)` for named string fields; these getters are
+mutually exclusive. Types are inferred from readonly arrays and field names,
+including in the optional `sort(a, b)` callback. String and `getText` results do
+not contain `fieldHitRanges`. Field values must be strings: convert arrays with
+`join()` and access nested properties in the getter.
+
+Fields are concatenated in enumerable property order without a separator, so
+one query can span fields or even a field boundary. All ranges use inclusive
+`[start, end]` UTF-16 indices; field ranges are local to the exact strings returned
+by the getter. Unmatched fields have `[]`. Defaults preserve input order and
+duplicate entries; a custom comparator preserves input order on ties. The four
+existing search options also apply, with strictness checked before merging spaces.
+
+Blank queries and no matches return `[]`; render the original list separately for
+an empty input. Searchers snapshot text and options at creation, lazily prepare
+Pinyin mappings on fuzzy fallback, and reuse those mappings for subsequent
+queries. Recreate a searcher when the list, searchable text or options change.
+Each call returns new result/range arrays and keeps original item references.
+Separate `searchItems` calls do not share a cache.
+
+### React: nested fields and tag arrays
+
+This complete example preserves field-name inference and handles empty input.
+Search and highlight the same converted strings so field coordinates remain valid.
+Change the input array reference when updating its items; query changes only call
+`.search()`, while list or configuration changes recreate the searcher.
+
+```tsx
+import { useMemo } from 'react'
+import { createSearcher } from 'text-search-engine'
+import { HighlightWithRanges } from 'text-search-engine/react'
+
+interface Resource {
+  id: string
+  title: string
+  tags: readonly string[]
+  metadata: { host: string }
+}
+
+const getFields = (item: Resource) => ({
+  title: item.title,
+  tags: item.tags.join(' · '),
+  host: item.metadata.host,
+})
+
+export function ResourceList({ items, query, consecutive = false }: {
+  items: readonly Resource[]
+  query: string
+  consecutive?: boolean
+}) {
+  const searcher = useMemo(() => createSearcher(items, {
+    getFields,
+    isCharConsecutive: consecutive,
+  }), [items, consecutive])
+  const results = useMemo(() => query.trim()
+    ? searcher.search(query)
+    : items.map(item => ({
+        item,
+        fieldHitRanges: { title: [], tags: [], host: [] },
+      })), [items, query, searcher])
+
+  return <div>{results.map(({ item, fieldHitRanges }) => {
+    const fields = getFields(item)
+    return <article key={item.id}>
+      <HighlightWithRanges source={fields.title} hitRanges={fieldHitRanges.title} />
+      <HighlightWithRanges source={fields.tags} hitRanges={fieldHitRanges.tags} />
+      <HighlightWithRanges source={fields.host} hitRanges={fieldHitRanges.host} />
+    </article>
+  })}</div>
+}
+```
+
+The declarations support TypeScript 5.5 and newer. The SDK itself is built and
+checked with TypeScript 7; consumers do not need to upgrade their compiler.
+
+### Migrating lower-level search code
+
+Consumers that check strictness **after** merging spaces should omit
+`strictnessCoefficient` in the searcher options and filter the returned results
+with `isStrictnessSatisfied(coefficient, query, result.hitRanges)`. Passing the
+coefficient directly checks raw ranges before merging and can change matches.
+When a getter trims a title, add its leading-whitespace offset back to field
+ranges before highlighting the original, untrimmed title.
+
+### Local package development with yalc
+
+```sh
+npm install --global yalc
+
+# In the text-search-engine repository:
+pnpm --filter text-search-engine build
+cd packages/text-search-engine
+yalc publish --sig
+
+# In the consuming package directory:
+yalc add text-search-engine
+pnpm install
+```
+
+After SDK changes, rebuild and run `yalc publish --sig` again, then run
+`yalc update text-search-engine` and `pnpm install` in the consumer. This uses
+`file:.yalc/text-search-engine`; `.yalc/` and `yalc.lock` are local development
+artifacts. To return to npm, run `yalc remove text-search-engine` and install the
+published version that includes these APIs.
+
 ## search
 ### Pure English Search
 ```javascript
@@ -48,7 +188,7 @@ import { search } from 'text-search-engine'
 const source = 'nonode'
 
 search(source, 'no') //[[0, 1]]
-// Matches 'no', continuous characters have higher weight
+// Matches 'no'; consecutive characters have higher weight
 search(source, 'nod') // [[2, 4]]
 search(source, 'noe') // [[0, 1], [5, 5]]
 search(source, 'oo') // [[1, 1],[3, 3]]
@@ -96,7 +236,7 @@ search(source_1, 'jk node') // [[10, 11],[0, 3]]
 ```javascript
 const source_1 = 'zxhxo zhx'
 search(source_1, 'zh') //[[6, 7]])
-// Even though the weight of 'zh' is higher, but the next term 'o' is not matched, so hit the previous one
+// Although 'zh' has a higher weight, the following 'o' does not match, so the earlier candidate is selected
 search(source_1, 'zho') //[[0, 0],[2, 2],[4, 4]])
 ```
 
@@ -113,7 +253,7 @@ The console will output: <mark>Node</mark>.js 最强监控平台 <mark>V9</mark>
 | Option Name             | Default Value | Description & Example                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | ----------------------- | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `mergeSpaces`           | `true`        | Whether to merge spaces between matched items. When set to true, it will merge spaces in the middle of matched results into consecutive index ranges.<br /><br />`search('chrome 应用商店', 'meyinyon',{ mergeSpaces: false })` returns `[[4, 5], [7, 8]]`<br/><br/>`search('chrome 应用商店', 'meyinyon', { mergeSpaces: true })` returns `[[4, 8]]`                                                                                                                                                                                                                              |
-| `strictnessCoefficient` | `undefined`   | Strictness coefficient to control the strictness of matching. When a numeric value is set, if the number of matched characters is less than or equal to `Math.ceil(query length * coefficient)`, it returns the result, otherwise returns undefined.<br /><br />`search('Node.js 最强监控平台 V8', 'nozjk')` returns `[[0, 1], [8, 8], [10, 11]]`<br/><br />`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` returns `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` returns `undefined` |
+| `strictnessCoefficient` | `undefined`   | Strictness coefficient to control the strictness of matching. When a numeric value is set, if the number of raw match ranges (before merging spaces) is less than or equal to `Math.ceil(query length * coefficient)`, it returns the result, otherwise returns undefined.<br /><br />`search('Node.js 最强监控平台 V8', 'nozjk')` returns `[[0, 1], [8, 8], [10, 11]]`<br/><br />`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.5 })` returns `[[0, 1], [8, 8], [10, 11]]`<br/>`search('Node.js 最强监控平台 V8', 'nozjk', { strictnessCoefficient: 0.4 })` returns `undefined` |
 | `isCharConsecutive`     | `false`       | Controls whether matched characters need to be consecutive in the source string. When set to true, it requires matched characters to be consecutive in the source string (Chinese and English do not need to be consecutive).<br /><br />`search('Chinese@中国 People-人', 'chie')` returns `[[0, 2], [4, 4]]`<br/>`search('Chinese@中国 People-人', 'chie', { isCharConsecutive: true })` returns `undefined`<br/>`search('Chinese@中国 People-人', '中ple', { isCharConsecutive: true })` returns `[[8, 8], [14, 16]]`                                                           |
 | `strictCase`            | `false`       | Controls case-sensitive matching. When set to true, the search will match exact case. When set to false, the search will be case-insensitive.<br /><br />`search('Hello World', 'hello')` returns `[[0, 4]]`<br/>`search('Hello World', 'hello', { strictCase: true })` returns `undefined`<br/>`search('Hello World', 'hello', { strictCase: false })` returns `[[0, 4]]`                                                                                                                                                                                                         |
 

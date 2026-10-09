@@ -1,11 +1,14 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} */
+/** @type {import('jest').Config} */
 module.exports = {
-	preset: 'ts-jest',
 	testEnvironment: 'node',
-	// projects: ['<rootDir>', '<rootDir>/packages/*'],
 	transform: {
-		'^.+\\.ts$': 'ts-jest',
+		'^.+\\.tsx?$': [
+			'@swc/jest',
+			{
+				jsc: { parser: { syntax: 'typescript', tsx: true }, target: 'es2015' },
+			},
+		],
 	},
-	moduleFileExtensions: ['js', 'ts'],
+	moduleFileExtensions: ['js', 'ts', 'tsx'],
 	testMatch: ['**/*.spec.ts'],
 }

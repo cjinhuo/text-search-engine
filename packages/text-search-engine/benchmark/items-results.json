@@ -1,0 +1,42 @@
+{
+	"environment": {
+		"node": "v22.22.2",
+		"platform": "darwin",
+		"arch": "arm64"
+	},
+	"rows": [
+		{
+			"count": 100,
+			"first-20 snapshot ms": 0.009,
+			"legacy full preprocessing ms": 0.125,
+			"snapshot/rebuild ms": 0.037,
+			"cold query + snapshot ms": 1.694,
+			"hot query ms": 0.772,
+			"legacy hot match ms": 0.705,
+			"raw message bytes": 6181,
+			"prepared message bytes": 76101
+		},
+		{
+			"count": 1000,
+			"first-20 snapshot ms": 0.005,
+			"legacy full preprocessing ms": 1.332,
+			"snapshot/rebuild ms": 0.206,
+			"cold query + snapshot ms": 9.602,
+			"hot query ms": 7.143,
+			"legacy hot match ms": 6.746,
+			"raw message bytes": 63781,
+			"prepared message bytes": 790701
+		},
+		{
+			"count": 10000,
+			"first-20 snapshot ms": 0.008,
+			"legacy full preprocessing ms": 28.401,
+			"snapshot/rebuild ms": 3.379,
+			"cold query + snapshot ms": 107.318,
+			"hot query ms": 82.896,
+			"legacy hot match ms": 73.738,
+			"raw message bytes": 657781,
+			"prepared message bytes": 8206701
+		}
+	]
+}

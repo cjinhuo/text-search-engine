@@ -2,14 +2,8 @@ import { Card, CardContent, List, ListItem, ListItemText, TextField, Typography 
 import InputAdornment from '@mui/material/InputAdornment'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import {
-	extractBoundaryMapping,
-	isConsecutiveForChar,
-	type Matrix,
-	mergeSpacesWithRanges,
-	searchSentenceByBoundaryMapping,
-} from 'text-search-engine'
-import { HighlightWithRanges } from '../../../../../packages/text-search-engine/src/react/index'
+import { createSearcher, type Matrix } from 'text-search-engine'
+import { HighlightWithRanges } from 'text-search-engine/react'
 import { TEXT_ACTIVE_CONFIG } from '../../config/index'
 import { useStyles } from '../../hooks/useStyles'
 import { IconParkNames } from '../../shared/constants'
@@ -34,41 +28,29 @@ const ListSearch = () => {
 	const [searParams, setSearchParams] = useSearchParams()
 	const kw = searParams.get('kw') || ''
 
-	const sourceMappingArray = useMemo(() => {
+	const searcher = useMemo(
+		() =>
+			createSearcher(originalList, {
+				isCharConsecutive: true,
+				sort: (a, b) => a.hitRanges.length - b.hitRanges.length,
+			}),
+		[originalList]
+	)
+	// biome-ignore lint/correctness/useExhaustiveDependencies: 原列表变化时重置滚动位置。
+	useEffect(() => {
 		listRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
-		return originalList.map((item) => ({
-			...extractBoundaryMapping(item.toLocaleLowerCase()),
-			passValue: item,
-		}))
 	}, [originalList])
 
 	const [filteredList, count, searchTime] = useMemo(() => {
-		if (!inputValue) {
-			return [sourceMappingArray.map((i) => ({ passValue: i.passValue })) as ListItemType[], 0, 0]
+		if (!inputValue.trim()) {
+			return [originalList.map((passValue) => ({ passValue })) as ListItemType[], 0, 0]
 		}
 		const start = performance.now()
-		const filteredData = sourceMappingArray
-			.reduce<ListItemType[]>((acc, item) => {
-				const { hitRanges, wordHitRangesMapping } = searchSentenceByBoundaryMapping(
-					item,
-					inputValue.trim().toLocaleLowerCase()
-				)
-				hitRanges &&
-					isConsecutiveForChar(item.passValue, inputValue, wordHitRangesMapping, hitRanges) &&
-					acc.push({
-						passValue: item.passValue,
-						hitRanges: mergeSpacesWithRanges(item.passValue, hitRanges),
-					})
-				return acc
-			}, [])
-			.sort((a, b) => {
-				if (a.hitRanges && b.hitRanges) {
-					return a.hitRanges.length - b.hitRanges.length
-				}
-				return 0
-			})
+		const filteredData = searcher
+			.search(inputValue.trim())
+			.map(({ item, hitRanges }) => ({ passValue: item, hitRanges }))
 		return [filteredData, filteredData.length, performance.now() - start]
-	}, [inputValue, sourceMappingArray])
+	}, [inputValue, originalList, searcher])
 
 	const handleAddItem = useCallback(() => {
 		if (originalList.includes(newItem)) {
@@ -79,7 +61,7 @@ const ListSearch = () => {
 	}, [newItem, originalList])
 	useEffect(() => {
 		inputRef.current?.focus()
-		kw && setInputValue(decodeURIComponentPlus(kw))
+		setInputValue(decodeURIComponentPlus(kw))
 	}, [kw])
 	function handleValueChange(value?: string) {
 		const val = value ?? ''

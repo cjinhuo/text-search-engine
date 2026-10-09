@@ -6,14 +6,15 @@
 	"scripts": {
 		"commit": "git add . && git czg",
 		"esm": "pnpm --parallel esm",
-		"build": "pnpm --parallel build",
+		"build": "pnpm --filter text-search-engine build && pnpm --filter online-demo build",
 		"test": "pnpm --parallel test",
 		"web:dev": "pnpm --filter online-demo dev",
 		"text-search-engine:build": "pnpm --filter text-search-engine build",
 		"clean": "shx rm -rf packages/**/*.tsbuildinfo && shx rm -rf ./{packages,app}/*/{esm,dist}",
 		"clean:node_module": "rm -rf ./node_modules && rm -rf ./{packages,app,e2e}/**/node_modules",
 		"postinstall": "husky",
-		"preinstall": "npx only-allow pnpm"
+		"preinstall": "npx only-allow pnpm",
+		"typecheck": "pnpm --parallel typecheck"
 	},
 	"engines": {
 		"node": "^22.11 || ^24 || >=26",
@@ -38,7 +39,8 @@
 		"@rollup/plugin-node-resolve": "^15.2.3",
 		"@rollup/plugin-strip": "^3.0.4",
 		"@rollup/plugin-terser": "^0.4.4",
-		"@rollup/plugin-typescript": "^11.1.6",
+		"@swc/core": "^1.16.13",
+		"@swc/jest": "^0.2.39",
 		"@types/debug": "^4.1.12",
 		"@types/jest": "^29.5.12",
 		"@types/node": "^22.1.0",
@@ -59,9 +61,7 @@
 		"rollup-plugin-sizes": "^1.0.6",
 		"rollup-plugin-visualizer": "^5.12.0",
 		"shx": "^0.3.4",
-		"ts-jest": "^29.2.4",
-		"ts-node": "^10.9.2",
 		"tslib": "^2.6.3",
-		"typescript": "^5.5.4"
+		"typescript": "^7.0.2"
 	}
 }

@@ -6,6 +6,7 @@ packages:
   - 'e2e'
   - 'e2e/demos/*'
 allowBuilds:
+  '@swc/core': false
   esbuild: true
   nx: true
 minimumReleaseAgeExclude:
