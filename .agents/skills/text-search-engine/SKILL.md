@@ -15,6 +15,9 @@ npm i text-search-engine
 
 同时支持 `Node.js` 和 `Web` 环境。
 
+新 API `searchItems` 和 `createSearcher` 需要 `text-search-engine` 1.6.0 或更新版本。
+开发 SDK 时，按照 README 的 yalc 本地联调流程使用构建产物。
+
 ## 核心 API
 
 ### 1. `search(source, query, options?)` - 主搜索函数
@@ -125,22 +128,46 @@ function SearchResult() {
 
 ```tsx
 import { useMemo } from 'react'
-import { createSearcher, searchItems } from 'text-search-engine'
+import { createSearcher } from 'text-search-engine'
 import { HighlightWithRanges } from 'text-search-engine/react'
 
-searchItems(['React', '监控平台'], 'jk')
+interface Resource {
+  id: string
+  title: string
+  tags: readonly string[]
+  metadata: { host: string }
+}
 
-function SearchList({ items, query }) {
+const getFields = (item: Resource) => ({
+  title: item.title,
+  tags: item.tags.join(' · '),
+  host: item.metadata.host,
+})
+
+export function ResourceList({ items, query, consecutive = false }: {
+  items: readonly Resource[]
+  query: string
+  consecutive?: boolean
+}) {
   const searcher = useMemo(() => createSearcher(items, {
-    getFields: item => ({ title: item.title, host: item.host }),
-  }), [items])
-  const results = searcher.search(query)
-  return results.map(({ item, index, fieldHitRanges }) => (
-    <div key={index}>
-      <HighlightWithRanges source={item.title} hitRanges={fieldHitRanges.title} />
-      <HighlightWithRanges source={item.host} hitRanges={fieldHitRanges.host} />
-    </div>
-  ))
+    getFields,
+    isCharConsecutive: consecutive,
+  }), [items, consecutive])
+  const results = useMemo(() => query.trim()
+    ? searcher.search(query)
+    : items.map(item => ({
+        item,
+        fieldHitRanges: { title: [], tags: [], host: [] },
+      })), [items, query, searcher])
+
+  return <div>{results.map(({ item, fieldHitRanges }) => {
+    const fields = getFields(item)
+    return <article key={item.id}>
+      <HighlightWithRanges source={fields.title} hitRanges={fieldHitRanges.title} />
+      <HighlightWithRanges source={fields.tags} hitRanges={fieldHitRanges.tags} />
+      <HighlightWithRanges source={fields.host} hitRanges={fieldHitRanges.host} />
+    </article>
+  })}</div>
 }
 ```
 
@@ -152,7 +179,9 @@ function SearchList({ items, query }) {
 - 空查询和无匹配返回 `[]`；界面自行在空输入时展示原始列表。
 - 搜索器保存文本/配置快照，首次模糊匹配时构建映射。数据、文本或配置变化后重建；React 使用新数组引用。
 - 每次查询的范围数组独立；`searchItems` 的独立调用不共享缓存。消费者支持 TypeScript 5.5+。
-- 原有搜索选项均适用。需要在合并空格后检查严格度的消费者，应在结果上自行调用 `isStrictnessSatisfied`。
+- 原有搜索选项均适用。需要在合并空格后检查严格度的消费者，不要给搜索器设置 `strictnessCoefficient`；应在结果上自行调用 `isStrictnessSatisfied(coefficient, query, result.hitRanges)`。
+- getter 使用 `trim()` 时，高亮原始标题前需加回前导空白偏移。数组字段的搜索和展示必须使用同一个 `join()` 结果。
+- 从原有批量循环迁移时，保留业务排序、去重、数量限制和空输入处理；按输入列表、筛选范围和选项缓存搜索器，不要在每次查询时创建实例。
 
 ### 2. 复用 BoundaryData 进行多次搜索
 
