@@ -56,6 +56,28 @@ export function getRestRanges(totalLength: number, ranges: Matrix): Matrix {
 	return restRanges
 }
 
+/**
+ * map each index of the lower-cased string back to the index in the original string.
+ * some characters grow when lower-cased (e.g. "İ" becomes "i" + U+0307), so hit ranges found in the
+ * lower-cased string must be moved back before they are returned.
+ * 部分字符转为小写后会增加 UTF-16 长度（例如 İ 变为 i 加组合点），需要把下标映射回原始字符串。
+ * @returns undefined when the lengths are equal and no mapping is needed
+ */
+export function getOriginalIndices(original: string, folded: string): number[] | undefined {
+	if (original.length === folded.length) return undefined
+	const originalIndices: number[] = []
+	for (let originalIndex = 0; originalIndex < original.length; originalIndex++) {
+		const foldedLength = original[originalIndex].toLocaleLowerCase().length
+		for (let offset = 0; offset < foldedLength; offset++) originalIndices.push(originalIndex)
+	}
+	return originalIndices
+}
+
+export function restoreOriginalRanges(ranges: Matrix, originalIndices: number[] | undefined): Matrix {
+	if (!originalIndices) return ranges
+	return ranges.map(([start, end]): [number, number] => [originalIndices[start] ?? start, originalIndices[end] ?? end])
+}
+
 export function isString(o: unknown): o is string {
 	return typeof o === 'string'
 }
