@@ -1,5 +1,12 @@
 # text-search-engine
 
+## 1.6.1
+
+### Patch Changes
+
+- fix: preserve original search ranges and highlights when lowercasing expands characters @mradulsingh524.ms@gmail.com · 2026-11-16 · [#dace8814](https://github.com/cjinhuo/text-search-engine/commit/dace88142213304a43f04b57f3e11fc3873e03e0)
+- fix: 修复字符转小写后展开导致的搜索坐标偏移和高亮重复 @mradulsingh524.ms@gmail.com · 2026-11-16 · [#dace8814](https://github.com/cjinhuo/text-search-engine/commit/dace88142213304a43f04b57f3e11fc3873e03e0)
+
 ## 1.6.0
 
 ### Minor Changes
