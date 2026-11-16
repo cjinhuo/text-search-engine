@@ -1,4 +1,4 @@
-import { pureSearch } from '../exports'
+import { highlightMatches, pureSearch, search } from '../exports'
 
 describe('pureSearch', () => {
 	test('test isCharConsecutive option with Chinese', () => {
@@ -243,5 +243,29 @@ describe('pureSearch', () => {
 			isCharConsecutive: true,
 		})
 		expect(result).toBeUndefined()
+	})
+
+	test('hit ranges point into the original string when lower-casing changes its length', () => {
+		// 'İ'.toLocaleLowerCase() is 'i' + U+0307 (two UTF-16 code units)
+		expect(search('İstanbul Airport', 'airport')).toEqual([[9, 15]])
+		expect(search('İstanbul Airport', 'airport')).toEqual(search('Istanbul Airport', 'airport'))
+		expect(search('İgithub', 'github')).toEqual([[1, 6]])
+		expect(search('İ', 'i')).toEqual([[0, 0]])
+		expect(pureSearch('İzmir İstanbul map', 'map', { pinyinMap: {} })).toEqual([[15, 17]])
+		expect(highlightMatches('İzmir İstanbul map', 'map')).toBe('İzmir İstanbul \x1b[32mmap\x1b[0m')
+		// strictCase does not lower-case, so ranges are unchanged
+		expect(search('İstanbul Airport', 'Airport', { strictCase: true })).toEqual([[9, 15]])
+	})
+
+	test('ranges that map back onto the same original character are merged', () => {
+		// 'i' and U+0307 are matched apart, but both come from the single 'İ'
+		const options = { mergeSpaces: false }
+		expect(search('İX', 'i ̇x', options)).toEqual([[0, 1]])
+		expect(highlightMatches('İX', 'i ̇x', options)).toBe('\x1b[32mİX\x1b[0m')
+		// adjacent ranges stay separate when mergeSpaces is false
+		expect(search('İX', 'i x', options)).toEqual([
+			[0, 0],
+			[1, 1],
+		])
 	})
 })

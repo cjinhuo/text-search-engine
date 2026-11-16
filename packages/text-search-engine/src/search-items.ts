@@ -11,7 +11,7 @@ import type {
 	SearchTextOptions,
 	SourceMappingData,
 } from './types'
-import { isEmptyString } from './utils'
+import { getOriginalIndices, isEmptyString, restoreOriginalRanges } from './utils'
 
 type Options<T, K extends string> = SearchItemsOptions<T, K> & {
 	getFields?: (item: T, index: number) => Record<K, string>
@@ -54,16 +54,8 @@ export function createSearcher<T, K extends string>(items: readonly T[], options
 			text = requireText(option.getText ? option.getText(item, index) : item)
 		}
 		const source = option.strictCase ? text : text.toLocaleLowerCase()
-		// 部分字符转为小写后会增加 UTF-16 长度（例如 İ 变为 i 加组合点）。
 		// 结果坐标始终对应原始快照及其字段。
-		let originalIndices: number[] | undefined
-		if (source.length !== text.length) {
-			originalIndices = []
-			for (let originalIndex = 0; originalIndex < text.length; originalIndex++) {
-				const foldedLength = text[originalIndex].toLocaleLowerCase().length
-				for (let offset = 0; offset < foldedLength; offset++) originalIndices.push(originalIndex)
-			}
-		}
+		const originalIndices = getOriginalIndices(text, source)
 		let mapping: SourceMappingData | undefined
 		return {
 			item,
@@ -88,10 +80,7 @@ export function createSearcher<T, K extends string>(items: readonly T[], options
 				if (!entry || isEmptyString(entry.source)) continue
 				const hitRanges = searchPrepared(entry.source, target, option, entry.getMapping)
 				if (!hitRanges) continue
-				const ranges = hitRanges.map(([start, end]): [number, number] => [
-					entry.originalIndices?.[start] ?? start,
-					entry.originalIndices?.[end] ?? end,
-				])
+				const ranges = restoreOriginalRanges(hitRanges, entry.originalIndices)
 				const result = {
 					item: entry.item,
 					index: entry.index,

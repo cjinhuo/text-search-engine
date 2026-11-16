@@ -56,6 +56,41 @@ export function getRestRanges(totalLength: number, ranges: Matrix): Matrix {
 	return restRanges
 }
 
+/**
+ * map each index of the lower-cased string back to the index in the original string.
+ * some characters grow when lower-cased (e.g. "İ" becomes "i" + U+0307), so hit ranges found in the
+ * lower-cased string must be moved back before they are returned.
+ * 部分字符转为小写后会增加 UTF-16 长度（例如 İ 变为 i 加组合点），需要把下标映射回原始字符串。
+ * @returns undefined when the lengths are equal and no mapping is needed
+ */
+export function getOriginalIndices(original: string, folded: string): number[] | undefined {
+	if (original.length === folded.length) return undefined
+	const originalIndices: number[] = []
+	for (let originalIndex = 0; originalIndex < original.length; originalIndex++) {
+		const foldedLength = original[originalIndex].toLocaleLowerCase().length
+		for (let offset = 0; offset < foldedLength; offset++) originalIndices.push(originalIndex)
+	}
+	return originalIndices
+}
+
+export function restoreOriginalRanges(ranges: Matrix, originalIndices: number[] | undefined): Matrix {
+	if (!originalIndices) return ranges
+	const restored: Matrix = []
+	for (const [start, end] of ranges) {
+		const range: [number, number] = [originalIndices[start] ?? start, originalIndices[end] ?? end]
+		const last = restored[restored.length - 1]
+		// two hits inside one expanded character (e.g. "i" and U+0307 of "İ") now overlap, so merge them.
+		// adjacent ranges stay apart to keep `mergeSpaces: false` output.
+		// 同一个展开字符内的两段命中会重叠，需要合并；仅相邻的区间保持分开。
+		if (last && range[0] <= last[1]) {
+			last[1] = Math.max(last[1], range[1])
+		} else {
+			restored.push(range)
+		}
+	}
+	return restored
+}
+
 export function isString(o: unknown): o is string {
 	return typeof o === 'string'
 }

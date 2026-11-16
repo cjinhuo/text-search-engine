@@ -3,7 +3,7 @@ import { DEFAULT_SEARCH_OPTION } from './constants'
 import pinyin from './py.json'
 import { searchPrepared } from './search-prepared'
 import type { SearchOption, SearchOptionWithPinyin } from './types'
-import { highlightTextWithRanges, isEmptyString } from './utils'
+import { getOriginalIndices, highlightTextWithRanges, isEmptyString, restoreOriginalRanges } from './utils'
 
 /**
  * Perform a fuzzy search under the preset Pinyin collection and return the indices of the matched original characters.
@@ -32,7 +32,13 @@ export function pureSearch(source: string, target: string, _option: SearchOption
 		? [source, target]
 		: [source.toLocaleLowerCase(), target.toLocaleLowerCase()]
 
-	return searchPrepared(_source, _target, option, extractBoundaryMapping.bind(null, _source, option.pinyinMap))
+	const hitRanges = searchPrepared(
+		_source,
+		_target,
+		option,
+		extractBoundaryMapping.bind(null, _source, option.pinyinMap)
+	)
+	return hitRanges && restoreOriginalRanges(hitRanges, getOriginalIndices(source, _source))
 }
 
 /**
