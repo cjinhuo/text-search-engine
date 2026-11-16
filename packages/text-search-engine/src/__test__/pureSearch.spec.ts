@@ -256,4 +256,16 @@ describe('pureSearch', () => {
 		// strictCase does not lower-case, so ranges are unchanged
 		expect(search('İstanbul Airport', 'Airport', { strictCase: true })).toEqual([[9, 15]])
 	})
+
+	test('ranges that map back onto the same original character are merged', () => {
+		// 'i' and U+0307 are matched apart, but both come from the single 'İ'
+		const options = { mergeSpaces: false }
+		expect(search('İX', 'i ̇x', options)).toEqual([[0, 1]])
+		expect(highlightMatches('İX', 'i ̇x', options)).toBe('\x1b[32mİX\x1b[0m')
+		// adjacent ranges stay separate when mergeSpaces is false
+		expect(search('İX', 'i x', options)).toEqual([
+			[0, 0],
+			[1, 1],
+		])
+	})
 })

@@ -75,7 +75,20 @@ export function getOriginalIndices(original: string, folded: string): number[] |
 
 export function restoreOriginalRanges(ranges: Matrix, originalIndices: number[] | undefined): Matrix {
 	if (!originalIndices) return ranges
-	return ranges.map(([start, end]): [number, number] => [originalIndices[start] ?? start, originalIndices[end] ?? end])
+	const restored: Matrix = []
+	for (const [start, end] of ranges) {
+		const range: [number, number] = [originalIndices[start] ?? start, originalIndices[end] ?? end]
+		const last = restored[restored.length - 1]
+		// two hits inside one expanded character (e.g. "i" and U+0307 of "İ") now overlap, so merge them.
+		// adjacent ranges stay apart to keep `mergeSpaces: false` output.
+		// 同一个展开字符内的两段命中会重叠，需要合并；仅相邻的区间保持分开。
+		if (last && range[0] <= last[1]) {
+			last[1] = Math.max(last[1], range[1])
+		} else {
+			restored.push(range)
+		}
+	}
+	return restored
 }
 
 export function isString(o: unknown): o is string {
