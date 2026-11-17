@@ -188,3 +188,11 @@ describe('search', () => {
 		expect(searchWithIndexOf(source_1, 'js12bss')).toEqual(0)
 	})
 })
+
+test('common words with a second reading match their pinyin', () => {
+	expect(search('银行', 'yinhang')).toBeDefined()
+	expect(search('招商银行', 'zsyh')).toBeDefined()
+	expect(search('成都', 'chengdu')).toBeDefined()
+	expect(search('大厦', 'dasha')).toBeDefined()
+	expect(search('调整', 'tiaozheng')).toBeDefined()
+})
