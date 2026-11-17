@@ -39,6 +39,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git branch --set-upstream-to="origin/$GITHUB_REF_NAME" "$GITHUB_REF_NAME"
       - name: Bump stable version
+        if: ${{ hashFiles('.changeset/*.md', '!.changeset/README.md', '.changeset/pre.json') != '' }}
         run: pnpm changeset_version --git-push
       - name: Publish stable release
         uses: changesets/action/publish@v2
