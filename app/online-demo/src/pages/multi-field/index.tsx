@@ -1,6 +1,5 @@
 import { ArrowLeft, ArrowRight, Check, Database, Layers3, Search, X } from 'lucide-react'
 import { type CSSProperties, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { createSearcher, type Matrix, type SearchItemResult } from 'text-search-engine'
 import { HighlightWithRanges } from 'text-search-engine/react'
 import styles from './multi-field.module.css'
@@ -75,9 +74,9 @@ export default function MultiFieldPage() {
 
 	return (
 		<main className={styles.page}>
-			<Link className={styles.backLink} to='/text-search-engine'>
+			<a className={styles.backLink} href='/text-search-engine/'>
 				<ArrowLeft size={15} /> 字符串数组 Demo
-			</Link>
+			</a>
 			<section className={styles.hero} aria-labelledby='multi-field-title'>
 				<div>
 					<div className={styles.eyebrow}>

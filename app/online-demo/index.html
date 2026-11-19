@@ -1,43 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="zh-CN">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon"
-          type="image/svg+xml"
-          href="/icon.svg" />
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0" />
-    <meta name="description"
-          content="text fuzzy search engine、text fuzzy search、pinyin match、汉字拼音模糊搜索、中英文模糊搜索、文本搜索引擎">
-    <meta name="keywords"
-          content="text fuzzy search engine、text fuzzy search、pinyin match、汉字拼音模糊搜索、中英文模糊搜索、文本搜索引擎">
-    <title>Text Search Engine</title>
-    <script
-            src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_33805_18.5474ccb76ee11bb549826605c2cbcf62.es5.js"></script>
-    <script type="text/javascript"
-            src="https://js-cdn.dynatrace.com/jstag/178598305ee/bf27173cpn/67773006ef28b6f_complete.js"
-            crossorigin="anonymous"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <title>中英文拼音模糊搜索｜Text Search Engine</title>
+    <meta name="description" content="输入汉字、拼音首字母或英文，体验 Text Search Engine 的实时模糊匹配和结果高亮。" />
+    <link rel="canonical" href="https://cjinhuo.github.io/text-search-engine/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:url" content="https://cjinhuo.github.io/text-search-engine/" />
+    <meta property="og:title" content="中英文拼音模糊搜索｜Text Search Engine" />
+    <meta property="og:description" content="输入汉字、拼音首字母或英文，体验 Text Search Engine 的实时模糊匹配和结果高亮。" />
+    <meta property="og:image" content="https://cjinhuo.github.io/text-search-engine/512x512.png" />
+    <meta property="og:image:alt" content="Text Search Engine 项目标志" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="中英文拼音模糊搜索｜Text Search Engine" />
+    <meta name="twitter:description" content="输入汉字、拼音首字母或英文，体验 Text Search Engine 的实时模糊匹配和结果高亮。" />
+    <meta name="twitter:image" content="https://cjinhuo.github.io/text-search-engine/512x512.png" />
+    <meta name="twitter:image:alt" content="Text Search Engine 项目标志" />
+    <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_33805_18.5474ccb76ee11bb549826605c2cbcf62.es5.js"></script>
+    <script src="https://js-cdn.dynatrace.com/jstag/178598305ee/bf27173cpn/67773006ef28b6f_complete.js" crossorigin="anonymous"></script>
   </head>
-
   <body>
-    <div id="root"></div>
-    <script>
-      ; (function () {
-        var html = document.documentElement
-        // if (window.matchMedia?.('(prefers-color-scheme: dark)').matches || localStorage.getItem('theme') === 'dark') {
-        //   html.classList.add('dark')
-        // }
-        function onWindowResize() {
-          const rem = html.getBoundingClientRect().width / 30
-          html.style.fontSize = rem > 18 ? 18 : rem + 'px'
-        }
-        window.addEventListener('resize', onWindowResize)
-        window.addEventListener('DOMContentLoaded', onWindowResize)
-      })()
-    </script>
-    <script type="module"
-            src="/src/main.tsx"></script>
+    <div id="root">
+      <main>
+        <h1>中英文拼音模糊搜索</h1>
+        <p>输入汉字、拼音首字母或英文，体验 Text Search Engine 的实时模糊匹配和结果高亮。</p>
+        <p>试着用拼音首字母查找学校名称，再比较逐字输入时的匹配结果。</p>
+        <nav aria-label="搜索演示">
+          <a href="/text-search-engine/multi-field/">对象数组多字段模糊搜索</a>
+          <a href="/text-search-engine/visual/">拼音模糊匹配算法可视化</a>
+        </nav>
+      </main>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
-
 </html>

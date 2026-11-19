@@ -1,4 +1,4 @@
-import { Container, Grid2 as Grid } from '@mui/material'
+import { Container, Grid2 as Grid, Typography } from '@mui/material'
 import * as TextSearchEngine from 'text-search-engine'
 import MultiFieldEntry from '../../components/demos/multi-field-entry'
 import ListSearch from '../../components/ListSearch'
@@ -11,6 +11,9 @@ export default function Home() {
 		<div>
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
 				<Container sx={{ mt: 4, mb: 4, flex: 1, maxWidth: '80vw!important', width: '100%' }}>
+					<Typography component='h1' variant='h4' gutterBottom>
+						中英文拼音模糊搜索
+					</Typography>
 					<Grid container spacing={3}>
 						<Grid size={{ xs: 24, md: 12 }}>
 							<MultiFieldEntry />

@@ -1,11 +1,10 @@
 import { Card, CardActionArea, CardContent, Typography } from '@mui/material'
 import { ArrowRight, Layers3 } from 'lucide-react'
-import { Link } from 'react-router-dom'
 
 export default function MultiFieldEntry() {
 	return (
 		<Card variant='outlined' sx={{ mb: 3, borderColor: '#a4cebb', borderRadius: 3 }}>
-			<CardActionArea component={Link} to='/text-search-engine/multi-field' aria-label='打开多字段 Demo'>
+			<CardActionArea component='a' href='/text-search-engine/multi-field/' aria-label='打开多字段 Demo'>
 				<CardContent
 					sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2, p: 3, '&:last-child': { pb: 3 } }}
 				>
