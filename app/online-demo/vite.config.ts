@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -13,7 +14,7 @@ export default defineConfig({
 				enabled: true,
 			},
 			workbox: {
-				// 其他 Workbox 配置选项
+				navigateFallback: null,
 			},
 			manifest: {
 				name: 'Text Search Engine',
@@ -44,6 +45,12 @@ export default defineConfig({
 	},
 	build: {
 		rollupOptions: {
+			input: Object.fromEntries(
+				['index', 'multi-field/index', 'visual/index'].map((name) => [
+					name,
+					fileURLToPath(new URL(`./${name}.html`, import.meta.url)),
+				])
+			),
 			output: {
 				manualChunks: {
 					// 把相关包单独打包成一个文件
