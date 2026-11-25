@@ -48,7 +48,9 @@ describe('search', () => {
 		// one range, the two characters are next to each other
 		expect(hit('带胺', '带e')).toEqual([[0, 1]])
 		// threw a TypeError before
-		expect(hit('椊眙', 'cchi')).toEqual([[0, 1]])
+		expect(hit('椊眙胺', 'cchie')).toEqual([[0, 2]])
+		// not only heteronyms: the literal 陈 and its pinyin both start from the first 陈
+		expect(hit('陈陈', '陈c')).toEqual([[0, 1]])
 		// one character can not be matched with two of its readings
 		expect(hit('长', 'cz')).toBeUndefined()
 		expect(hit('成长', 'ccz')).toBeUndefined()
