@@ -43,6 +43,9 @@ After installation, ask your agent to use the skill. For example:
 ```bash
 npm i text-search-engine
 ```
+
+[Quickstart, runnable examples, and library comparison](https://cjinhuo.github.io/text-search-engine/en/)
+
 ## Supported Environments
 Supports both `Node.js` and `Web` environments.
 
