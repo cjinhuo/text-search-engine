@@ -46,7 +46,7 @@ export default defineConfig({
 	build: {
 		rollupOptions: {
 			input: Object.fromEntries(
-				['index', 'multi-field/index', 'visual/index'].map((name) => [
+				['index', 'multi-field/index', 'visual/index', 'guide/index', 'en/index'].map((name) => [
 					name,
 					fileURLToPath(new URL(`./${name}.html`, import.meta.url)),
 				])
