@@ -44,6 +44,9 @@ npx skills add https://github.com/cjinhuo/text-search-engine --skill text-search
 ```bash
 npm i text-search-engine
 ```
+
+[快速开始、可运行示例与方案对比](https://cjinhuo.github.io/text-search-engine/guide/)
+
 ## 支持环境
 支持 `Node.js` 和 `Web` 环境。
 
