@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "fuse.js": "7.5.0",
+    "pinyin-pro": "3.29.5",
+    "text-search-engine": "1.6.2"
+  },
+  "name": "text-search-engine-selection-benchmark"
+}
