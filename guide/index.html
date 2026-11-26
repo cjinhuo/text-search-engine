@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JavaScript 拼音模糊搜索：接入与选型 | Text Search Engine</title>
+  <meta name="description" content="用 Text Search Engine 在 JavaScript 中搜索中文、全拼、首字母和英文：安装、跨字段匹配、原文高亮，以及与 pinyin-pro、Fuse.js 的可复现实测。" />
+  <link rel="canonical" href="https://cjinhuo.github.io/text-search-engine/guide/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://cjinhuo.github.io/text-search-engine/guide/" />
+  <link rel="alternate" hreflang="en" href="https://cjinhuo.github.io/text-search-engine/en/" />
+  <link rel="icon" href="/text-search-engine/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/text-search-engine/guide.css" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="og:url" content="https://cjinhuo.github.io/text-search-engine/guide/" />
+  <meta property="og:title" content="JavaScript 拼音模糊搜索：接入与选型 | Text Search Engine" />
+  <meta property="og:description" content="用 Text Search Engine 在 JavaScript 中搜索中文、全拼、首字母和英文：安装、跨字段匹配、原文高亮，以及与 pinyin-pro、Fuse.js 的可复现实测。" />
+  <meta property="og:image" content="https://cjinhuo.github.io/text-search-engine/pinyin-search.png" />
+<link rel="manifest" href="/text-search-engine/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/text-search-engine/registerSW.js"></script></head>
+<body>
+  <nav aria-label="项目导航">
+    <a href="../">在线 Demo</a><a href="../en/" lang="en" hreflang="en">English</a>
+    <a href="https://www.npmjs.com/package/text-search-engine">npm</a>
+    <a href="https://github.com/cjinhuo/text-search-engine">GitHub</a>
+  </nav>
+  <main>
+    <p class="eyebrow">Text Search Engine · MIT</p>
+    <h1>JavaScript 拼音模糊搜索：接入与选型</h1>
+    <p class="intro">Text Search Engine 是一个 JavaScript / TypeScript npm 库，适合在浏览器或 Node.js 搜索一组本地字符串或对象。一个查询可以混合汉字、全拼、拼音首字母和英文；命中范围可直接用来高亮原文。</p>
+    <h2 id="install">安装与快速开始</h2>
+    <pre><code>npm i text-search-engine</code></pre>
+    <p>以下示例在 npm 发布的 1.6.2 上验证，API 自 1.6.0 起可用。用 Node.js 运行时将示例保存为 <code>.mjs</code>。示例不调用 React；但 1.6.2 声明了 React 16.8、17 或 18 的 peer dependency，npm 可能自动安装 React 18，已有 React 19 的项目可能遇到安装冲突。</p>
+    <h3 id="initials">1. 用拼音首字母搜索数组</h3>
+    <pre><code>import { searchItems } from &#x27;text-search-engine&#x27;
+
+const [hit] = searchItems([&#x27;React&#x27;, &#x27;监控平台&#x27;], &#x27;jk&#x27;)
+console.log(hit.item, hit.hitRanges)
+// 监控平台, [[0, 1]]</code></pre>
+    <h3 id="fields">2. 同时匹配标题与域名</h3>
+    <pre><code>import { createSearcher } from &#x27;text-search-engine&#x27;
+
+const pages = [{ title: &#x27;React 监控平台&#x27;, host: &#x27;github.com&#x27; }]
+const searcher = createSearcher(pages, {
+  getFields: ({ title, host }) =&gt; ({ title, host }),
+})
+const [hit] = searcher.search(&#x27;jk github&#x27;)
+console.log(hit.fieldHitRanges)
+// { title: [[6, 7]], host: [[0, 5]] }</code></pre>
+    <h3 id="highlight">3. 从原文取出高亮片段</h3>
+    <p>接着运行上例。区间是 UTF-16 下标，结束位置也包含在内，所以传给 <code>slice</code> 时加 1。浏览器中可用 <code>textContent</code> 填充 <code>&lt;mark&gt;</code>，不要把原始字符串拼成 HTML。</p>
+    <pre><code>const [start, end] = hit.fieldHitRanges.title[0]
+console.log(hit.item.title.slice(start, end + 1))
+// 监控</code></pre>
+    <p>每次输入变化，复用同一个 <code>createSearcher</code>；列表、字段值或选项变了再重建。字段需转成字符串；区间针对转换后的精确字符串。空查询返回 <code>[]</code>，要展示全量列表，请在调用侧处理。默认维持输入顺序；业务需要相关性排序时，在 <code>sort</code> 中明确规则。</p>
+    <h2 id="comparison">怎么选：Text Search Engine、pinyin-pro 还是 Fuse.js？</h2>
+    <ul>
+    <li><strong>Text Search Engine</strong>：已经有一组本地列表，想让拼音、英文、对象字段及原文高亮一起工作。它不是全文索引，也不是通用拼写纠错库。</li>
+    <li><strong><a href="https://pinyin-pro.cn/use/match.html">pinyin-pro match</a></strong>：主要做单条字符串匹配或拼音转换，想自己管列表遍历和排序。<code>match()</code> 会返回匹配下标；原文高亮并非本库独有。</li>
+    <li><strong><a href="https://www.fusejs.io/">Fuse.js</a> + Pinyin</strong>：更看重英文拼写误差与字段权重时，先试 Fuse.js。要把中文转成全拼和首字母，需要预处理；若要高亮原文字，还要把拼音字段下标映射回原文。</li>
+    </ul>
+    <h2 id="benchmark">用同一组数据实测</h2>
+    <p>小型对照，不是全局排名。8 个查询覆盖首字母、跨字段、多音字、漏字母、换位和无匹配；耗时样本把这 7 条对象扩成 1,000 条带数字后缀的记录。首次包含构造和首个 <code>jk</code> 查询；重复查询复用同一搜索器，以 24 次混合查询的平均耗时作为每轮样本。表中为 31 轮中位数（丢弃前 2 轮），不含渲染、模块加载或高亮区间归一化。</p>
+    <div class="table-scroll" tabindex="0">
+      <table>
+        <caption>单次运行样本（毫秒，数值越小越快）</caption>
+        <thead>
+          <tr><th scope="col">方案</th><th scope="col">版本</th><th scope="col">构造＋首次查询</th><th scope="col">重复查询／次</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Text Search Engine</th><td>1.6.2</td><td>4.29</td><td>1.36</td></tr>
+          <tr><th scope="row">pinyin-pro match</th><td>3.29.5</td><td>4.77</td><td>6.91</td></tr>
+          <tr><th scope="row">Fuse.js + Pinyin</th><td>7.5.0 + 3.29.5</td><td>15.02</td><td>5.98</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll" tabindex="0">
+      <table>
+        <caption>相同查询在不同方案中的结果（节选）</caption>
+        <thead>
+          <tr><th scope="col">查询</th><th scope="col">预期</th><th scope="col">Text Search Engine</th><th scope="col">pinyin-pro match</th><th scope="col">Fuse.js + Pinyin</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row"><code>jk github</code></th><td>React 监控平台</td><td>React 监控平台</td><td>React 监控平台</td><td>React 监控平台</td></tr>
+          <tr><th scope="row"><code>chongfu</code></th><td>重复任务</td><td>重复任务</td><td>重复任务</td><td>重复任务, 银行服务</td></tr>
+          <tr><th scope="row"><code>jvaascript</code></th><td>JavaScript</td><td>无</td><td>无</td><td>JavaScript</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>用 Node.js 24.22.3（Linux x64，AMD EPYC 9V74）于 2026-11-26 运行。换位拼写 <code>jvaascript</code> 只有本次的 Fuse.js 配置命中了 <code>JavaScript</code>；<code>chongfu</code> 则在该配置下多返回了一项。</p>
+    <p>本次只比较选定配置。Fuse 的 <code>threshold</code> 为 <code>0.3</code>、<code>ignoreLocation</code> 为 <code>true</code>。换数据、拼音转换规则或阈值，结果会变。 <a href="https://github.com/cjinhuo/text-search-engine/tree/master/docs/selection-benchmark">查看数据、完整输出及复现命令</a>。</p>
+    <h2 id="links">实际项目与下一步</h2>
+    <ul>
+    <li><a href="https://www.v2ex.com/t/1165836">Blazwitcher 的发布帖</a>介绍了如何用这个库搜索浏览器标签、书签和历史记录。</li>
+    <li><a href="https://www.ruanyifeng.com/blog/2024/08/weekly-issue-314.html">阮一峰科技爱好者周刊 #314</a>收录了本项目；这不是性能背书。</li>
+    <li>试试<a href="../multi-field/">对象多字段 Demo</a>、<a href="../visual/">匹配过程可视化</a>，或查看 <a href="https://github.com/cjinhuo/text-search-engine/blob/master/docs/README_zh.md">完整 API 和配置</a>。</li>
+    </ul>
+    <p>用编程 Agent 接入？项目已提供 <a href="https://github.com/cjinhuo/text-search-engine/blob/master/.agents/skills/text-search-engine/SKILL.md">Agent Skill</a>：</p>
+    <pre><code>npx skills add https://github.com/cjinhuo/text-search-engine --skill text-search-engine</code></pre>
+  </main>
+</body>
+</html>

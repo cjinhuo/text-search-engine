@@ -4,19 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/text-search-engine/icon.svg" type="image/svg+xml" />
-    <title>中英文拼音模糊搜索｜Text Search Engine</title>
-    <meta name="description" content="输入汉字、拼音首字母或英文，体验 Text Search Engine 的实时模糊匹配和结果高亮。" />
+    <title>JavaScript 中文拼音模糊搜索库｜Text Search Engine</title>
+    <meta name="description" content="Text Search Engine 是支持中文、全拼、拼音首字母和英文的 JavaScript 模糊搜索库，提供对象多字段搜索和原文高亮范围。" />
     <link rel="canonical" href="https://cjinhuo.github.io/text-search-engine/" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:url" content="https://cjinhuo.github.io/text-search-engine/" />
-    <meta property="og:title" content="中英文拼音模糊搜索｜Text Search Engine" />
-    <meta property="og:description" content="输入汉字、拼音首字母或英文，体验 Text Search Engine 的实时模糊匹配和结果高亮。" />
+    <meta property="og:title" content="JavaScript 中文拼音模糊搜索库｜Text Search Engine" />
+    <meta property="og:description" content="Text Search Engine 是支持中文、全拼、拼音首字母和英文的 JavaScript 模糊搜索库，提供对象多字段搜索和原文高亮范围。" />
     <meta property="og:image" content="https://cjinhuo.github.io/text-search-engine/pinyin-search.png" />
     <meta property="og:image:alt" content="用拼音 beijing 搜索北京高校" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="中英文拼音模糊搜索｜Text Search Engine" />
-    <meta name="twitter:description" content="输入汉字、拼音首字母或英文，体验 Text Search Engine 的实时模糊匹配和结果高亮。" />
+    <meta name="twitter:title" content="JavaScript 中文拼音模糊搜索库｜Text Search Engine" />
+    <meta name="twitter:description" content="Text Search Engine 是支持中文、全拼、拼音首字母和英文的 JavaScript 模糊搜索库，提供对象多字段搜索和原文高亮范围。" />
     <meta name="twitter:image" content="https://cjinhuo.github.io/text-search-engine/pinyin-search.png" />
     <meta name="twitter:image:alt" content="用拼音 beijing 搜索北京高校" />
     <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_33805_18.5474ccb76ee11bb549826605c2cbcf62.es5.js"></script>
@@ -24,15 +24,17 @@
     <script type="module" crossorigin src="/text-search-engine/assets/reactVendor-g7eQazPb.js"></script>
     <script type="module" crossorigin src="/text-search-engine/assets/ui-BUTPERJC.js"></script>
     <script type="module" crossorigin src="/text-search-engine/assets/search-Bpx8Jf2A.js"></script>
-    <script type="module" crossorigin src="/text-search-engine/assets/main-Bs-cLiw_.js"></script>
-    <link rel="stylesheet" crossorigin href="/text-search-engine/assets/main-B96_Ft61.css">
+    <script type="module" crossorigin src="/text-search-engine/assets/main-BqsEXwTM.js"></script>
+    <link rel="stylesheet" crossorigin href="/text-search-engine/assets/main-CT1iULLC.css">
   <link rel="manifest" href="/text-search-engine/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/text-search-engine/registerSW.js"></script></head>
   <body>
     <div id="root">
       <main>
-        <h1>中英文拼音模糊搜索</h1>
-        <p>输入汉字、拼音首字母或英文，体验 Text Search Engine 的实时模糊匹配和结果高亮。</p>
-        <p>试着用拼音首字母查找学校名称，再比较逐字输入时的匹配结果。</p>
+        <h1>JavaScript 中文拼音模糊搜索库</h1>
+        <p>Text Search Engine 是支持中文、全拼、拼音首字母和英文的 JavaScript 模糊搜索库，提供对象多字段搜索和原文高亮范围。</p>
+        <pre><code>npm i text-search-engine</code></pre>
+        <p><code>searchItems(['React', '监控平台'], 'jk')</code> 命中「监控平台」，原文高亮范围为 <code>[[0, 1]]</code>。</p>
+        <p><a href="./guide/">快速开始与选型对比</a> · <a href="./en/" lang="en" hreflang="en">English</a></p>
         <nav aria-label="搜索演示">
           <a href="/text-search-engine/multi-field/">对象数组多字段模糊搜索</a>
           <a href="/text-search-engine/visual/">拼音模糊匹配算法可视化</a>
