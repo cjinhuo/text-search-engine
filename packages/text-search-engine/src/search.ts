@@ -101,6 +101,16 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 
 		let currentDpTableItem = dpTable[matchedPinyinIndex - 1]
 		let currentScore = dpScores[matchedPinyinIndex - 1]
+		// 多音字的每个读音都从该字之前的状态开始，例如"成长" cheng chang zhang，输入 cz，遍历 zhang 的 z 时，
+		// 上一轮的 c 可能已命中 chang 的 c，此时应取"成"的状态
+		// every reading of a heteronym starts from the state before the character: for source '成长' (cheng, chang, zhang)
+		// and input 'cz', the last row can end on the `c` of 'chang', but `z` of 'zhang' has to continue from '成'
+		const firstCharStart = originalIndices[boundary[matchedPinyinIndex][0]] - originalIndices[startIndex]
+		// 上一轮只更新了它的起始下标之后的值，之前的值属于更早的轮次
+		// the last row has only written the values from its own start, the ones before belong to an earlier row
+		const hasCharEntry = matchIndex === 0 || firstCharStart > matchLetterPositions[matchIndex - 1]
+		let charEntryTableItem = hasCharEntry ? dpTable[firstCharStart] : defaultDpTableValue
+		let charEntryScore = hasCharEntry ? dpScores[firstCharStart] : 0
 		// cache the last time of dpTable and score and reset it immediately, avoid affecting the next calculation.
 		// It can be understood as consuming the last time's dpTable and score
 		// source: nonod, input: nod
@@ -118,10 +128,19 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 				console.log('inner for letter:', pinyinString[matchedPinyinIndex - 1])
 			})
 
-			const prevScore = currentScore
+			const charIndex = boundary[matchedPinyinIndex][0]
+			const isReadingStart = matchedPinyinIndex - 1 === boundary[matchedPinyinIndex][1] - endBoundary
+			if (charIndex !== boundary[matchedPinyinIndex - 1][0]) {
+				charEntryTableItem = currentDpTableItem
+				charEntryScore = currentScore
+			}
+			const isEntry = isReadingStart && charEntryScore > 0
+			const prevScore = isEntry ? charEntryScore : currentScore
 			// character => a chinese character or a latin
 			// letter => a letter of pinyin
-			const [prevMatchedCharacters, prevMatchedLetters, prevBoundaryStart, prevBoundaryEnd] = currentDpTableItem
+			const [prevMatchedCharacters, prevMatchedLetters, prevBoundaryStart, prevBoundaryEnd] = isEntry
+				? charEntryTableItem
+				: currentDpTableItem
 			// 提前缓存未计算的 score 和 dpTable 作为下一次的判断，因为当前 for 循环会从命中的下标遍历至结尾
 			// 例如 noo，输入 no，首次遍历 o 时拿到 n 的 dpTable [1, 1, 0, 0]，遍历第二个 o 时应拿到 [0, 0, -1, -1]，
 			// 而不是 [2, 2, 1, 1]，只有在上面首次遍历才缓存了上一次的 dpTable 和 score
@@ -131,9 +150,7 @@ export function searchByBoundaryMapping(data: SourceMappingData, target: string,
 			currentScore = dpScores[matchedPinyinIndex]
 
 			// 的dedi 的 =>[x, y] d => [x, y+1] e => [x, y+1] d => [x, y+2] di => [x, y+2]
-			const isNewWord =
-				matchedPinyinIndex - 1 === boundary[matchedPinyinIndex][1] - endBoundary &&
-				prevBoundaryStart !== boundary[matchedPinyinIndex][0] - startBoundary
+			const isNewWord = isReadingStart && prevBoundaryStart !== charIndex - startBoundary
 
 			// for pinyin：是否是连续匹配的首字母
 			const isContinuation =

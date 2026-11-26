@@ -24,6 +24,38 @@ describe('search', () => {
 		expect(searchByBoundaryMapping(mappingData, 'i', 3, 5)).toBeUndefined()
 	})
 
+	test('every reading of a heteronym should continue from the character before it', () => {
+		const pinyinMap = {
+			成: ['cheng'],
+			厂: ['chang'],
+			长: ['chang', 'zhang'],
+			参: ['can', 'shen', 'cen'],
+			陈: ['chen'],
+			带: ['dai'],
+			胺: ['an', 'e'],
+			椊: ['zu', 'cui'],
+			眙: ['yi', 'chi'],
+		}
+		const hit = (source: string, target: string) =>
+			searchByBoundaryMapping(extractBoundaryMapping(source, pinyinMap), target, 0, source.length)
+
+		expect(hit('成长', 'cz')).toEqual([[0, 1]])
+		expect(hit('厂长', 'cz')).toEqual([[0, 1]])
+		expect(hit('陈参', 'cs')).toEqual([[0, 1]])
+		expect(hit('成长', 'czh')).toEqual([[0, 1]])
+		expect(hit('成长', 'cc')).toEqual([[0, 1]])
+		expect(hit('a成长', 'acz')).toEqual([[0, 2]])
+		// one range, the two characters are next to each other
+		expect(hit('带胺', '带e')).toEqual([[0, 1]])
+		// threw a TypeError before
+		expect(hit('椊眙胺', 'cchie')).toEqual([[0, 2]])
+		// not only heteronyms: the literal 陈 and its pinyin both start from the first 陈
+		expect(hit('陈陈', '陈c')).toEqual([[0, 1]])
+		// one character can not be matched with two of its readings
+		expect(hit('长', 'cz')).toBeUndefined()
+		expect(hit('成长', 'ccz')).toBeUndefined()
+	})
+
 	test('bounded DP search should preserve long-tail and repeated-character results', () => {
 		expect(search(`a_b_c_d_e_f${'x'.repeat(1_000)}`, 'abcdef')).toEqual([
 			[0, 0],
