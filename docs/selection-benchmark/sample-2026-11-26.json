@@ -1,0 +1,149 @@
+{
+  "node": "v24.22.3",
+  "arch": "x64",
+  "timings": {
+    "Text Search Engine": {
+      "setupAndFirstMs": 4.293140999999991,
+      "repeatedPerQueryMs": 1.3596534583333362
+    },
+    "pinyin-pro match": {
+      "setupAndFirstMs": 4.768844999999601,
+      "repeatedPerQueryMs": 6.9089069583333185
+    },
+    "Fuse.js + Pinyin": {
+      "setupAndFirstMs": 15.015567000000374,
+      "repeatedPerQueryMs": 5.978442791666642
+    }
+  },
+  "matches": [
+    {
+      "query": "jk",
+      "expected": [
+        "monitor",
+        "space"
+      ],
+      "actual": {
+        "Text Search Engine": [
+          "monitor",
+          "space"
+        ],
+        "pinyin-pro match": [
+          "monitor",
+          "space"
+        ],
+        "Fuse.js + Pinyin": [
+          "monitor",
+          "space"
+        ]
+      }
+    },
+    {
+      "query": "jk github",
+      "expected": [
+        "monitor"
+      ],
+      "actual": {
+        "Text Search Engine": [
+          "monitor"
+        ],
+        "pinyin-pro match": [
+          "monitor"
+        ],
+        "Fuse.js + Pinyin": [
+          "monitor"
+        ]
+      }
+    },
+    {
+      "query": "chongfu",
+      "expected": [
+        "repeat"
+      ],
+      "actual": {
+        "Text Search Engine": [
+          "repeat"
+        ],
+        "pinyin-pro match": [
+          "repeat"
+        ],
+        "Fuse.js + Pinyin": [
+          "repeat",
+          "bank"
+        ]
+      }
+    },
+    {
+      "query": "yinhang",
+      "expected": [
+        "bank"
+      ],
+      "actual": {
+        "Text Search Engine": [
+          "bank"
+        ],
+        "pinyin-pro match": [
+          "bank"
+        ],
+        "Fuse.js + Pinyin": [
+          "bank"
+        ]
+      }
+    },
+    {
+      "query": "typscript",
+      "expected": [
+        "types"
+      ],
+      "actual": {
+        "Text Search Engine": [
+          "types"
+        ],
+        "pinyin-pro match": [
+          "types"
+        ],
+        "Fuse.js + Pinyin": [
+          "types"
+        ]
+      }
+    },
+    {
+      "query": "typescrpit",
+      "expected": [
+        "types"
+      ],
+      "actual": {
+        "Text Search Engine": [
+          "types"
+        ],
+        "pinyin-pro match": [
+          "types"
+        ],
+        "Fuse.js + Pinyin": [
+          "types"
+        ]
+      }
+    },
+    {
+      "query": "jvaascript",
+      "expected": [
+        "javascript"
+      ],
+      "actual": {
+        "Text Search Engine": [],
+        "pinyin-pro match": [],
+        "Fuse.js + Pinyin": [
+          "javascript"
+        ]
+      }
+    },
+    {
+      "query": "qzxv123",
+      "expected": [],
+      "actual": {
+        "Text Search Engine": [],
+        "pinyin-pro match": [],
+        "Fuse.js + Pinyin": []
+      }
+    }
+  ]
+}

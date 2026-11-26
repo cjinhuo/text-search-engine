@@ -84,6 +84,7 @@ export default function MultiFieldPage() {
 					</div>
 					<h1 id='multi-field-title'>一条查询，匹配整个对象。</h1>
 					<p>标题、描述、标签数组和嵌套属性，都可以参与同一次匹配，并在各自字段中高亮。</p>
+					<a href='/text-search-engine/guide/#fields' className='underline'>查看可复制的多字段示例</a>
 					<div className={styles.features}>
 						<span>中英文 & 拼音</span>
 						<span>跨字段组合匹配</span>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JavaScript Pinyin fuzzy search | Text Search Engine</title>
+  <meta name="description" content="Add Chinese, Pinyin initials, and English fuzzy search to JavaScript. Try cross-field matching and original-text highlights; compare pinyin-pro and Fuse.js." />
+  <link rel="canonical" href="https://cjinhuo.github.io/text-search-engine/en/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://cjinhuo.github.io/text-search-engine/guide/" />
+  <link rel="alternate" hreflang="en" href="https://cjinhuo.github.io/text-search-engine/en/" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/guide.css" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://cjinhuo.github.io/text-search-engine/en/" />
+  <meta property="og:title" content="JavaScript Pinyin fuzzy search | Text Search Engine" />
+  <meta property="og:description" content="Add Chinese, Pinyin initials, and English fuzzy search to JavaScript. Try cross-field matching and original-text highlights; compare pinyin-pro and Fuse.js." />
+  <meta property="og:image" content="https://cjinhuo.github.io/text-search-engine/pinyin-search.png" />
+</head>
+<body>
+  <nav aria-label="Project navigation">
+    <a href="../">Interactive demo (Chinese)</a><a href="../guide/" lang="zh-CN" hreflang="zh-CN">简体中文</a>
+    <a href="https://www.npmjs.com/package/text-search-engine">npm</a>
+    <a href="https://github.com/cjinhuo/text-search-engine">GitHub</a>
+  </nav>
+  <main>
+    <p class="eyebrow">Text Search Engine · MIT</p>
+    <h1>JavaScript Pinyin fuzzy search</h1>
+    <p class="intro">Text Search Engine is a JavaScript and TypeScript npm library for searching local strings or objects in the browser or Node.js. A query can mix Chinese characters, full Pinyin, Pinyin initials, and English. Results include offsets into the original text for highlighting.</p>
+    <h2 id="install">Install and run a quickstart</h2>
+    <pre><code>npm i text-search-engine</code></pre>
+    <p>These examples were verified against npm release 1.6.2. The APIs are available from 1.6.0. Save the code as <code>.mjs</code> to run it in Node.js. The examples do not use React, but 1.6.2 declares a React 16.8, 17 or 18 peer: npm may install React 18 automatically, and existing React 19 projects can hit an install conflict.</p>
+    <h3 id="initials">1. Search an array by Pinyin initials</h3>
+    <pre><code>import { searchItems } from &#x27;text-search-engine&#x27;
+
+const [hit] = searchItems([&#x27;React&#x27;, &#x27;监控平台&#x27;], &#x27;jk&#x27;)
+console.log(hit.item, hit.hitRanges)
+// 监控平台, [[0, 1]]</code></pre>
+    <h3 id="fields">2. Match the title and hostname together</h3>
+    <pre><code>import { createSearcher } from &#x27;text-search-engine&#x27;
+
+const pages = [{ title: &#x27;React 监控平台&#x27;, host: &#x27;github.com&#x27; }]
+const searcher = createSearcher(pages, {
+  getFields: ({ title, host }) =&gt; ({ title, host }),
+})
+const [hit] = searcher.search(&#x27;jk github&#x27;)
+console.log(hit.fieldHitRanges)
+// { title: [[6, 7]], host: [[0, 5]] }</code></pre>
+    <h3 id="highlight">3. Highlight matches in the original text</h3>
+    <p>Continue from example 2. Ranges are inclusive UTF-16 offsets, so add 1 to the end for <code>slice</code>. In the browser, use <code>textContent</code> to fill a <code>&lt;mark&gt;</code> element rather than building HTML from raw text.</p>
+    <pre><code>const [start, end] = hit.fieldHitRanges.title[0]
+console.log(hit.item.title.slice(start, end + 1))
+// 监控</code></pre>
+    <p>Reuse the same <code>createSearcher</code> across keystrokes; rebuild it when the list, field text, or options change. Convert fields to strings and highlight the exact strings you passed in. Empty queries return <code>[]</code>; render the original list yourself if desired. Results keep input order by default. Supply <code>sort</code> for your own relevance ranking.</p>
+    <h2 id="comparison">Which to choose: Text Search Engine, pinyin-pro, or Fuse.js?</h2>
+    <ul>
+    <li><strong>Text Search Engine</strong>：Choose it for an in-memory list where Pinyin, English, object fields, and original-text highlighting need to work together. It is not a full-text index or a general spell corrector.</li>
+    <li><strong><a href="https://pinyin-pro.cn/use/match.html">pinyin-pro match</a></strong>：Choose it for matching individual strings or for transliteration, with your own list traversal and ranking. <code>match()</code> also returns positions; original-text highlighting is not unique to Text Search Engine.</li>
+    <li><strong><a href="https://www.fusejs.io/">Fuse.js</a> + Pinyin</strong>：Start with Fuse.js if typo tolerance and field weights matter more. Add transliterated and initial fields for Pinyin search, and map offsets in those derived fields back to the original text if you need highlights there.</li>
+    </ul>
+    <h2 id="benchmark">A side-by-side run on the same data</h2>
+    <p>This is a small comparison, not a general leaderboard. Eight queries cover initials, fields, polyphonic characters, a missing letter, a transposition, and a no-match control. The timing fixture expands seven objects to 1,000 records with numeric suffixes. First query includes setup plus <code>jk</code>; the repeated column averages 24 mixed queries on the same searcher per round. The table reports the median of 31 rounds after discarding two. Rendering, module loading, and normalizing highlight coordinates are excluded.</p>
+    <div class="table-scroll" tabindex="0">
+      <table>
+        <caption>One run (milliseconds; lower is faster)</caption>
+        <thead>
+          <tr><th scope="col">Approach</th><th scope="col">Versions</th><th scope="col">Setup + first query</th><th scope="col">Repeated, per query</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Text Search Engine</th><td>1.6.2</td><td>4.29</td><td>1.36</td></tr>
+          <tr><th scope="row">pinyin-pro match</th><td>3.29.5</td><td>4.77</td><td>6.91</td></tr>
+          <tr><th scope="row">Fuse.js + Pinyin</th><td>7.5.0 + 3.29.5</td><td>15.02</td><td>5.98</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-scroll" tabindex="0">
+      <table>
+        <caption>Results for the same queries (selected)</caption>
+        <thead>
+          <tr><th scope="col">Query</th><th scope="col">Expected</th><th scope="col">Text Search Engine</th><th scope="col">pinyin-pro match</th><th scope="col">Fuse.js + Pinyin</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row"><code>jk github</code></th><td>React 监控平台</td><td>React 监控平台</td><td>React 监控平台</td><td>React 监控平台</td></tr>
+          <tr><th scope="row"><code>chongfu</code></th><td>重复任务</td><td>重复任务</td><td>重复任务</td><td>重复任务, 银行服务</td></tr>
+          <tr><th scope="row"><code>jvaascript</code></th><td>JavaScript</td><td>None</td><td>None</td><td>JavaScript</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Run on 2026-11-26 with Node.js 24.22.3 (Linux x64, AMD EPYC 9V74). Only the tested Fuse.js configuration matched <code>JavaScript</code> for <code>jvaascript</code>; it also returned an extra result for <code>chongfu</code>.</p>
+    <p>This compares specific configurations. Fuse uses <code>threshold: 0.3</code> and <code>ignoreLocation: true</code>. A different dataset, Pinyin policy, or threshold can change the outcome. <a href="https://github.com/cjinhuo/text-search-engine/tree/master/docs/selection-benchmark">See the fixture, full output, and reproduction commands</a>.</p>
+    <h2 id="links">Real-world use and next steps</h2>
+    <ul>
+    <li>The <a href="https://www.v2ex.com/t/1165836">Blazwitcher release post</a> explains how the extension uses this library to search tabs, bookmarks, and history.</li>
+    <li>The library is listed in <a href="https://www.ruanyifeng.com/blog/2024/08/weekly-issue-314.html">Ruanyifeng Weekly #314</a>. This is a listing, not a performance endorsement.</li>
+    <li>Try the <a href="../multi-field/">multi-field demo</a> or <a href="../visual/">matching visualizer</a> (both in Chinese), or see the <a href="https://github.com/cjinhuo/text-search-engine#usage">full API and options</a>.</li>
+    </ul>
+    <p>Using a coding agent? The project includes an <a href="https://github.com/cjinhuo/text-search-engine/blob/master/.agents/skills/text-search-engine/SKILL.md">Agent Skill</a>:</p>
+    <pre><code>npx skills add https://github.com/cjinhuo/text-search-engine --skill text-search-engine</code></pre>
+  </main>
+</body>
+</html>
